@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World!  Eventually, I will display OpenMenu stuff</string>
     <string name="app_name">RevMiner OpenMenu Integration</string>
+    <string name="timeout">The connection to the server has timed out.</string>
 
 </resources>
