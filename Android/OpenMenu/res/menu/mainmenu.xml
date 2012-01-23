@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_search"
+          android:icon="@android:drawable/ic_menu_search"
+          android:title="Search"
+          android:showAsAction="ifRoom|collapseActionView|withText" 
+          android:actionViewClass="android.widget.SearchView" />
+    <item android:id="@+id/menu_map"
+          android:icon="@android:drawable/ic_menu_save"
+          android:title="Map"
+          android:showAsAction="ifRoom|withText" />
+</menu>

@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -38,6 +39,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 public class OpenMenuActivity extends Activity {
@@ -131,45 +136,7 @@ public class OpenMenuActivity extends Activity {
 	private Handler textHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			TextView tv = (TextView) findViewById(R.id.myTextView);
-			
 			parseJson(result);
-			
-			SQLiteDatabase db = new Database(getBaseContext()).getReadableDatabase();
-			Cursor cursor = db.query("items", null, "name LIKE '%caesar salad%'", null, null, null, null);
-			cursor.moveToFirst();
-
-			String s = "";
-			while (!cursor.isAfterLast()) {
-				s += ("iid = " + cursor.getInt(cursor.getColumnIndex("iid")) + " OR ");
-				cursor.moveToNext();
-			}
-			
-			s = s.substring(0, s.length() - 4);
-						
-			cursor = db.query("restaurants_items", null, s, null, null, null, null);
-			cursor.moveToFirst();
-
-			s = "";
-			while (!cursor.isAfterLast()) {
-				s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
-				cursor.moveToNext();
-			}
-			
-			s = s.substring(0, s.length() - 4);
-			
-			cursor = db.query("restaurants", null, s, null, null, null, null);
-			cursor.moveToFirst();
-
-			ArrayList<String> restaurant_names = new ArrayList<String>();
-			while (!cursor.isAfterLast()) {
-				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				cursor.moveToNext();
-			}
-			
-			tv.setText(restaurant_names.toString());
-			
-			db.close();
 		}
 	};
 	
@@ -241,5 +208,23 @@ public class OpenMenuActivity extends Activity {
 		}
 		
 		db.close();
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		getMenuInflater().inflate(R.menu.mainmenu, menu);
+	    
+	    // Get the SearchView and set the searchable configuration
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+	    
+	    return super.onCreateOptionsMenu(menu);
+    }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    return true;
 	}
 }
