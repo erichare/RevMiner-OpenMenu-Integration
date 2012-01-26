@@ -50,4 +50,19 @@ function bottom(){
 		</div>
 	</body>
 </html>
+<?php 
+} 
+
+function type_menu(){
+		?>
+<form id="turnin" action="match.php" method="get" enctype="multipart/form-data">	
+	<fieldset>
+		<legend>Type Menu You Want</legend>
+		<div>
+			<strong>Food Name:</strong>
+			<input type="text" name="menu_name" size="25"/>
+			<input type="submit" value="Find!" />
+		</div>
+	</fieldset>
+</form>
 <?php } ?>

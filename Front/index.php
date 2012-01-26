@@ -8,7 +8,7 @@ top();
 		<div>
 			<ul>				
 				<li>
-					<a href="match.php">
+					<a href="type_menu.php">
 						<img src="http://students.washington.edu/dongm/454/img/menu.gif" alt="icon" />
 						Find Restaurants By Menues !!!
 					</a>
