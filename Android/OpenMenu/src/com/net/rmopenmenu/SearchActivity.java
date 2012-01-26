@@ -24,6 +24,8 @@ public class SearchActivity extends ListActivity {
 		
 		// Get the intent, verify the action and get the query
 		Intent intent = getIntent();
+		ArrayList<String> restaurant_names = new ArrayList<String>();
+
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
 
@@ -32,31 +34,38 @@ public class SearchActivity extends ListActivity {
 			cursor.moveToFirst();
 
 			String s = "";
+			int count = 0;
 			while (!cursor.isAfterLast()) {
+				count++;
 				s += ("iid = " + cursor.getInt(cursor.getColumnIndex("iid")) + " OR ");
 				cursor.moveToNext();
 			}
 
-			s = s.substring(0, s.length() - 4);
+			if (count > 0) {
+				s = s.substring(0, s.length() - 4);
+				count = 0;
 
-			cursor = db.query("restaurants_items", null, s, null, null, null, null);
-			cursor.moveToFirst();
+				cursor = db.query("restaurants_items", null, s, null, null, null, null);
+				cursor.moveToFirst();
+	
+				s = "";
+				while (!cursor.isAfterLast()) {
+					count++;
+					s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
+					cursor.moveToNext();
+				}
+	
+				if (count > 0) {
+					s = s.substring(0, s.length() - 4);
 
-			s = "";
-			while (!cursor.isAfterLast()) {
-				s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
-				cursor.moveToNext();
-			}
-
-			s = s.substring(0, s.length() - 4);
-
-			cursor = db.query("restaurants", null, s, null, null, null, null);
-			cursor.moveToFirst();
-
-			ArrayList<String> restaurant_names = new ArrayList<String>();
-			while (!cursor.isAfterLast()) {
-				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				cursor.moveToNext();
+					cursor = db.query("restaurants", null, s, null, null, null, null);
+					cursor.moveToFirst();
+		
+					while (!cursor.isAfterLast()) {
+						restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
+						cursor.moveToNext();
+					}
+				}
 			}
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, restaurant_names);
 
