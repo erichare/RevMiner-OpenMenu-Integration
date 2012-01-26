@@ -33,11 +33,13 @@ import com.google.gson.JsonStreamParser;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,7 +60,15 @@ public class OpenMenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		networkThread.start();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
+		
+		if (!databaseLoaded) {
+			TextView tv = (TextView)findViewById(R.id.myTextView);
+			tv.setText("Building initial database.  This may take a minute.  Please wait...");
+			
+			networkThread.start();
+		}
 	}
 
 	private HttpClient createHttpClient() {
@@ -89,7 +99,7 @@ public class OpenMenuActivity extends Activity {
 		try {
 			HttpPost httppost = new HttpPost(root + suffix);
 
-			// Process the response from the server
+			// Process the response from the server 
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpClient httpClient = createHttpClient();
 			HttpResponse httpResponse = httpClient.execute(httppost);
@@ -136,6 +146,7 @@ public class OpenMenuActivity extends Activity {
 	private Handler textHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			
 			parseJson(result);
 		}
 	};
@@ -206,6 +217,15 @@ public class OpenMenuActivity extends Activity {
 				}
 			}
 		}
+		
+		TextView tv = (TextView)findViewById(R.id.myTextView);
+		tv.setText(R.string.hello);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = prefs.edit();
+		
+		editor.putBoolean("databaseLoaded", true);		
+		editor.commit();
 		
 		db.close();
 	}
