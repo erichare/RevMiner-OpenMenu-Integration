@@ -6,7 +6,7 @@ Donghyo Min, Eric Hare
 body {
 	font-family: Verdana, Tahoma, sans-serif; 
 	color:#D9D6D2;  
-	font-size: 10pt;
+	font-size: 13pt;
 	text-align: center;
 	background-image: url("http://students.washington.edu/dongm/454/img/grain.jpg");
 	padding: 5px;
@@ -105,6 +105,10 @@ ul {
 	background-color: #F0F8FF;
 }
 
+#turnin {
+	color: #E01B6A;
+}
+
 #new_menu div{
 	margin-top: 2px;
 }
@@ -129,6 +133,15 @@ ul {
 	height: 50px; 
 	background-repeat: repeat-x;
 	background-image: url("http://students.washington.edu/dongm/454/img/bannerbg.png");
+}
+
+#bannerarea strong {
+	font-size: 20px;
+	color: #B50049;
+	position: fixed;
+	top: 5%;
+	left:7%;
+	border: 3px solid #4702B5;
 }
 
 #copyright > p{

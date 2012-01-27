@@ -1,5 +1,4 @@
 <?php
-# author: Donghyo Min, Eric Hare
 # filename: common.php
 function top(){
     ?>
@@ -10,8 +9,8 @@ function top(){
 	<head>
 		<title>Menu by Menu</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="description" content="Web page that displays a playable JavaScript fifteen puzzle." />
-		<meta name="keywords" content="puzzle, fifteen" />
+		<meta name="description" content="Restaurant Searcher" />
+		<meta name="keywords" content="restaurant, menu, food, delicious, dinner, lunch" />
 
 		<!-- stop the web browser from ever caching this page or its images -->
 		<meta http-equiv="Cache-Control" content="no-cache" />
@@ -28,8 +27,8 @@ function top(){
 
 	<body>
 		<div id="bannerarea">
-			<br>Sick Foods For Sick People
-			<SPAN> HOME </SPAN>
+			<a href="index.php"> <strong> HOME </strong> </a>
+			Sick Foods For Sick People
 		</div>
 <?php
 }
@@ -41,15 +40,6 @@ function bottom(){
 			<p>
 				Results and page (C) Copyright 2012 SFSP.
 			</p>
-		</div>
-
-		<div id="validator">
-			<a href="http://validator.w3.org/check/referer">
-				<img src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid html" />
-			</a>
-			<a href="http://jigsaw.w3.org/css-validator/check/referer">
-				<img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" />
-			</a>
 		</div>
 	</body>
 </html>

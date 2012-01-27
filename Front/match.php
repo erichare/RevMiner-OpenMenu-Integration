@@ -1,5 +1,4 @@
 <?php
-# author: Donghyo Min
 # filename: match.php
 
 #include common.php for using top() and bottom() function.

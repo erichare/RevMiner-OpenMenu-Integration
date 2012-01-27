@@ -1,5 +1,4 @@
 <?php
-# Donghyo Min, Eric Hare
 # Front Page
 
 include("common.php");
@@ -15,7 +14,7 @@ top();
 				</li>
 				
 				<li>
-					<a href="signup.php">
+					<a href="add_food.php">
 						<img src="http://students.washington.edu/dongm/454/img/signup.gif" alt="icon" />
 						Add Good Menues You Know !!!
 					</a>
@@ -27,15 +26,6 @@ top();
 			<p>
 				Results and page (C) Copyright 2012 SFSP.
 			</p>
-		</div>
-
-		<div id="validator">
-			<a href="http://validator.w3.org/check/referer">
-				<img src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid html" />
-			</a>
-			<a href="http://jigsaw.w3.org/css-validator/check/referer">
-				<img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" />
-			</a>
 		</div>
 	</body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-# author: Donghyo Min
 # filename: search.php
 
 #include common.php for using top() and bottom() function.
@@ -23,7 +22,7 @@ if (isset($_REQUEST["long"])) {
 }
 ?>
 
-<div id="map" style="width: 1000px; height: 400px"></div>
+<div id="map" style="width: 800px; height: 400px"></div>
 
 <script type="text/javascript">
 
