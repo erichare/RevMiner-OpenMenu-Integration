@@ -1,5 +1,5 @@
 <?php
-# filename: search.php
+# filename: map.php
 
 #include common.php for using top() and bottom() function.
 include("common.php");

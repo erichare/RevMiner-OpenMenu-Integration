@@ -25,6 +25,7 @@ function do_query($query) {
    return $results;
 }
 
+# It gets Latitude and Longitude according to the address
 function get_lat_lon($row) {
 	$q1 = str_replace(" ", "+", $row[1]);
 	$q2 = str_replace(" ", "+", $row[2]);
@@ -39,6 +40,9 @@ function get_lat_lon($row) {
 	return $arr;
 }
 
+# It asks to do query. Once it gets the result, it will draw a table 
+# to show matching restaurant.
+# For now, distance set to 0.
 function menu_table($query_data, $food_name, $caption){
     $result = do_query($query_data);
     $row = mysql_fetch_array($result);
@@ -111,7 +115,7 @@ type_menu();
 
 $cap = "The restaurants that has ".$menu; 
 
-
+# query. select menu name, restaurant name, restaurant's address, city, state, and country.
 menu_table(
 		"SELECT i.name, r.name, r.address, r.city, r.state, r.country " .
 		"From restaurants r " .
