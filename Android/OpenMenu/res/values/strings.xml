@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Search for a menu item by clicking the search button at the top</string>
+    <string name="hello">Search for a menu item by clicking the search button at the top (Android 4.0) or clicking the search button on your device (Android 2.3)</string>
     <string name="app_name">RevMiner OM</string>
     <string name="timeout">The connection to the server has timed out.</string>
 

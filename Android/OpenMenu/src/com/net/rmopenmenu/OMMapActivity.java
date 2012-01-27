@@ -56,7 +56,7 @@ public class OMMapActivity extends MapActivity {
 			e.printStackTrace();
 		}
 		
-		if (list.size() > 0) {
+		if (list != null && list.size() > 0) {
 			Address address = list.get(0);
 			
 			int lat = (int)(address.getLatitude() * 1000000);
