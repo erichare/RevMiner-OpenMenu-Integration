@@ -27,31 +27,16 @@ function do_query($query) {
 }
 
 function get_lat_lon($row) {
-#	$url_google = "http://maps.google.com/maps/api/geocode/json?address=$row[1]+$row[2]+$row[3]+$row[4]+$row[5]&sensor=false";
-#	echo "$url_google";
-#	$geocode=file_get_contents($url_google);
-#	$geocode=file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$row[1].'+'.$row[2].',+'.$row[3].',+'.$row[4].',+'.$row[5].'&sensor=false');
-#	echo "http://maps.google.com/maps/api/geocode/json?address=$row[1]+$row[2]+$row[3]+$row[4]+$row[5]&sensor=false";
-#	$geocode=file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$row[1]+$row[2]+$row[3]+$row[4]+$row[5]&sensor=false");
 	$q1 = str_replace(" ", "+", $row[1]);
 	$q2 = str_replace(" ", "+", $row[2]);
 	$q3 = str_replace(" ", "+", $row[3]);
 	$q4 = str_replace(" ", "+", $row[4]);
 	$q5 = str_replace(" ", "+", $row[5]);
-	#echo $q1.'\t'; echo $q2; echo $q3; echo $q4; echo $q5;
 	$geocode=file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$q1+$q2+$q3+$q4+$q5&sensor=false");
-#	$geocode=file_get_contents('http://maps.google.com/maps/api/geocode/json?address=5901,+roosevelt+way+ne,+seattle,+wa,+USA&sensor=false');
-#	$geocode=file_get_contents('http://maps.google.com/maps/api/geocode/json?address=5731,+Jangli+Maharaj+Road,+Deccan+Gymkhana,+Pune,+Maharashtra,+India&sensor=false');
-
-
-#	echo $geocode;
 	$output= json_decode($geocode);
-#	echo $output;
 	$lat = $output->results[0]->geometry->location->lat;
-#	echo $lat;
 	$long = $output->results[0]->geometry->location->lng;
 	$arr = array("lat" => $lat, "lon" => $long);
-#	echo $arr[0] . "asaaa";
 	return $arr;
 }
 
@@ -67,7 +52,6 @@ function menu_table($query_data, $food_name, $caption){
         <?php
     } else {    
 				$location = get_lat_lon($row);
-				echo $location[0] . "asd";
         ?>
         <p><?= $caption ?></p>
         <table>
@@ -95,7 +79,7 @@ function menu_table($query_data, $food_name, $caption){
                     <td> <?= htmlentities($row[0]) ?> </td>
                     <td> 0.0mi </td>
                     <td> 
-											<a href="map.php?lat=<?= $location[0] ?>&long=<?= $location[1] ?>" >
+											<a href="map.php?lat=<?= $location["lat"] ?>&long=<?= $location["lon"] ?>" >
 												<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
 												See On a Map !!
 											</a>
