@@ -38,7 +38,6 @@ form {
 	margin-right: auto;
 	margin-bottom: 2em;
 	width: 35em;
-	color: E01B6D;
 }
 
 legend {
@@ -69,6 +68,7 @@ td, th {
 	font-style: italic;
 	padding-left: 5px;
 	padding-right: 5px;
+	border: 2px solid black;
 }
 div span{
 	position: fixed;
@@ -89,6 +89,11 @@ div {
 	background-color: #F0F8FF;
 }
 
+#map {
+	margin-left: auto;
+	margin-right:auto;
+}
+
 #expalin {
 	color: #F0FFF0;
 }
@@ -99,7 +104,7 @@ div {
 	margin-bottom: 2em;
 	height: 50px; 
 	background-repeat: repeat-x;
-	background-image: url("http://www.cs.washington.edu/education/courses/cse190m/11sp/homework/2/bannerbg.png");
+	background-image: url("http://students.washington.edu/dongm/454/img/bannerbg.png");
 }
 
 #copyright > p{
