@@ -52,6 +52,11 @@ fieldset, fieldset div, legend {
 	color: E01B6D;
 }
 
+fieldset strong{
+	float: left;
+	width: 12em;
+}
+
 table{
     margin-left: auto;
     margin-right: auto;
@@ -77,8 +82,19 @@ div span{
 	margin: 5px;
 	background-color: #FFE4C4;
 }
+
+div strong{
+	margin-top:3px;
+	margin-left: 10px;
+}
+
 div {
 	margin-top: 0.5em;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0em;
 }
 
 .odd {
@@ -87,6 +103,14 @@ div {
 
 .even {
 	background-color: #F0F8FF;
+}
+
+#new_menu div{
+	margin-top: 2px;
+}
+
+#new_menu {
+	color: #E01B6A;
 }
 
 #map {
@@ -112,10 +136,6 @@ div {
 	left: 30px;
 	bottom: 10px;
 	clear: both;
-}
-ul {
-	list-style-type: none;
-	padding-left: 0em;
 }
 
 #validator{
