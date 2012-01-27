@@ -65,11 +65,18 @@ th {
 }
 
 td, th {
-    font-style: italic;
-    padding-left: 5px;
-    padding-right: 5px;
+	color: #E01B6A;
+	font-style: italic;
+	padding-left: 5px;
+	padding-right: 5px;
 }
-
+div span{
+	position: fixed;
+	right: 5%;
+	top: 5%;
+	margin: 5px;
+	background-color: #FFE4C4;
+}
 div {
 	margin-top: 0.5em;
 }
