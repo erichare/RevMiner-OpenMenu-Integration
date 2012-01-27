@@ -1,6 +1,6 @@
 <?php
 # author: Donghyo Min
-# filename: map.php
+# filename: search.php
 
 #include common.php for using top() and bottom() function.
 include("common.php");
@@ -13,26 +13,26 @@ top();
 type_menu();
 
 if (isset($_REQUEST["lat"])) {
-    $latitude = $_REQUEST["lat"];
+    $lat = $_REQUEST["lat"];
+    $lat = $lat + 0;
 }
 
 if (isset($_REQUEST["long"])) {
-    $longitude = $_REQUEST["long"];
+    $long = $_REQUEST["long"];
+    $long = $long + 0;
 }
 ?>
 
-<div id="map" style="width: 400px; height: 300px"></div>
+<div id="map" style="width: 1000px; height: 400px"></div>
 
 <script type="text/javascript">
 
-//<![CDATA[
-var map = new GMap(document.getElementById("map"));
-
-map.centerAndZoom(new GPoint(<?= $latitude ?>, <?= $longitude ?>), 3);
-
-
-
-//]]>
+var map = new GMap2(document.getElementById("map"));
+map.addControl(new GSmallMapControl());
+map.addControl(new GMapTypeControl());
+map.setCenter(new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>), 15);
+var point = new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);
+map.addOverlay(new GMarker(point));
 
 </script>
 
