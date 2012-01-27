@@ -20,13 +20,16 @@ function top(){
 
 		<link href="index.css" type="text/css" rel="stylesheet" />
 		<link href="http://students.washington.edu/dongm/454/img/fifteen.gif" type="image/gif" rel="shortcut icon" />
-
+		<script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAha3tZBPtoRIZLy8L__KptBRew3tpyxyDwTGHF7Wnf1NbbYENLhRB4lh8T7WgtB3lrbar3qfS7JjuLA" 
+		type="text/javascript">
+    </script>
 		<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.1.0/prototype.js" type="text/javascript"></script>
 	</head>
 
 	<body>
 		<div id="bannerarea">
-			<br>Sick Foods For Sick people
+			<br>Sick Foods For Sick People
+			<SPAN> HOME </SPAN>
 		</div>
 <?php
 }
