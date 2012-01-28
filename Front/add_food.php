@@ -1,5 +1,5 @@
 <?php
-
+# Donghyo Min(0661969)
 
 # This allows signup.php to use functions in common.php.
 include("common.php");

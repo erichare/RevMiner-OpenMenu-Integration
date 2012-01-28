@@ -1,4 +1,5 @@
 <?php
+# author: Donghyo Min
 # filename: match.php
 
 #include common.php for using top() and bottom() function.
@@ -25,7 +26,6 @@ function do_query($query) {
    return $results;
 }
 
-# It gets Latitude and Longitude according to the address
 function get_lat_lon($row) {
 	$q1 = str_replace(" ", "+", $row[1]);
 	$q2 = str_replace(" ", "+", $row[2]);
@@ -40,9 +40,6 @@ function get_lat_lon($row) {
 	return $arr;
 }
 
-# It asks to do query. Once it gets the result, it will draw a table 
-# to show matching restaurant.
-# For now, distance set to 0.
 function menu_table($query_data, $food_name, $caption){
     $result = do_query($query_data);
     $row = mysql_fetch_array($result);
@@ -56,46 +53,50 @@ function menu_table($query_data, $food_name, $caption){
     } else {    
 				$location = get_lat_lon($row);
         ?>
-        <p><?= $caption ?></p>
-        <table>
-            <tr>
-                <th>No.</th>
-                <th>Restaurant Name</th>
-                <th>menu name</th>
-                <th>Distance</th>
-                <th>Map</th>
-            </tr>
-            
-            <?php
-            $i = 1;
-            while ($row) {
-                if($i % 2 == 0){
-                    $zebra = "even";
-                } else {
-                    $zebra = "odd";
-                }
-                ?>
-                
-                <tr class = "<?= $zebra ?>" >
-                    <td> <?= $i ?> </td>
-                    <td> <?= htmlentities($row[1]) ?> </td>
-                    <td> <?= htmlentities($row[0]) ?> </td>
-                    <td> 0.0mi </td>
-                    <td> 
-											<a href="map.php?lat=<?= $location["lat"] ?>&long=<?= $location["lon"] ?>" >
-												<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
-												See On a Map !!
-											</a>
-										</td>
-                </tr>
-                
-                <?php
-                $i++;
-                $row = mysql_fetch_array($result);
-            }
-            ?>
-            
-        </table>    
+        <div id="table_start">
+					<p><?= $caption ?></p>
+					<table>
+							<tr>
+									<th>No.</th>
+									<th>Restaurant Name</th>
+									<th id="menu_name">menu name</th>
+									<!-- will add distance feature later 
+									<th>Distance</th> -->
+									<th>Map</th>
+							</tr>
+							
+							<?php
+							$i = 1;
+							while ($row) {
+									if($i % 2 == 0){
+											$zebra = "even";
+									} else {
+											$zebra = "odd";
+									}
+									?>
+									
+									<tr class = "<?= $zebra ?>" >
+											<td> <?= $i ?> </td>
+											<td> <?= htmlentities($row[1]) ?> </td>
+											<td> <?= htmlentities($row[0]) ?> </td>
+											<!-- will add distance feature later 
+											<td>0.0 mi</td> -->
+											<td id="see_map"> 
+												<a href="map.php?lat=<?= $location["lat"] ?>&long=<?= $location["lon"] ?>" >
+													<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
+													See On a Map
+												</a>
+											</td>
+									</tr>
+									
+									<?php
+									$i++;
+									$row = mysql_fetch_array($result);
+							}
+							?>
+							
+					</table>    
+        </div>
     <?php
     }
 }
@@ -115,7 +116,7 @@ type_menu();
 
 $cap = "The restaurants that has ".$menu; 
 
-# query. select menu name, restaurant name, restaurant's address, city, state, and country.
+
 menu_table(
 		"SELECT i.name, r.name, r.address, r.city, r.state, r.country " .
 		"From restaurants r " .

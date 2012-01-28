@@ -37,7 +37,7 @@ form {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 2em;
-	width: 35em;
+	width: 32em;
 }
 
 legend {
@@ -62,6 +62,7 @@ table{
     margin-right: auto;
     border-collapse: collapse;
     caption-side: top;
+    width:800px;
 }
 
 th {
@@ -75,6 +76,7 @@ td, th {
 	padding-right: 5px;
 	border: 2px solid black;
 }
+
 div span{
 	position: fixed;
 	right: 5%;
@@ -97,6 +99,9 @@ ul {
 	padding-left: 0em;
 }
 
+img {
+	vertical-align: middle;
+}
 .odd {
 	background-color: #FFE4C4;
 }
@@ -105,8 +110,8 @@ ul {
 	background-color: #F0F8FF;
 }
 
-#turnin {
-	color: #E01B6A;
+#menu_name {
+	width:90px;
 }
 
 #new_menu div{
@@ -120,28 +125,51 @@ ul {
 #map {
 	margin-left: auto;
 	margin-right:auto;
+	margin-top:120px;
 }
 
 #expalin {
 	color: #F0FFF0;
 }
 
+#table_start{
+	margin-top:120px;
+}
+
+#turnin {
+	color: #E01B6A;
+	position: fixed;
+	top: 55px;
+	left:50%;
+	margin-left:-310px;
+}
+
+#see_map{
+	width: 200px;
+}
+
 #bannerarea {
 	font-weight: bold;
-	top: 20px;
-	margin-bottom: 2em;
-	height: 50px; 
+	margin-top: 0px;
+	height: 22px; 
+	vertical-align: middle;
 	background-repeat: repeat-x;
 	background-image: url("http://students.washington.edu/dongm/454/img/bannerbg.png");
 }
 
-#bannerarea strong {
-	font-size: 20px;
+#home strong{
+	margin:5px;
+}
+
+#home {
+	font-size: 25px;
 	color: #B50049;
+	border: 3px solid grey;
+	background-image: url("http://students.washington.edu/dongm/454/img/images.jpg");
 	position: fixed;
-	top: 5%;
-	left:7%;
-	border: 3px solid #4702B5;
+	top: 75px;
+	left:50%;
+	margin-left: 300px;
 }
 
 #copyright > p{

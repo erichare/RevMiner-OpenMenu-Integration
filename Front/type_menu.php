@@ -1,4 +1,5 @@
 <?php
+# Donghyo Min, Eric Hare
 # This page initially shows a webpage to type a name to find a match.
 # Then, it would try to find matches from database.
 

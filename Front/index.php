@@ -1,4 +1,5 @@
 <?php
+# Donghyo Min, Eric Hare
 # Front Page
 
 include("common.php");
