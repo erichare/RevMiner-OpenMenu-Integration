@@ -25,59 +25,26 @@ if (isset($_REQUEST["long"])) {
 
 ?>
 
-<div id="map" style="width: 800px; height: 300px"></div>
+<div id="map" style="width: 800px; height: 400px; float:left; border: 1px solid black"></div>
+<div id="route" style="width: 25%; height:480px; float:right; border: 1px solid black"></div>
+
 <script type="text/javascript">
-
-	//google.setOnLoadCallback(function() {
-		// initialize the mobile map    
 	var map = new GMap2(document.getElementById("map"));
-	map.addControl(new GSmallMapControl());
-	map.addControl(new GMapTypeControl());
+	map.setUIToDefault();	// default such as mouse control
 	
-	map.setCenter(new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>), 15);
-	var point = new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);
-	map.addOverlay(new GMarker(point));
-/*
-	if (google.gears) {
-	alert("haha");
-		var geo = google.gears.factory.create('beta.geolocation');
-		
-		geo.getCurrentPosition(function(position) {
-			var lat = position.latitude;
-			var lng = position.longitude;
-			var point = new GLatLng(lat, lng);
+	if (typeof(navigator.geolocation) != 'undefined') {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			var wp = new Array(2);
+			var lat = position.coords.latitude;
+			var lng = position.coords.longitude;
+			wp[0] = new google.maps.LatLng(lat, lng);
+			wp[1] = new google.maps.LatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);
 			
-		//	var position = new google.maps.LatLng(lat, lng);
-			map.setOptions({
-			//	center: position,
-				center: point,	
-				zoom: 15
-			});
+			directionsPanel = document.getElementById("route");
+			directions = new GDirections(map, directionsPanel);
+			directions.loadFromWaypoints(wp);
 		});
-		map.addOverlay(new GMarker(point));
 	}
-		/*
-
-		if (typeof(google.gears) != 'undefined') {
-    var geo = google.gears.factory.create('beta.geolocation');
-    geo.getCurrentPosition(function(position) {
-        var lat = position.latitude;
-        var lng = position.longitude;
-        var position = new google.maps.LatLng(lat, lng);
-        map.setOptions({
-            center: position,
-            zoom: 15
-        });
-    });
-}
-		*/
-		
-	//	map.setCenter(new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>), 15);
-	//	var point = new GLatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);
-	//	map.addOverlay(new GMarker(point));
-
-	//});
-
 </script>
 
 
