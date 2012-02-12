@@ -11,21 +11,31 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int pin=0x7f020001;
+        public static final int bacon=0x7f020000;
+        public static final int burger=0x7f020001;
+        public static final int cake=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int pin=0x7f020004;
+        public static final int pizza=0x7f020005;
     }
     public static final class id {
-        public static final int mainlayout=0x7f070001;
-        public static final int mapview=0x7f070002;
-        public static final int menu_map=0x7f070004;
-        public static final int menu_search=0x7f070003;
-        public static final int myTextView=0x7f070000;
+        public static final int GridItem=0x7f070000;
+        public static final int grid_item_button=0x7f070002;
+        public static final int grid_item_text=0x7f070001;
+        public static final int gridview=0x7f070003;
+        public static final int mainlayout=0x7f070005;
+        public static final int mapview=0x7f070006;
+        public static final int menu_map=0x7f070008;
+        public static final int menu_search=0x7f070007;
+        public static final int myTextView=0x7f070004;
     }
     public static final class layout {
-        public static final int list_item=0x7f030000;
-        public static final int main=0x7f030001;
-        public static final int map=0x7f030002;
-        public static final int search=0x7f030003;
+        public static final int grid_item=0x7f030000;
+        public static final int grid_view=0x7f030001;
+        public static final int list_item=0x7f030002;
+        public static final int main=0x7f030003;
+        public static final int map=0x7f030004;
+        public static final int search=0x7f030005;
     }
     public static final class menu {
         public static final int mainmenu=0x7f060000;
