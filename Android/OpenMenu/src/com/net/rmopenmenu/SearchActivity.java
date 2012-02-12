@@ -2,6 +2,13 @@ package com.net.rmopenmenu;
 
 import java.util.ArrayList;
 
+import com.google.android.maps.MapActivity;
+
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -15,83 +22,93 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SearchActivity extends ListActivity {
+public class SearchActivity extends MapActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
 		
-		// Get the intent, verify the action and get the query
 		Intent intent = getIntent();
-		ArrayList<String> restaurant_names = new ArrayList<String>();
+		String query = intent.getStringExtra("query");
 
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-
-			SQLiteDatabase db = new Database(getBaseContext()).getReadableDatabase();
-			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
-			cursor.moveToFirst();
-
-			String s = "";
-			int count = 0;
-			while (!cursor.isAfterLast()) {
-				count++;
-				s += ("iid = " + cursor.getInt(cursor.getColumnIndex("iid")) + " OR ");
-				cursor.moveToNext();
+		if (Intent.ACTION_SEARCH.equals(intent.getAction()) || !query.equals("")) {
+			if (query.equals("")) {
+				query = intent.getStringExtra(SearchManager.QUERY);
 			}
-
-			if (count > 0) {
-				s = s.substring(0, s.length() - 4);
-				count = 0;
-
-				cursor = db.query("restaurants_items", null, s, null, null, null, null);
-				cursor.moveToFirst();
-	
-				s = "";
-				while (!cursor.isAfterLast()) {
-					count++;
-					s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
-					cursor.moveToNext();
-				}
-	
-				if (count > 0) {
-					s = s.substring(0, s.length() - 4);
-
-					cursor = db.query("restaurants", null, s, null, null, null, null);
-					cursor.moveToFirst();
-		
-					while (!cursor.isAfterLast()) {
-						restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-						cursor.moveToNext();
-					}
-				}
-			}
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, restaurant_names);
-
-			setListAdapter(adapter);
-			
-			ListView lv = getListView();
-			lv.setTextFilterEnabled(true);
-
-			// Every item will launch the map
-			lv.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> parent, final View v, int position, long id) {
-					Thread thread = new Thread() {
-						@Override
-						public void run() {
-							Intent myIntent = new Intent(getBaseContext(), OMMapActivity.class);
-							myIntent.putExtra("restaurant", ((TextView) v).getText().toString());
-							
-							startActivity(myIntent);
-						}
-					};
-					thread.start();
-				}
-			});
-
-			db.close();
 		}
+		
+		final ActionBar bar = getActionBar();
+        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+
+        bar.addTab(bar.newTab()
+                .setText("List")
+                .setTabListener(new TabListener<SearchList>(
+                        this, query, SearchList.class)));
+        
+        if (savedInstanceState != null) {
+            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+        }
+	}
+	
+	@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+    }
+
+    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
+        private final Activity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+        private final Bundle mArgs;
+        private Fragment mFragment;
+
+        public TabListener(Activity activity, String tag, Class<T> clz) {
+            this(activity, tag, clz, null);
+        }
+
+        public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+            mArgs = args;
+
+            // Check to see if we already have a fragment for this tab, probably
+            // from a previously saved state.  If so, deactivate it, because our
+            // initial state is that a tab isn't shown.
+            mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
+            if (mFragment != null && !mFragment.isDetached()) {
+                FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+                ft.detach(mFragment);
+                ft.commit();
+            }
+        }
+
+        public void onTabSelected(Tab tab, FragmentTransaction ft) {
+            if (mFragment == null) {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else {
+                ft.attach(mFragment);
+            }
+        }
+
+        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+            if (mFragment != null) {
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(Tab tab, FragmentTransaction ft) {
+        }
+    }
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
