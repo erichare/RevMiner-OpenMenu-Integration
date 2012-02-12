@@ -47,6 +47,11 @@ public class SearchActivity extends MapActivity {
                 .setTabListener(new TabListener<SearchList>(
                         this, query, SearchList.class)));
         
+        bar.addTab(bar.newTab()
+                .setText("Map")
+                .setTabListener(new TabListener<MapFragment>(
+                        this, query, MapFragment.class)));
+        
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
