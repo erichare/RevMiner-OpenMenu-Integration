@@ -1,5 +1,5 @@
 <?php
-# author: Donghyo Min
+# contact: gajok@cs.washington.edu
 # filename: match.php
 
 #include common.php for using top() and bottom() function.
@@ -26,12 +26,13 @@ function do_query($query) {
    return $results;
 }
 
-function get_lat_lon($row) {
-	$q1 = str_replace(" ", "+", $row[1]);
-	$q2 = str_replace(" ", "+", $row[2]);
-	$q3 = str_replace(" ", "+", $row[3]);
-	$q4 = str_replace(" ", "+", $row[4]);
-	$q5 = str_replace(" ", "+", $row[5]);
+# It gets Latitude and Longitude according to the address
+function get_lat_lon($row_sub) {
+	$q1 = str_replace(" ", "+", $row_sub[1]);
+	$q2 = str_replace(" ", "+", $row_sub[2]);
+	$q3 = str_replace(" ", "+", $row_sub[3]);
+	$q4 = str_replace(" ", "+", $row_sub[4]);
+	$q5 = str_replace(" ", "+", $row_sub[5]);
 	$geocode=file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$q1+$q2+$q3+$q4+$q5&sensor=false");
 	$output= json_decode($geocode);
 	$lat = $output->results[0]->geometry->location->lat;
@@ -40,9 +41,14 @@ function get_lat_lon($row) {
 	return $arr;
 }
 
+#It asks to do query. Once it gets the result, it will draw a table 
+# to show matching restaurant.	  	
+# For now, distance set to 0.
 function menu_table($query_data, $food_name, $caption){
     $result = do_query($query_data);
     $row = mysql_fetch_array($result);
+    #only debugging purpose. below line.
+    $location = get_lat_lon($row);
     if(!$row){
         ?>
         <p id="explain">
@@ -51,7 +57,7 @@ function menu_table($query_data, $food_name, $caption){
         </p>
         <?php
     } else {    
-				$location = get_lat_lon($row);
+				
         ?>
         <div id="table_start">
 					<p><?= $caption ?></p>
@@ -63,11 +69,13 @@ function menu_table($query_data, $food_name, $caption){
 									<!-- will add distance feature later 
 									<th>Distance</th> -->
 									<th>Map</th>
+									<th>Add to My Menu</th>
 							</tr>
 							
 							<?php
 							$i = 1;
 							while ($row) {
+							#		$location = get_lat_lon($row);
 									if($i % 2 == 0){
 											$zebra = "even";
 									} else {
@@ -87,6 +95,13 @@ function menu_table($query_data, $food_name, $caption){
 													See On a Map
 												</a>
 											</td>
+											<td>
+												<button id="<?=$i?>" value="<?=($row[0])?>">Add</button>
+												<script type="text/javascript">
+													var adding = document.getElementById("<?=$i?>");
+													adding.observe("click", add);
+												</script>
+											</td>
 									</tr>
 									
 									<?php
@@ -94,7 +109,6 @@ function menu_table($query_data, $food_name, $caption){
 									$row = mysql_fetch_array($result);
 							}
 							?>
-							
 					</table>    
         </div>
     <?php
@@ -116,7 +130,7 @@ type_menu();
 
 $cap = "The restaurants that has ".$menu; 
 
-
+# query. select menu name, restaurant name, restaurant's address, city, state, and country.
 menu_table(
 		"SELECT i.name, r.name, r.address, r.city, r.state, r.country " .
 		"From restaurants r " .
