@@ -5,9 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,16 +18,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.view.Window;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class OpenMenuActivity extends Activity {
 	
@@ -88,7 +80,7 @@ public class OpenMenuActivity extends Activity {
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		
 		GridView gridview = (GridView) findViewById(R.id.gridview);
-	    gridview.setAdapter(new ImageAdapter(this));
+	    gridview.setAdapter(new ImageAdapter());
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,10 +106,7 @@ public class OpenMenuActivity extends Activity {
 	}
 	
 	public class ImageAdapter extends BaseAdapter {
-	    private Context mContext;
-
-	    public ImageAdapter(Context c) {
-	        mContext = c;
+	    public ImageAdapter() {
 	    }
 
 	    public int getCount() {

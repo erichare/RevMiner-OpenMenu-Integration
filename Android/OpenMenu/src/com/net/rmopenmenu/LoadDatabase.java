@@ -26,10 +26,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonStreamParser;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,13 +38,6 @@ import android.widget.TextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
-
-import android.os.Handler;
-import android.os.Message;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Window;
-import android.widget.TextView;
 
 public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	
