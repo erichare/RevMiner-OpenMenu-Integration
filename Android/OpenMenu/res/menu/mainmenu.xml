@@ -7,6 +7,6 @@
           android:actionViewClass="android.widget.SearchView" />
     <item android:id="@+id/menu_map"
           android:icon="@android:drawable/ic_menu_save"
-          android:title="Map"
+          android:title="Save"
           android:showAsAction="ifRoom|withText" />
 </menu>

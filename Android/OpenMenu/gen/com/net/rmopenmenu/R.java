@@ -9,43 +9,175 @@ package com.net.rmopenmenu;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int actionbarCompatItemHomeStyle=0x7f010002;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int actionbarCompatItemStyle=0x7f010001;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int actionbarCompatProgressIndicatorStyle=0x7f010003;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int actionbarCompatTitleStyle=0x7f010000;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int borderDrawable=0x7f010005;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int maskDrawable=0x7f010004;
+    }
+    public static final class dimen {
+        public static final int actionbar_compat_button_home_width=0x7f050002;
+        public static final int actionbar_compat_button_width=0x7f050001;
+        public static final int actionbar_compat_height=0x7f050000;
     }
     public static final class drawable {
         public static final int bacon=0x7f020000;
         public static final int burger=0x7f020001;
         public static final int cake=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int pin=0x7f020004;
-        public static final int pizza=0x7f020005;
+        public static final int ic_home=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int pin=0x7f020005;
+        public static final int pizza=0x7f020006;
     }
     public static final class id {
-        public static final int GridItem=0x7f070000;
-        public static final int grid_item_button=0x7f070002;
-        public static final int grid_item_text=0x7f070001;
-        public static final int gridview=0x7f070003;
-        public static final int mainlayout=0x7f070005;
-        public static final int mapview=0x7f070006;
-        public static final int menu_map=0x7f070008;
-        public static final int menu_search=0x7f070007;
-        public static final int myTextView=0x7f070004;
+        public static final int GridItem=0x7f060005;
+        public static final int actionbar_compat=0x7f060000;
+        public static final int actionbar_compat_item_refresh=0x7f060003;
+        public static final int actionbar_compat_item_refresh_progress=0x7f060002;
+        public static final int actionbar_compat_title=0x7f060001;
+        public static final int grid_item_button=0x7f060007;
+        public static final int grid_item_text=0x7f060006;
+        public static final int gridview=0x7f060008;
+        public static final int mainlayout=0x7f06000a;
+        public static final int mapview=0x7f06000b;
+        public static final int menu_map=0x7f06000d;
+        public static final int menu_refresh=0x7f060004;
+        public static final int menu_search=0x7f06000c;
+        public static final int myTextView=0x7f060009;
     }
     public static final class layout {
-        public static final int grid_item=0x7f030000;
-        public static final int grid_view=0x7f030001;
-        public static final int list_item=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int map=0x7f030004;
-        public static final int search=0x7f030005;
+        public static final int actionbar_compat=0x7f030000;
+        public static final int grid_item=0x7f030001;
+        public static final int grid_view=0x7f030002;
+        public static final int list_item=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int map=0x7f030005;
+        public static final int search=0x7f030006;
     }
     public static final class menu {
-        public static final int mainmenu=0x7f060000;
+        public static final int mainmenu=0x7f080000;
     }
     public static final class string {
-        public static final int app_name=0x7f050001;
-        public static final int hello=0x7f050000;
-        public static final int timeout=0x7f050002;
+        public static final int app_name=0x7f070001;
+        public static final int hello=0x7f070000;
+        public static final int timeout=0x7f070002;
     }
     public static final class xml {
         public static final int searchable=0x7f040000;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a AppTheme.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #AppTheme_actionbarCompatItemHomeStyle com.net.rmopenmenu:actionbarCompatItemHomeStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #AppTheme_actionbarCompatItemStyle com.net.rmopenmenu:actionbarCompatItemStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #AppTheme_actionbarCompatProgressIndicatorStyle com.net.rmopenmenu:actionbarCompatProgressIndicatorStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #AppTheme_actionbarCompatTitleStyle com.net.rmopenmenu:actionbarCompatTitleStyle}</code></td><td></td></tr>
+           </table>
+           @see #AppTheme_actionbarCompatItemHomeStyle
+           @see #AppTheme_actionbarCompatItemStyle
+           @see #AppTheme_actionbarCompatProgressIndicatorStyle
+           @see #AppTheme_actionbarCompatTitleStyle
+         */
+        public static final int[] AppTheme = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#actionbarCompatItemHomeStyle}
+          attribute's value can be found in the {@link #AppTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:actionbarCompatItemHomeStyle
+        */
+        public static final int AppTheme_actionbarCompatItemHomeStyle = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#actionbarCompatItemStyle}
+          attribute's value can be found in the {@link #AppTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:actionbarCompatItemStyle
+        */
+        public static final int AppTheme_actionbarCompatItemStyle = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#actionbarCompatProgressIndicatorStyle}
+          attribute's value can be found in the {@link #AppTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:actionbarCompatProgressIndicatorStyle
+        */
+        public static final int AppTheme_actionbarCompatProgressIndicatorStyle = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#actionbarCompatTitleStyle}
+          attribute's value can be found in the {@link #AppTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:actionbarCompatTitleStyle
+        */
+        public static final int AppTheme_actionbarCompatTitleStyle = 0;
+        /** Attributes that can be used with a BezelImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #BezelImageView_borderDrawable com.net.rmopenmenu:borderDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #BezelImageView_maskDrawable com.net.rmopenmenu:maskDrawable}</code></td><td></td></tr>
+           </table>
+           @see #BezelImageView_borderDrawable
+           @see #BezelImageView_maskDrawable
+         */
+        public static final int[] BezelImageView = {
+            0x7f010004, 0x7f010005
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#borderDrawable}
+          attribute's value can be found in the {@link #BezelImageView} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:borderDrawable
+        */
+        public static final int BezelImageView_borderDrawable = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.net.rmopenmenu.R.attr#maskDrawable}
+          attribute's value can be found in the {@link #BezelImageView} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:maskDrawable
+        */
+        public static final int BezelImageView_maskDrawable = 0;
+    };
 }

@@ -8,11 +8,12 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.maps.MapActivity;
 
-public class SearchActivity extends MapActivity {
-
+public class SearchActivity extends ActionBarActivity {
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,11 +27,10 @@ public class SearchActivity extends MapActivity {
 				query = intent.getStringExtra(SearchManager.QUERY);
 			}
 		}
-		
-		final ActionBar bar = getActionBar();
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
+		
+		final ActionBarHelper barHelper = getActionBarHelper();
+		final ActionBar bar = barHelper.mActivity.getActionBar();
         bar.addTab(bar.newTab()
                 .setText("List")
                 .setTabListener(new TabListener<SearchList>(
@@ -104,5 +104,6 @@ public class SearchActivity extends MapActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
+    
 
 }

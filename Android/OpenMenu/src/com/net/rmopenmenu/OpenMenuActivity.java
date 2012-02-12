@@ -24,16 +24,16 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-public class OpenMenuActivity extends Activity {
+public class OpenMenuActivity extends ActionBarActivity {
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
+		//equestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
 
-		setProgressBarIndeterminateVisibility(true);
+		//setProgressBarIndeterminateVisibility(true);
 		
 		setContentView(R.layout.grid_view);
 		
@@ -154,5 +154,11 @@ public class OpenMenuActivity extends Activity {
 	            R.drawable.burger, R.drawable.pizza,
 	            R.drawable.bacon, R.drawable.cake
 	    };
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
