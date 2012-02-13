@@ -24,7 +24,18 @@ public class Item implements Comparable<Item> {
 	@Override
 	public int compareTo(Item other) {
 		if (sortPrice) {
-			return this.item_price.compareTo(other.item_price);
+			if (this.item_price.equals("Unknown Price") || other.item_price.equals("Unknown Price")) {
+				return this.item_price.compareTo(other.item_price);
+			} else {
+				double compare = (Double.valueOf(this.item_price) - Double.valueOf(other.item_price));
+				if (compare < 0) {
+					return -1;
+				} else if (compare > 0) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
 		} else {
 			return 0;
 		}

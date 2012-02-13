@@ -12,13 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.Toast;
@@ -53,7 +51,7 @@ public class SearchActivity extends ActionBarActivity {
 			menu = intent.getBooleanExtra("menu", true);
 		}
 		
-		SQLiteDatabase db = new Database(this).getReadableDatabase();
+		SQLiteDatabase db = new Database(getBaseContext()).getReadableDatabase();
 		ArrayList<Integer> item_ids = new ArrayList<Integer>();
 		ArrayList<String> restaurant_names = new ArrayList<String>();
 		ArrayList<String> restaurant_addresses = new ArrayList<String>();
