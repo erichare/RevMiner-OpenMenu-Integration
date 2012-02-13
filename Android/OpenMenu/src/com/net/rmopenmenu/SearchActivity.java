@@ -68,7 +68,11 @@ public class SearchActivity extends ActionBarActivity {
 				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
 				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
-				item_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				String price = cursor.getString(cursor.getColumnIndex("price"));
+				if (price.equals("0.00")) {
+					price = "Unknown Price";
+				}
+				item_prices.add(price);
 				cursor.moveToNext();
 			}
 			
@@ -84,9 +88,6 @@ public class SearchActivity extends ActionBarActivity {
 				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
 				restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
 			}
-			
-			db.close();
-
 		} else {
 			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
 			cursor.moveToFirst();
@@ -108,12 +109,16 @@ public class SearchActivity extends ActionBarActivity {
 				cursor.moveToFirst();
 				
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				item_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				String price = cursor.getString(cursor.getColumnIndex("price"));
+				if (price.equals("0.00")) {
+					price = "Unknown Price";
+				}
+				item_prices.add(price);
 				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
 			}
-			
-			db.close();
 		}
+		
+		db.close();
 
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();
