@@ -59,6 +59,8 @@ public class MainActivity extends ActionBarActivity {
 
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
         
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        
         Bundle b1 = new Bundle();
         b1.putBoolean("menu", true);
         
@@ -72,18 +74,6 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
-        
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
-				
-		if (!databaseLoaded) {
-			TextView tv = (TextView)findViewById(R.id.myTextView);
-			tv.setText("Building initial database.  This may take a minute.  Please wait...");
-			
-			LoadDatabase ld = new LoadDatabase(getBaseContext(), this, tv);
-			ld.execute("http://www.project-fin.org/openmenu/sync.php");
-		} else {
-		}
 		
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);

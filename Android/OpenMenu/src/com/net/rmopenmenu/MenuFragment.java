@@ -1,7 +1,9 @@
 package com.net.rmopenmenu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MenuFragment extends Fragment {
 	
@@ -32,6 +35,18 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.main, container, false);
+    	
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
+				
+		if (!databaseLoaded) {
+			TextView tv = (TextView)v.findViewById(R.id.myTextView);
+			tv.setText("Building initial database.  This may take a minute.  Please wait...");
+			
+			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), (ActionBarActivity)getActivity(), tv);
+			ld.execute("http://www.project-fin.org/openmenu/sync.php");
+		} else {
+		}
     	
     	Bundle b1 = getArguments();
 		menu = b1.getBoolean("menu");
