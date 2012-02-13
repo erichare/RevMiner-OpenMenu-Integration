@@ -44,50 +44,13 @@ public class MapFragment extends Fragment {
 			fragmentView = inflater.inflate(R.layout.map, container, false);
 		}
 		
-		String query = this.getArguments().getString("query");
-		
-		SQLiteDatabase db = new Database(getActivity().getApplicationContext()).getReadableDatabase();
-		Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
-		cursor.moveToFirst();
-
-		String s = "";
-		int count = 0;
-		while (!cursor.isAfterLast()) {
-			count++;
-			s += ("iid = " + cursor.getInt(cursor.getColumnIndex("iid")) + " OR ");
-			cursor.moveToNext();
-		}
-		
-        ArrayList<String> restaurant_names = new ArrayList<String>();
-
-		if (count > 0) {
-			s = s.substring(0, s.length() - 4);
-			count = 0;
-
-			cursor = db.query("restaurants_items", null, s, null, null, null, null);
-			cursor.moveToFirst();
-
-			s = "";
-			while (!cursor.isAfterLast()) {
-				count++;
-				s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
-				cursor.moveToNext();
-			}
-			
-			if (count > 0) {
-				s = s.substring(0, s.length() - 4);
-
-				cursor = db.query("restaurants", null, s, null, null, null, null);
-				cursor.moveToFirst();
-	
-				while (!cursor.isAfterLast()) {
-					restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-					cursor.moveToNext();
-				}
-			}
-		}
-		
-		db.close();
+		Bundle b = this.getArguments();
+		ArrayList<Integer> item_ids = b.getIntegerArrayList("item_ids");
+		ArrayList<String> restaurant_names = b.getStringArrayList("restaurant_names");
+		ArrayList<String> restaurant_addresses = b.getStringArrayList("restaurant_addresses");
+		ArrayList<String> item_names = b.getStringArrayList("item_names");
+		ArrayList<String> item_prices = b.getStringArrayList("item_prices");
+		ArrayList<String> item_descriptions = b.getStringArrayList("item_descriptions");
 		
 		mapView = (MapView) fragmentView.findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -109,12 +72,10 @@ public class MapFragment extends Fragment {
 		for (int i = 0; i < restaurant_names.size(); i++) {
 		
 			List<Address> list = null;
-			String restaurant = restaurant_names.get(i);
+			String addr = restaurant_addresses.get(i);
 			
-			Log.v("Rest", restaurant);
 			try {
-				list = gc.getFromLocationName(restaurant, 1);
-				Log.v("Testtttt", list.toString());
+				list = gc.getFromLocationName(addr, 1);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -125,9 +86,7 @@ public class MapFragment extends Fragment {
 				
 				int thisLat = (int)(address.getLatitude() * 1000000);
 				int thisLon = (int)(address.getLongitude() * 1000000);
-				
-				Log.v("Test", lat + " " + lon);
-				
+								
 				GeoPoint point = new GeoPoint(thisLat, thisLon);
 				OverlayItem overlayitem = new OverlayItem(point, "", "");
 				

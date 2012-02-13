@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.Toast;
@@ -49,6 +52,68 @@ public class SearchActivity extends ActionBarActivity {
 			query = intent.getStringExtra("query");
 			menu = intent.getBooleanExtra("menu", true);
 		}
+		
+		SQLiteDatabase db = new Database(this).getReadableDatabase();
+		ArrayList<Integer> item_ids = new ArrayList<Integer>();
+		ArrayList<String> restaurant_names = new ArrayList<String>();
+		ArrayList<String> restaurant_addresses = new ArrayList<String>();
+		ArrayList<String> item_names = new ArrayList<String>();
+		ArrayList<String> item_prices = new ArrayList<String>();
+		ArrayList<String> item_descriptions = new ArrayList<String>();
+		if (menu) {
+			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
+			cursor.moveToFirst();
+	
+			while (!cursor.isAfterLast()) {
+				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
+				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
+				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+				item_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				cursor.moveToNext();
+			}
+			
+			for (int i = 0; i < item_ids.size(); i++) {
+				cursor = db.query("restaurants_items", null, "iid = " + item_ids.get(i), null, null, null, null);
+				cursor.moveToFirst();
+				
+				int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+				
+				cursor = db.query("restaurants", null, "rid = " + rid, null, null, null, null);
+				cursor.moveToFirst();
+				
+				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
+				restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
+			}
+			
+			db.close();
+
+		} else {
+			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
+			cursor.moveToFirst();
+	        
+	        int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+	        restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
+	        restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
+
+	        cursor = db.query("restaurants_items", null, "rid = " + rid, null, null, null, null);
+			cursor.moveToFirst();
+			
+			while (!cursor.isAfterLast()) {
+				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
+				cursor.moveToNext();
+			}
+
+			for (int i = 0; i < item_ids.size(); i++) {
+				cursor = db.query("items", null, "iid = " + item_ids.get(i), null, null, null, null);
+				cursor.moveToFirst();
+				
+				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
+				item_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+			}
+			
+			db.close();
+		}
 
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();
@@ -59,6 +124,12 @@ public class SearchActivity extends ActionBarActivity {
         Bundle b = new Bundle();
         b.putString("query", query);
         b.putBoolean("menu", menu);
+        b.putIntegerArrayList("item_ids", item_ids);
+        b.putStringArrayList("restaurant_names", restaurant_names);
+        b.putStringArrayList("restaurant_addresses", restaurant_addresses);
+        b.putStringArrayList("item_names", item_names);
+        b.putStringArrayList("item_prices", item_prices);
+        b.putStringArrayList("item_descriptions", item_descriptions);
 
         mTabsAdapter.addTab(mTabHost.newTabSpec("list").setIndicator("List"),
                 SearchList.class, b);
