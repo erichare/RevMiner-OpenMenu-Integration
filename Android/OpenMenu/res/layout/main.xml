@@ -3,6 +3,17 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    
+     <TextView
+        android:id="@+id/myTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/hello"
+        android:paddingTop="8dp"
+        android:textSize="14dp"
+	    android:textStyle="bold"
+	    android:textColor="@color/actionbar_title_color"
+    />
    
     <GridView 
         android:id="@+id/gridview"
@@ -16,10 +27,12 @@
         android:gravity="center"/>
     
     <TextView
-        android:id="@+id/myTextView"
+        android:id="@+id/myTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
-        android:text="@string/hello"
+        android:textStyle="italic"
+        android:paddingTop="16dp"
+        android:text="Add Favorite Menus: Coming Soon!"
     />
         
 </LinearLayout>

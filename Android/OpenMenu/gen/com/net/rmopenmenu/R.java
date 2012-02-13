@@ -48,17 +48,21 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int actionbar_compat_item_pressed=0x7f020002;
         public static final int actionbar_shadow=0x7f020003;
         public static final int bacon=0x7f020004;
-        public static final int burger=0x7f020005;
-        public static final int cake=0x7f020006;
-        public static final int ic_action_refresh=0x7f020007;
-        public static final int ic_action_search=0x7f020008;
-        public static final int ic_action_share=0x7f020009;
-        public static final int ic_home=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int ic_menu_share=0x7f02000c;
-        public static final int my_location=0x7f02000d;
-        public static final int pin=0x7f02000e;
-        public static final int pizza=0x7f02000f;
+        public static final int blueonionbistro=0x7f020005;
+        public static final int burger=0x7f020006;
+        public static final int cake=0x7f020007;
+        public static final int chipotle=0x7f020008;
+        public static final int ic_action_refresh=0x7f020009;
+        public static final int ic_action_search=0x7f02000a;
+        public static final int ic_action_share=0x7f02000b;
+        public static final int ic_home=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int ic_menu_share=0x7f02000e;
+        public static final int johnnyrockets=0x7f02000f;
+        public static final int kiddvalley=0x7f020010;
+        public static final int my_location=0x7f020011;
+        public static final int pin=0x7f020012;
+        public static final int pizza=0x7f020013;
     }
     public static final class id {
         public static final int GridItem=0x7f070006;
@@ -68,14 +72,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int actionbar_compat_title=0x7f070001;
         public static final int grid_item_button=0x7f070008;
         public static final int grid_item_text=0x7f070007;
-        public static final int gridview=0x7f070009;
-        public static final int mainlayout=0x7f07000b;
-        public static final int mapview=0x7f07000c;
-        public static final int menu_location=0x7f07000d;
+        public static final int gridview=0x7f07000a;
+        public static final int mainlayout=0x7f07000c;
+        public static final int mapview=0x7f07000d;
+        public static final int menu_location=0x7f07000e;
         public static final int menu_refresh=0x7f070004;
-        public static final int menu_search=0x7f07000e;
-        public static final int menu_share=0x7f07000f;
-        public static final int myTextView=0x7f07000a;
+        public static final int menu_search=0x7f07000f;
+        public static final int menu_share=0x7f070010;
+        public static final int myTextView=0x7f070009;
+        public static final int myTextView2=0x7f07000b;
         public static final int pager=0x7f070005;
     }
     public static final class layout {
@@ -92,14 +97,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int alternate_title=0x7f080003;
-        public static final int app_name=0x7f080001;
+        public static final int app_name=0x7f080002;
         public static final int hello=0x7f080000;
-        public static final int menu_refresh=0x7f080005;
-        public static final int menu_search=0x7f080006;
-        public static final int menu_share=0x7f080007;
-        public static final int timeout=0x7f080002;
-        public static final int toggle_title=0x7f080004;
+        public static final int hello2=0x7f080001;
+        public static final int menu_refresh=0x7f080004;
+        public static final int menu_search=0x7f080005;
+        public static final int menu_share=0x7f080006;
+        public static final int timeout=0x7f080003;
     }
     public static final class style {
         public static final int ActionBar=0x7f090008;

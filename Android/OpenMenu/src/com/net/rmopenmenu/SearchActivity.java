@@ -93,8 +93,8 @@ public class SearchActivity extends ActionBarActivity {
 			cursor.moveToFirst();
 	        
 	        int rid = cursor.getInt(cursor.getColumnIndex("rid"));
-	        restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-	        restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
+	        String restaurant_name = cursor.getString(cursor.getColumnIndex("name"));
+	        String restaurant_address = cursor.getString(cursor.getColumnIndex("address"));
 
 	        cursor = db.query("restaurants_items", null, "rid = " + rid, null, null, null, null);
 			cursor.moveToFirst();
@@ -107,6 +107,9 @@ public class SearchActivity extends ActionBarActivity {
 			for (int i = 0; i < item_ids.size(); i++) {
 				cursor = db.query("items", null, "iid = " + item_ids.get(i), null, null, null, null);
 				cursor.moveToFirst();
+				
+				restaurant_names.add(restaurant_name);
+				restaurant_addresses.add(restaurant_address);
 				
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
 				String price = cursor.getString(cursor.getColumnIndex("price"));

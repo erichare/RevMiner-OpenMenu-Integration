@@ -15,10 +15,10 @@
   -->
 
 <resources>
-    <string name="hello">Search for a menu item by clicking the search button at the top (Android 4.0) or clicking the search button on your device (Android 2.3)</string>
-    <string name="app_name">RevMiner OM</string>
-    <string name="timeout">The connection to the server has timed out.</string>    <string name="alternate_title">An alternate title that is long</string>
-    <string name="toggle_title">Toggle title</string>
+    <string name="hello">Welcome to Food Finder!  Choose a food below, or press Search to choose your own</string>
+    <string name="hello2">Welcome to Food Finder!  Choose a restaurant below, or press Search to choose your own</string>
+    <string name="app_name">Food Finder</string>
+    <string name="timeout">The connection to the server has timed out.</string>
 
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>

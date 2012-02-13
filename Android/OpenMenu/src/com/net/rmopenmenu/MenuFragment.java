@@ -38,18 +38,24 @@ public class MenuFragment extends Fragment {
     	
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
+		
+		TextView tv = (TextView)v.findViewById(R.id.myTextView);
 				
 		if (!databaseLoaded) {
-			TextView tv = (TextView)v.findViewById(R.id.myTextView);
 			tv.setText("Building initial database.  This may take a minute.  Please wait...");
 			
-			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), (ActionBarActivity)getActivity(), tv);
+			TextView tv2 = (TextView)v.findViewById(R.id.myTextView2);
+			tv2.setText("");
+			
+			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, tv2);
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
 		} else {
 		}
     	
     	Bundle b1 = getArguments();
 		menu = b1.getBoolean("menu");
+		
+		tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter(menu));
@@ -62,7 +68,7 @@ public class MenuFragment extends Fragment {
     };
     
     private String[] mThumbStrs2 = {
-            "Johnny Rockets", "Blue Onion Bistro", "Kidd Valley", "Pagliacci"
+            "Johnny Rockets", "Blue Onion Bistro", "Chipotle", "Kidd Valley"
     };
 	
 	public class ImageAdapter extends BaseAdapter {
@@ -112,7 +118,6 @@ public class MenuFragment extends Fragment {
 		        	Intent myIntent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
 
 					myIntent.putExtra("query", mThumbStrs[position]);
-					Log.v("Menu is ", menu + "");
 					myIntent.putExtra("menu", menu);
 					
 					startActivity(myIntent);
@@ -128,8 +133,8 @@ public class MenuFragment extends Fragment {
 	    };
 	    
 	    private Integer[] mThumbIds2 = {
-	            R.drawable.pin, R.drawable.pin,
-	            R.drawable.pin, R.drawable.pin
+	            R.drawable.johnnyrockets, R.drawable.blueonionbistro,
+	            R.drawable.chipotle, R.drawable.kiddvalley
 	    };
 	}
 

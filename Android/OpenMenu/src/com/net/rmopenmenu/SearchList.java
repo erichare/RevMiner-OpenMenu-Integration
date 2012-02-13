@@ -35,7 +35,7 @@ public class SearchList extends ListFragment {
 		ArrayList<String> combined = new ArrayList<String>();
 		for (Iterator<Item> i = item_list.iterator(); i.hasNext();) {
 			Item item = i.next();
-			combined.add(item.restaurant_name + "\n" + item.item_name + "\n" + item.item_price);
+			combined.add(item.restaurant_name + "\n\n" + item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n" + item.item_price));;
 		}
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, combined);
