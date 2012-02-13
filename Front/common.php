@@ -1,5 +1,5 @@
 <?php
-# author: Donghyo Min, Eric Hare
+# contact: gajok@cs.washington.edu
 # filename: common.php
 function top(){
     ?>
@@ -7,7 +7,6 @@ function top(){
 <html lang="en">
 <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	Donghyo Min, Eric Hare
 	Very First Page for Restaurant Searcher -->
 	<head>
 		<title>Menu by Menu</title>
@@ -27,6 +26,7 @@ function top(){
 		type="text/javascript">
     </script>
 		<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.1.0/prototype.js" type="text/javascript"></script>
+		<script src="list.js" type="text/javascript"></script>
 	</head>
 
 	<body>
@@ -64,4 +64,24 @@ function type_menu(){
 		</div>
 	</fieldset>
 </form>
-<?php } ?>
+<?php } 
+
+function item_list(){
+	?>
+	<div id="user">
+		<div>
+			<!--<input id="todo" type="text" /> 
+		 <button id="add">Add to Bottom</button> -->
+			<button id="delete">Delete Top Item</button>
+		</div>
+		
+		<fieldset id="output">
+			<legend>Your Favoriate Restaurant/Menu</legend>
+			<div id="list">
+				<ol id="foods">
+					<li id="hidden" class="busy"></li>
+				</ol>
+			</div>
+		</fieldset>
+	</div>
+<?php } ?> 

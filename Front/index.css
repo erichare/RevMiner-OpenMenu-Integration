@@ -1,5 +1,5 @@
 /*
-Donghyo Min, Eric Hare
+# contact: gajok@cs.washington.edu
 */
 
 
@@ -170,6 +170,10 @@ img {
 	top: 75px;
 	left:50%;
 	margin-left: 300px;
+}
+
+#user {
+	width: 45%;
 }
 
 #copyright > p{
