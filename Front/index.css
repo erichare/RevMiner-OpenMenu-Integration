@@ -110,6 +110,7 @@ img {
 	background-color: #F0F8FF;
 }
 
+
 #menu_name {
 	width:90px;
 }
@@ -172,9 +173,27 @@ img {
 	margin-left: 300px;
 }
 
-#user {
-	width: 45%;
+#added_menu {
+	background-image: url("http://students.washington.edu/dongm/454/img/images.jpg");
+	width: 200px;
+	position: fixed;
+	top: 200px;
+	left:82%;
 }
+
+#rest_info {
+	position: fixed;
+	top: 250px;
+	left:82%;
+}
+
+.user, .cap{
+	margin-left:2%;
+	width: 45%;
+	float: left;
+}
+
+
 
 #copyright > p{
 	position: fixed;
