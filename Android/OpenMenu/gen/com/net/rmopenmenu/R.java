@@ -56,8 +56,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_home=0x7f02000a;
         public static final int ic_launcher=0x7f02000b;
         public static final int ic_menu_share=0x7f02000c;
-        public static final int pin=0x7f02000d;
-        public static final int pizza=0x7f02000e;
+        public static final int my_location=0x7f02000d;
+        public static final int pin=0x7f02000e;
+        public static final int pizza=0x7f02000f;
     }
     public static final class id {
         public static final int GridItem=0x7f070006;
@@ -70,9 +71,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int gridview=0x7f070009;
         public static final int mainlayout=0x7f07000b;
         public static final int mapview=0x7f07000c;
+        public static final int menu_location=0x7f07000d;
         public static final int menu_refresh=0x7f070004;
-        public static final int menu_search=0x7f07000d;
-        public static final int menu_share=0x7f07000e;
+        public static final int menu_search=0x7f07000e;
+        public static final int menu_share=0x7f07000f;
         public static final int myTextView=0x7f07000a;
         public static final int pager=0x7f070005;
     }

@@ -18,9 +18,6 @@ package com.net.rmopenmenu;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Menu;
-import android.view.MenuItem;
-import com.net.rmopenmenu.R;
 
 /**
  * An extension of {@link com.net.rmopenmenu.ActionBarHelper} that provides Android

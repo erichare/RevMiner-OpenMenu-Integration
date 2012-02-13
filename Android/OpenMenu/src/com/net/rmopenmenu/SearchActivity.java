@@ -1,22 +1,16 @@
 package com.net.rmopenmenu;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.Activity;
+import java.util.ArrayList;
+
 import android.app.SearchManager;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import com.google.android.maps.MapActivity;
-
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,8 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI
@@ -52,19 +44,11 @@ public class SearchActivity extends ActionBarActivity {
 		if (appData != null) {
 			menu = appData.getBoolean("menu");
 		}
-		
-		Log.v("Query was ", "/" + query + "/");
-		Log.v("Menu was ", menu + "");
 
 		if (!Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			query = intent.getStringExtra("query");
 			menu = intent.getBooleanExtra("menu", true);
 		}
-		
-		Log.v("Query is ", "/" + query + "/");
-
-		Log.v("Menu is ", menu + "");
-
 
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();
@@ -85,6 +69,14 @@ public class SearchActivity extends ActionBarActivity {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
     }
+    
+    @Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		menu.findItem(R.id.menu_location).setVisible(false);
+
+		return true;
+	}
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

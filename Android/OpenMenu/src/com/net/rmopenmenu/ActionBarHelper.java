@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import com.net.rmopenmenu.R;
 
 /**
  * An abstract class that handles some common action bar-related functionality in the app. This

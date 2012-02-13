@@ -17,7 +17,6 @@
 package com.net.rmopenmenu;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,20 +25,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.net.rmopenmenu.R;
+
 import com.net.rmopenmenu.SearchActivity.TabsAdapter;
 
 public class MainActivity extends ActionBarActivity {
@@ -47,6 +38,8 @@ public class MainActivity extends ActionBarActivity {
 	TabHost mTabHost;
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
+    LocationManager locationManager;
+    LocationListener locationListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +69,10 @@ public class MainActivity extends ActionBarActivity {
         }
 		
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
-		LocationListener locationListener = new LocationListener() {
+	    locationListener = new LocationListener() {
 		    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 		    public void onProviderEnabled(String provider) {}
@@ -100,8 +93,14 @@ public class MainActivity extends ActionBarActivity {
 		  };
 
 		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 	}
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	locationManager.removeUpdates(locationListener);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,6 +111,14 @@ public class MainActivity extends ActionBarActivity {
         // action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
     }
+    
+    @Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		menu.findItem(R.id.menu_location).setVisible(false);
+
+		return true;
+	}
     
     @Override
     public boolean onSearchRequested() {

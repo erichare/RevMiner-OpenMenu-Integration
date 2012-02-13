@@ -4,13 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
 public class MapFragment extends Fragment {
 	private View fragmentView;
 	LinearLayout linearLayout;
@@ -34,6 +34,7 @@ public class MapFragment extends Fragment {
 	Drawable drawable;
 	OMOverlay itemizedOverlay;
 	MapController mapController;
+	MyLocationOverlay locOverlay;
 	Geocoder gc;
 	
 	 
@@ -96,7 +97,7 @@ public class MapFragment extends Fragment {
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.pin);
 		itemizedOverlay = new OMOverlay(drawable);
-		MyLocationOverlay locOverlay = new MyLocationOverlay(this.getActivity().getApplicationContext(), mapView);
+		locOverlay = new MyLocationOverlay(this.getActivity().getApplicationContext(), mapView);
 		locOverlay.enableMyLocation();
 		
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
@@ -132,11 +133,19 @@ public class MapFragment extends Fragment {
 				
 				itemizedOverlay.addOverlay(overlayitem);
 				mapOverlays.add(itemizedOverlay);
-				mapController.setZoom(14);
 				mapController.animateTo(new GeoPoint(lat, lon));
 			}
 		}
-	       
+		
+		mapOverlays.add(locOverlay);
+		mapController.setZoom(16);
+		
         return fragmentView;
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		locOverlay.disableMyLocation();
 	}
 }
