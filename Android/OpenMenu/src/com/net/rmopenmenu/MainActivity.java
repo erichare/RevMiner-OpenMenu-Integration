@@ -1,7 +1,21 @@
+/*
+ * Copyright 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.net.rmopenmenu;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,31 +27,25 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.net.rmopenmenu.R;
 
-public class OpenMenuActivity extends ActionBarActivity {
-	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		//equestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
+public class MainActivity extends ActionBarActivity {
 
-		//setProgressBarIndeterminateVisibility(true);
-		
-		setContentView(R.layout.grid_view);
-		
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
 		
 		if (!databaseLoaded) {
@@ -81,29 +89,51 @@ public class OpenMenuActivity extends ActionBarActivity {
 		
 		GridView gridview = (GridView) findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter());
-	}
-	
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		getMenuInflater().inflate(R.menu.mainmenu, menu);
-	    
-	    // Get the SearchView and set the searchable configuration
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-	    
-	    return super.onCreateOptionsMenu(menu);
     }
-	
-	private String[] mThumbStrs = {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+
+        // Calling super after populating the menu is necessary here to ensure that the
+        // action bar helpers have a chance to handle this event.
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_refresh:
+                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                getActionBarHelper().setRefreshActionItemState(true);
+                getWindow().getDecorView().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                getActionBarHelper().setRefreshActionItemState(false);
+                            }
+                        }, 1000);
+                break;
+
+            case R.id.menu_search:
+                Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_share:
+                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    private String[] mThumbStrs = {
             "Burger", "Pizza", "Bacon", "Cake"
     };
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    return true;
-	}
 	
 	public class ImageAdapter extends BaseAdapter {
 	    public ImageAdapter() {
@@ -154,11 +184,5 @@ public class OpenMenuActivity extends ActionBarActivity {
 	            R.drawable.burger, R.drawable.pizza,
 	            R.drawable.bacon, R.drawable.cake
 	    };
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

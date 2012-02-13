@@ -1,10 +1,10 @@
 package com.net.rmopenmenu;
 import java.util.ArrayList;
 
-import android.app.ListFragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 
 
@@ -14,9 +14,11 @@ public class SearchList extends ListFragment {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Bundle b = this.getArguments();
+		String query = b.getString("query");
 		
 		SQLiteDatabase db = new Database(getActivity().getApplicationContext()).getReadableDatabase();
-		Cursor cursor = db.query("items", null, "name LIKE '%" + getTag() + "%'", null, null, null, null);
+		Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
 		cursor.moveToFirst();
 
 		String s = "";
