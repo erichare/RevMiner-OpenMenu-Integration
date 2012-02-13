@@ -24,6 +24,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,29 +36,53 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.net.rmopenmenu.R;
+import com.net.rmopenmenu.SearchActivity.TabsAdapter;
 
 public class MainActivity extends ActionBarActivity {
+	
+	TabHost mTabHost;
+    ViewPager  mViewPager;
+    TabsAdapter mTabsAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.fragment_tabs_pager);
+        
+        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup();
+
+        mViewPager = (ViewPager)findViewById(R.id.pager);
+
+        mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
+        
+        Bundle b1 = new Bundle();
+        b1.putBoolean("menu", true);
+        
+        Bundle b2 = new Bundle();
+        b2.putBoolean("menu", false);
+
+        mTabsAdapter.addTab(mTabHost.newTabSpec("menu").setIndicator("Menu"),
+                MenuFragment.class, b1);
+        mTabsAdapter.addTab(mTabHost.newTabSpec("restaurant").setIndicator("Restaurant"),
+                MenuFragment.class, b2);
+        if (savedInstanceState != null) {
+            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+        }
         
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
-		
+				
 		if (!databaseLoaded) {
-			getActionBarHelper().setRefreshActionItemState(true);
-
 			TextView tv = (TextView)findViewById(R.id.myTextView);
 			tv.setText("Building initial database.  This may take a minute.  Please wait...");
 			
 			LoadDatabase ld = new LoadDatabase(getBaseContext(), this, tv);
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
 		} else {
-			getActionBarHelper().setRefreshActionItemState(false);
 		}
 		
 		// Acquire a reference to the system Location Manager
@@ -86,16 +111,13 @@ public class MainActivity extends ActionBarActivity {
 
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-		
-		GridView gridview = (GridView) findViewById(R.id.gridview);
-	    gridview.setAdapter(new ImageAdapter());
-    }
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
-
+        
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
@@ -115,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
                             public void run() {
                                 getActionBarHelper().setRefreshActionItemState(false);
                             }
-                        }, 1000);
+                        }, 3000);
                 break;
 
             case R.id.menu_search:
@@ -128,59 +150,4 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
-    private String[] mThumbStrs = {
-            "Burger", "Pizza", "Bacon", "Cake"
-    };
-	
-	public class ImageAdapter extends BaseAdapter {
-	    public ImageAdapter() {
-	    }
-
-	    public int getCount() {
-	        return 4;
-	    }
-
-	    public Object getItem(int position) {
-	        return null;
-	    }
-
-	    public long getItemId(int position) {
-	        return 0;
-	    }
-
-	    // create a new ImageView for each item referenced by the Adapter
-	    @Override
-	    public View getView(final int position, View convertView, ViewGroup parent) {
-	        View myView;
-	        if (convertView == null) {  // if it's not recycled, initialize some attributes
-	        	LayoutInflater li = getLayoutInflater();
-				myView = li.inflate(R.layout.grid_item, null);
-	            
-	            
-	        } else {
-	            myView = convertView;
-	        }
-	        ImageButton ib = (ImageButton) myView.findViewById(R.id.grid_item_button);
-	        
-	        ib.setImageResource(mThumbIds[position]);
-
-	        ib.setOnClickListener(new OnClickListener() {
-		        public void onClick(View v) {
-		        	Intent myIntent = new Intent(getBaseContext(), SearchActivity.class);
-
-					myIntent.putExtra("query", mThumbStrs[position]);
-					
-					startActivity(myIntent);
-		        }
-		    });
-	        
-	        return myView;
-	    }
-	    
-	    private Integer[] mThumbIds = {
-	            R.drawable.burger, R.drawable.pizza,
-	            R.drawable.bacon, R.drawable.cake
-	    };
-	}
 }

@@ -41,13 +41,13 @@ import com.google.gson.JsonStreamParser;
 
 public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	
-	private final int CONNECTION_TIMEOUT = 10000;
-	private final int SOCKET_TIMEOUT = 10000;
+	private final int CONNECTION_TIMEOUT = 1000;
+	private final int SOCKET_TIMEOUT = 1000;
 	private Context context;
-	private Activity activity;
+	private ActionBarActivity activity;
 	private TextView tv;
 	
-	public LoadDatabase(Context context, Activity activity, TextView tv) {
+	public LoadDatabase(Context context, ActionBarActivity activity, TextView tv) {
 		this.context = context;
 		this.activity = activity;
 		this.tv = tv;
@@ -59,12 +59,10 @@ public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	}
 	
 	protected void onProgressUpdate(Integer... progress) {
-		tv.setText(progress[0] + "% Complete...");
     }
 
     protected void onPostExecute(String result) {
-		activity.setProgressBarIndeterminateVisibility(false);
-		tv.setText(context.getString(R.string.hello));
+    	tv.setText(context.getString(R.string.hello));
 	}
     
     private HttpClient createHttpClient() {

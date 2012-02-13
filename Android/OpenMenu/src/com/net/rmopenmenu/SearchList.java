@@ -20,46 +20,87 @@ public class SearchList extends ListFragment {
 		super.onCreate(savedInstanceState);
 		Bundle b = this.getArguments();
 		String query = b.getString("query");
+		boolean menu = b.getBoolean("menu");
 		
 		SQLiteDatabase db = new Database(getActivity().getApplicationContext()).getReadableDatabase();
-		Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
-		cursor.moveToFirst();
-		
-		item_ids = new ArrayList<Integer>();
-        restaurant_names = new ArrayList<String>();
-        restaurant_items = new ArrayList<String>();
-        restaurant_prices = new ArrayList<String>();
-        restaurant_descriptions = new ArrayList<String>();
+		if (menu) {
+			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
+			cursor.moveToFirst();
+			
+			item_ids = new ArrayList<Integer>();
+	        restaurant_names = new ArrayList<String>();
+	        restaurant_items = new ArrayList<String>();
+	        restaurant_prices = new ArrayList<String>();
+	        restaurant_descriptions = new ArrayList<String>();
+	
+			while (!cursor.isAfterLast()) {
+				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
+				restaurant_items.add(cursor.getString(cursor.getColumnIndex("name")));
+				restaurant_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+				restaurant_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				cursor.moveToNext();
+			}
+			
+			for (int i = 0; i < item_ids.size(); i++) {
+				cursor = db.query("restaurants_items", null, "iid = " + item_ids.get(i), null, null, null, null);
+				cursor.moveToFirst();
+				
+				int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+				
+				cursor = db.query("restaurants", null, "rid = " + rid, null, null, null, null);
+				cursor.moveToFirst();
+				
+				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
+			}
+			
+			db.close();
+			
+			ArrayList<String> combined = new ArrayList<String>();
+			for (int i = 0; i < item_ids.size(); i++) {
+				combined.add(restaurant_names.get(i) + "\n" + restaurant_items.get(i) + "\n" + restaurant_prices.get(i));
+			}
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, combined);
+			
+			setListAdapter(adapter);
+		} else {
+			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
+			cursor.moveToFirst();
+			
+			item_ids = new ArrayList<Integer>();
+	        restaurant_items = new ArrayList<String>();
+	        restaurant_prices = new ArrayList<String>();
+	        restaurant_descriptions = new ArrayList<String>();
+	        
+	        int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+	        String restaurant_name = cursor.getString(cursor.getColumnIndex("name"));
+	        cursor = db.query("restaurants_items", null, "rid = " + rid, null, null, null, null);
+			cursor.moveToFirst();
+			
+			while (!cursor.isAfterLast()) {
+				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
+				cursor.moveToNext();
+			}
 
-		while (!cursor.isAfterLast()) {
-			item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
-			restaurant_items.add(cursor.getString(cursor.getColumnIndex("name")));
-			restaurant_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
-			restaurant_prices.add(cursor.getString(cursor.getColumnIndex("price")));
-			cursor.moveToNext();
-		}
-		
-		for (int i = 0; i < item_ids.size(); i++) {
-			cursor = db.query("restaurants_items", null, "iid = " + item_ids.get(i), null, null, null, null);
-			cursor.moveToFirst();
+			for (int i = 0; i < item_ids.size(); i++) {
+				cursor = db.query("items", null, "iid = " + item_ids.get(i), null, null, null, null);
+				cursor.moveToFirst();
+				
+				restaurant_items.add(cursor.getString(cursor.getColumnIndex("name")));
+				restaurant_prices.add(cursor.getString(cursor.getColumnIndex("price")));
+				restaurant_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+			}
 			
-			int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+			db.close();
 			
-			cursor = db.query("restaurants", null, "rid = " + rid, null, null, null, null);
-			cursor.moveToFirst();
+			ArrayList<String> combined = new ArrayList<String>();
+			for (int i = 0; i < item_ids.size(); i++) {
+				combined.add(restaurant_name + "\n" + restaurant_items.get(i) + "\n" + restaurant_prices.get(i));
+			}
 			
-			restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, combined);
+			
+			setListAdapter(adapter);
 		}
-		
-		db.close();
-		
-		ArrayList<String> combined = new ArrayList<String>();
-		for (int i = 0; i < item_ids.size(); i++) {
-			combined.add(restaurant_names.get(i) + "\n" + restaurant_items.get(i) + "\n" + restaurant_prices.get(i));
-		}
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, combined);
-		
-		setListAdapter(adapter);
 	}
 }

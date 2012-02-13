@@ -45,6 +45,7 @@ public class SearchActivity extends ActionBarActivity {
         
         Intent intent = getIntent();
 		String query = intent.getStringExtra("query");
+		boolean menu = intent.getBooleanExtra("menu", true);
 
 		if (Intent.ACTION_SEARCH.equals(intent.getAction()) || !query.equals("")) {
 			if (query.equals("")) {
@@ -60,6 +61,7 @@ public class SearchActivity extends ActionBarActivity {
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
         Bundle b = new Bundle();
         b.putString("query", query);
+        b.putBoolean("menu", menu);
 
         mTabsAdapter.addTab(mTabHost.newTabSpec("list").setIndicator("List"),
                 SearchList.class, b);
