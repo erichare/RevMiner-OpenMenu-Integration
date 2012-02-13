@@ -7,15 +7,18 @@ import java.util.List;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,36 +96,45 @@ public class MapFragment extends Fragment {
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.pin);
 		itemizedOverlay = new OMOverlay(drawable);
+		MyLocationOverlay locOverlay = new MyLocationOverlay(this.getActivity().getApplicationContext(), mapView);
+		locOverlay.enableMyLocation();
+		
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity().getApplicationContext());
+		int lat = prefs.getInt("lat", 0);
+		int lon = prefs.getInt("lon", 0);
 		
 		gc = new Geocoder(this.getActivity().getApplicationContext()); //create new geocoder instance
 		
-		List<Address> list = null;
-		String restaurant = restaurant_names.get(0);
+		for (int i = 0; i < restaurant_names.size(); i++) {
 		
-		Log.v("Rest", restaurant);
-		try {
-			list = gc.getFromLocationName(restaurant, 1);
-			Log.v("Testtttt", list.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (list != null && list.size() > 0) {
-			Address address = list.get(0);
+			List<Address> list = null;
+			String restaurant = restaurant_names.get(i);
 			
-			int lat = (int)(address.getLatitude() * 1000000);
-			int lon = (int)(address.getLongitude() * 1000000);
+			Log.v("Rest", restaurant);
+			try {
+				list = gc.getFromLocationName(restaurant, 1);
+				Log.v("Testtttt", list.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			Log.v("Test", lat + " " + lon);
-			
-			GeoPoint point = new GeoPoint(lat, lon);
-			OverlayItem overlayitem = new OverlayItem(point, "", "");
-			
-			itemizedOverlay.addOverlay(overlayitem);
-			mapOverlays.add(itemizedOverlay);
-			mapController.setZoom(18);
-			mapController.animateTo(point);
+			if (list != null && list.size() > 0) {
+				Address address = list.get(0);
+				
+				int thisLat = (int)(address.getLatitude() * 1000000);
+				int thisLon = (int)(address.getLongitude() * 1000000);
+				
+				Log.v("Test", lat + " " + lon);
+				
+				GeoPoint point = new GeoPoint(thisLat, thisLon);
+				OverlayItem overlayitem = new OverlayItem(point, "", "");
+				
+				itemizedOverlay.addOverlay(overlayitem);
+				mapOverlays.add(itemizedOverlay);
+				mapController.setZoom(14);
+				mapController.animateTo(new GeoPoint(lat, lon));
+			}
 		}
 	       
         return fragmentView;

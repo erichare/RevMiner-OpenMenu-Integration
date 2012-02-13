@@ -109,7 +109,6 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case R.id.menu_refresh:
-                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
                 getActionBarHelper().setRefreshActionItemState(true);
                 getWindow().getDecorView().postDelayed(
                         new Runnable() {
@@ -121,7 +120,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case R.id.menu_search:
-                Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
+            	onSearchRequested();
                 break;
 
             case R.id.menu_share:

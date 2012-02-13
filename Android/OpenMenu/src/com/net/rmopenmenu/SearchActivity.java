@@ -16,10 +16,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ import java.util.ArrayList;
  * that switches between tabs and also allows the user to perform horizontal
  * flicks to move between the tabs.
  */
-public class SearchActivity extends FragmentActivity {
+public class SearchActivity extends ActionBarActivity {
     TabHost mTabHost;
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
@@ -177,6 +181,46 @@ public class SearchActivity extends FragmentActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
         }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+
+        // Calling super after populating the menu is necessary here to ensure that the
+        // action bar helpers have a chance to handle this event.
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            	finish();
+            	break;
+
+            case R.id.menu_refresh:
+                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                getActionBarHelper().setRefreshActionItemState(true);
+                getWindow().getDecorView().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                getActionBarHelper().setRefreshActionItemState(false);
+                            }
+                        }, 1000);
+                break;
+
+            case R.id.menu_search:
+                onSearchRequested();
+                break;
+
+            case R.id.menu_share:
+                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 /*
