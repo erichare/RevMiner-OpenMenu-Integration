@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.maps.MapActivity;
@@ -44,14 +45,26 @@ public class SearchActivity extends ActionBarActivity {
         setContentView(R.layout.fragment_tabs_pager);
         
         Intent intent = getIntent();
-		String query = intent.getStringExtra("query");
-		boolean menu = intent.getBooleanExtra("menu", true);
-
-		if (Intent.ACTION_SEARCH.equals(intent.getAction()) || !query.equals("")) {
-			if (query.equals("")) {
-				query = intent.getStringExtra(SearchManager.QUERY);
-			}
+        String query = intent.getStringExtra(SearchManager.QUERY);
+		Bundle appData = getIntent().getBundleExtra(SearchManager.APP_DATA);
+		
+		boolean menu = false;
+		if (appData != null) {
+			menu = appData.getBoolean("menu");
 		}
+		
+		Log.v("Query was ", "/" + query + "/");
+		Log.v("Menu was ", menu + "");
+
+		if (!Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			query = intent.getStringExtra("query");
+			menu = intent.getBooleanExtra("menu", true);
+		}
+		
+		Log.v("Query is ", "/" + query + "/");
+
+		Log.v("Menu is ", menu + "");
+
 
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();

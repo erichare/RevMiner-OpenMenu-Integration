@@ -122,6 +122,17 @@ public class MainActivity extends ActionBarActivity {
         // action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
     }
+    
+    @Override
+    public boolean onSearchRequested() {
+         Bundle appData = new Bundle();
+         String tag = mTabHost.getCurrentTabTag();
+         boolean menu = tag.equals("menu")? true : false;
+         
+         appData.putBoolean("menu", menu);
+         startSearch(null, false, appData, false);
+         return true;
+     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
