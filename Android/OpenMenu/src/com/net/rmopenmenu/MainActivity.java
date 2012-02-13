@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
 		
 		if (!databaseLoaded) {
-			setProgressBarIndeterminateVisibility(true);
+			getActionBarHelper().setRefreshActionItemState(true);
 
 			TextView tv = (TextView)findViewById(R.id.myTextView);
 			tv.setText("Building initial database.  This may take a minute.  Please wait...");
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
 			LoadDatabase ld = new LoadDatabase(getBaseContext(), this, tv);
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
 		} else {
-			setProgressBarIndeterminateVisibility(false);
+			getActionBarHelper().setRefreshActionItemState(false);
 		}
 		
 		// Acquire a reference to the system Location Manager
@@ -164,7 +164,7 @@ public class MainActivity extends ActionBarActivity {
 	        ImageButton ib = (ImageButton) myView.findViewById(R.id.grid_item_button);
 	        
 	        ib.setImageResource(mThumbIds[position]);
-	        
+
 	        ib.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
 		        	Intent myIntent = new Intent(getBaseContext(), SearchActivity.class);
