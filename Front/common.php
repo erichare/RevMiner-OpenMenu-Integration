@@ -21,12 +21,11 @@ function top(){
 
 		<link href="index.css" type="text/css" rel="stylesheet" />
 		<link href="http://students.washington.edu/dongm/454/img/fifteen.gif" type="image/gif" rel="shortcut icon" />
-		
-		<script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAha3tZBPtoRIZLy8L__KptBRew3tpyxyDwTGHF7Wnf1NbbYENLhRB4lh8T7WgtB3lrbar3qfS7JjuLA" 
-		type="text/javascript">
-    </script>
-		<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.1.0/prototype.js" type="text/javascript"></script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.1.0/prototype.js" type="text/javascript"></script>		
+    <script src="http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.3/scriptaculous.js" type="text/javascript"></script>
 		<script src="list.js" type="text/javascript"></script>
+		<script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAha3tZBPtoRIZLy8L__KptBRew3tpyxyDwTGHF7Wnf1NbbYENLhRB4lh8T7WgtB3lrbar3qfS7JjuLA" type="text/javascript"></script>
 	</head>
 
 	<body>
@@ -51,24 +50,31 @@ function bottom(){
 
 function type_menu(){
 		?>
-<div id="home_table">
-	<a id="home" href="index.php"> <strong> HOME </strong> </a>
+<div id="searchbox">
+	<div id="home_table">
+		<a id="home" href="index.php"> <strong> HOME </strong> </a>
+	</div>
+	<form id="turnin" action="match.php" method="get" enctype="multipart/form-data">	
+		<fieldset>
+			<legend>Type Menu/Restaurant You Want</legend>
+			<div>
+				<strong>Search</strong> 
+				<label><input type="radio" name="want" value="Food" checked="checked"/> Food</label>
+				<label><input type="radio" name="want" value="Restaurant"/> Restaurant</label>
+			</div>
+			<div>
+				<strong>Food/Restaurant Name:</strong>
+				<input type="text" name="menu_rest_name" size="25"/>
+				<input type="submit" value="Find Food!" />
+			</div>
+		</fieldset>
+	</form>
 </div>
-<form id="turnin" action="match.php" method="get" enctype="multipart/form-data">	
-	<fieldset>
-		<legend>Type Menu You Want</legend>
-		<div>
-			<strong>Food Name:</strong>
-			<input type="text" name="menu_name" size="25"/>
-			<input type="submit" value="Find!" />
-		</div>
-	</fieldset>
-</form>
 <?php } 
 
 function item_list(){
 	?>
-	<div id="user">
+	<div class="user">
 		<div>
 			<!--<input id="todo" type="text" /> 
 		 <button id="add">Add to Bottom</button> -->
