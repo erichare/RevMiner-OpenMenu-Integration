@@ -201,7 +201,6 @@ public class SearchActivity extends ActionBarActivity {
             	break;
 
             case R.id.menu_refresh:
-                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
                 getActionBarHelper().setRefreshActionItemState(true);
                 getWindow().getDecorView().postDelayed(
                         new Runnable() {

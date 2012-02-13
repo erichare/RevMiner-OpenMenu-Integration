@@ -11,6 +11,10 @@ import android.widget.ArrayAdapter;
 public class SearchList extends ListFragment {
 	
 	private ArrayList<String> restaurant_names;
+	private ArrayList<String> restaurant_items;
+	private ArrayList<String> restaurant_descriptions;
+	private ArrayList<String> restaurant_prices;
+	private ArrayList<Integer> item_ids;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,47 +24,41 @@ public class SearchList extends ListFragment {
 		SQLiteDatabase db = new Database(getActivity().getApplicationContext()).getReadableDatabase();
 		Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
 		cursor.moveToFirst();
+		
+		item_ids = new ArrayList<Integer>();
+        restaurant_names = new ArrayList<String>();
+        restaurant_items = new ArrayList<String>();
+        restaurant_prices = new ArrayList<String>();
+        restaurant_descriptions = new ArrayList<String>();
 
-		String s = "";
-		int count = 0;
 		while (!cursor.isAfterLast()) {
-			count++;
-			s += ("iid = " + cursor.getInt(cursor.getColumnIndex("iid")) + " OR ");
+			item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
+			restaurant_items.add(cursor.getString(cursor.getColumnIndex("name")));
+			restaurant_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+			restaurant_prices.add(cursor.getString(cursor.getColumnIndex("price")));
 			cursor.moveToNext();
 		}
 		
-        restaurant_names = new ArrayList<String>();
-
-		if (count > 0) {
-			s = s.substring(0, s.length() - 4);
-			count = 0;
-
-			cursor = db.query("restaurants_items", null, s, null, null, null, null);
+		for (int i = 0; i < item_ids.size(); i++) {
+			cursor = db.query("restaurants_items", null, "iid = " + item_ids.get(i), null, null, null, null);
 			cursor.moveToFirst();
-
-			s = "";
-			while (!cursor.isAfterLast()) {
-				count++;
-				s += ("rid = " + cursor.getInt(cursor.getColumnIndex("rid")) + " OR ");
-				cursor.moveToNext();
-			}
 			
-			if (count > 0) {
-				s = s.substring(0, s.length() - 4);
-
-				cursor = db.query("restaurants", null, s, null, null, null, null);
-				cursor.moveToFirst();
-	
-				while (!cursor.isAfterLast()) {
-					restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-					cursor.moveToNext();
-				}
-			}
+			int rid = cursor.getInt(cursor.getColumnIndex("rid"));
+			
+			cursor = db.query("restaurants", null, "rid = " + rid, null, null, null, null);
+			cursor.moveToFirst();
+			
+			restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
 		}
 		
 		db.close();
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, restaurant_names);
+		ArrayList<String> combined = new ArrayList<String>();
+		for (int i = 0; i < item_ids.size(); i++) {
+			combined.add(restaurant_names.get(i) + "\n" + restaurant_items.get(i) + "\n" + restaurant_prices.get(i));
+		}
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, combined);
 		
 		setListAdapter(adapter);
 	}
