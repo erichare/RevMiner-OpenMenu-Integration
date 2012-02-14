@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,7 +41,7 @@ public class SearchActivity extends ActionBarActivity {
         
         Intent intent = getIntent();
         String query = intent.getStringExtra(SearchManager.QUERY);
-		Bundle appData = getIntent().getBundleExtra(SearchManager.APP_DATA);
+		Bundle appData = intent.getBundleExtra(SearchManager.APP_DATA);
 		
 		if (appData != null) {
 			menu = appData.getBoolean("menu");
@@ -50,7 +51,7 @@ public class SearchActivity extends ActionBarActivity {
 			query = intent.getStringExtra("query");
 			menu = intent.getBooleanExtra("menu", true);
 		}
-		
+
 		SQLiteDatabase db = new Database(getBaseContext()).getReadableDatabase();
 		ArrayList<Integer> item_ids = new ArrayList<Integer>();
 		ArrayList<String> restaurant_names = new ArrayList<String>();
@@ -61,7 +62,7 @@ public class SearchActivity extends ActionBarActivity {
 		if (menu) {
 			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
 			cursor.moveToFirst();
-	
+				
 			while (!cursor.isAfterLast()) {
 				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));

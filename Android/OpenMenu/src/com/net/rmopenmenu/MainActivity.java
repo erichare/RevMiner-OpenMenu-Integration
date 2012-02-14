@@ -44,6 +44,8 @@ public class MainActivity extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
         setContentView(R.layout.fragment_tabs_pager);
         
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
@@ -83,9 +85,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onLocationChanged(Location location) {
 				SharedPreferences.Editor editor = prefs.edit();
-				
-				Log.v("Location Update", "Got new lat " + (int)(location.getLatitude()*1000000));
-				
+								
 				editor.putInt("lat", (int)(location.getLatitude()*1000000));
 				editor.putInt("lon", (int)(location.getLongitude()*1000000));
 				

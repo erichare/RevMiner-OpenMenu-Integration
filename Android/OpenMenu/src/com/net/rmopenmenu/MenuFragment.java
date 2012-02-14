@@ -20,19 +20,6 @@ public class MenuFragment extends Fragment {
 	private String[] mThumbStrs;
 	private boolean menu;
     
-    public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (menu) getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
-		Bundle b1 = getArguments();
-		menu = b1.getBoolean("menu");
-		if (menu) {
-			mThumbStrs = mThumbStrs1;
-		} else {
-			mThumbStrs = mThumbStrs2;
-		}
-    }
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.main, container, false);
@@ -47,20 +34,25 @@ public class MenuFragment extends Fragment {
 		
     	Bundle b1 = getArguments();
 		menu = b1.getBoolean("menu");
+		
+		if (menu) {
+			mThumbStrs = mThumbStrs1;
+		} else {
+			mThumbStrs = mThumbStrs2;
+		}
 				
 		if (!databaseLoaded && menu) {
 			getActivity().setProgressBarIndeterminateVisibility(true);
 
-			tv.setText("Building initial database.  This may take a minute.  Please wait...");
+			tv.setText("Building initial database.  This may take up to 2 minutes.  Please wait...");
 			tv2.setText("");
 			
-			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, tv2);
+			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, tv2, menu, getActivity());
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
-		} else if (databaseLoaded) {
-			if (menu) getActivity().setProgressBarIndeterminateVisibility(false);
-			
+		} else if (databaseLoaded) {			
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
 			tv2.setText(oldtext);
+			getActivity().setProgressBarIndeterminateVisibility(false);
 		}
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);

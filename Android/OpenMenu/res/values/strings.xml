@@ -15,9 +15,9 @@
   -->
 
 <resources>
-    <string name="hello">Welcome to Food Finder!  Choose a food below, or press Search to choose your own</string>
-    <string name="hello2">Welcome to Food Finder!  Choose a restaurant below, or press Search to choose your own</string>
-    <string name="app_name">Food Finder</string>
+    <string name="hello">Welcome to OM Finder!  Choose a food below, or press Search to choose your own</string>
+    <string name="hello2">Welcome to OM Finder!  Choose a restaurant below, or press Search to choose your own</string>
+    <string name="app_name">OM Finder</string>
     <string name="timeout">The connection to the server has timed out.</string>
 
     <string name="menu_refresh">Refresh</string>
