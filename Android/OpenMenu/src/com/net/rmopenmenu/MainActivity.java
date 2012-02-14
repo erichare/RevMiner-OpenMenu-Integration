@@ -21,10 +21,10 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         
         setContentView(R.layout.fragment_tabs_pager);
         

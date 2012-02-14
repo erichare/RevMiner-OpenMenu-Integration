@@ -2,12 +2,12 @@ package com.net.rmopenmenu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -29,9 +29,7 @@ public class MenuFragment extends Fragment {
 		
 		TextView tv = (TextView)v.findViewById(R.id.myTextView);
 		TextView tv2 = (TextView)v.findViewById(R.id.myTextView2);
-		
-		CharSequence oldtext = tv2.getText();
-		
+				
     	Bundle b1 = getArguments();
 		menu = b1.getBoolean("menu");
 		
@@ -42,17 +40,17 @@ public class MenuFragment extends Fragment {
 		}
 				
 		if (!databaseLoaded && menu) {
-			getActivity().setProgressBarIndeterminateVisibility(true);
-
 			tv.setText("Building initial database.  This may take up to 2 minutes.  Please wait...");
-			tv2.setText("");
+			((ActionBarActivity) getActivity()).getActionBarHelper().setRefreshActionItemState(true);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(true);
 			
-			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, tv2, menu, getActivity());
+			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, menu, getActivity());
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
-		} else if (databaseLoaded) {			
+		} else if (!databaseLoaded && !menu) {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
-			tv2.setText(oldtext);
-			getActivity().setProgressBarIndeterminateVisibility(false);
+		} else {
+			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(false);
 		}
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);

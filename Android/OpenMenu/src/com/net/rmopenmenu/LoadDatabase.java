@@ -31,8 +31,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -46,14 +46,12 @@ public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	private final int SOCKET_TIMEOUT = 6000;
 	private Context context;
 	private TextView tv;
-	private TextView tv2;
 	private boolean menu;
 	private Activity activity;
 	
-	public LoadDatabase(Context context, TextView tv, TextView tv2, boolean menu, Activity activity) {
+	public LoadDatabase(Context context, TextView tv, boolean menu, Activity activity) {
 		this.context = context;
 		this.tv = tv;
-		this.tv2 = tv2;
 		this.menu = menu;
 		this.activity = activity;
 	}
@@ -68,9 +66,9 @@ public class LoadDatabase extends AsyncTask<String, Integer, String> {
 
     protected void onPostExecute(String result) {
     	tv.setText(context.getString(R.string.hello));
-    	tv2.setText(context.getString(R.string.hello2));
     	
-		if (menu) activity.setProgressBarIndeterminateVisibility(false);
+		if (menu) ((ActionBarActivity) activity).getActionBarHelper().setRefreshActionItemState(false);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) activity.setProgressBarIndeterminateVisibility(false);
 	}
     
     private HttpClient createHttpClient() {
