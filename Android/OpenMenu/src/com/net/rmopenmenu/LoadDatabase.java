@@ -40,8 +40,8 @@ import com.google.gson.JsonStreamParser;
 
 public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	
-	private final int CONNECTION_TIMEOUT = 1000;
-	private final int SOCKET_TIMEOUT = 1000;
+	private final int CONNECTION_TIMEOUT = 6000;
+	private final int SOCKET_TIMEOUT = 6000;
 	private Context context;
 	private TextView tv;
 	private TextView tv2;

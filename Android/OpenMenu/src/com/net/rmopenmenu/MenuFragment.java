@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,6 +22,7 @@ public class MenuFragment extends Fragment {
     
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (menu) getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		
 		Bundle b1 = getArguments();
 		menu = b1.getBoolean("menu");
@@ -39,22 +41,27 @@ public class MenuFragment extends Fragment {
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
 		
 		TextView tv = (TextView)v.findViewById(R.id.myTextView);
+		TextView tv2 = (TextView)v.findViewById(R.id.myTextView2);
+		
+		CharSequence oldtext = tv2.getText();
+		
+    	Bundle b1 = getArguments();
+		menu = b1.getBoolean("menu");
 				
-		if (!databaseLoaded) {
+		if (!databaseLoaded && menu) {
+			getActivity().setProgressBarIndeterminateVisibility(true);
+
 			tv.setText("Building initial database.  This may take a minute.  Please wait...");
-			
-			TextView tv2 = (TextView)v.findViewById(R.id.myTextView2);
 			tv2.setText("");
 			
 			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, tv2);
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
-		} else {
+		} else if (databaseLoaded) {
+			if (menu) getActivity().setProgressBarIndeterminateVisibility(false);
+			
+			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
+			tv2.setText(oldtext);
 		}
-    	
-    	Bundle b1 = getArguments();
-		menu = b1.getBoolean("menu");
-		
-		tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter(menu));

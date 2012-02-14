@@ -30,6 +30,7 @@ public class SearchActivity extends ActionBarActivity {
     TabHost mTabHost;
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
+    boolean menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class SearchActivity extends ActionBarActivity {
         String query = intent.getStringExtra(SearchManager.QUERY);
 		Bundle appData = getIntent().getBundleExtra(SearchManager.APP_DATA);
 		
-		boolean menu = false;
 		if (appData != null) {
 			menu = appData.getBoolean("menu");
 		}
@@ -146,15 +146,6 @@ public class SearchActivity extends ActionBarActivity {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
     }
-    
-    @Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-
-		menu.findItem(R.id.menu_location).setVisible(false);
-
-		return true;
-	}
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -276,6 +267,15 @@ public class SearchActivity extends ActionBarActivity {
         // action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
     }
+    
+    @Override
+    public boolean onSearchRequested() {
+         Bundle appData = new Bundle();
+         
+         appData.putBoolean("menu", menu);
+         startSearch(null, false, appData, false);
+         return true;
+     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

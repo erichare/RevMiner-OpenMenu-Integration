@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
         
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
+    	        
         Bundle b1 = new Bundle();
         b1.putBoolean("menu", true);
         
@@ -106,19 +107,11 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
-        
+                
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
     }
-    
-    @Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-
-		menu.findItem(R.id.menu_location).setVisible(false);
-
-		return true;
-	}
     
     @Override
     public boolean onSearchRequested() {
