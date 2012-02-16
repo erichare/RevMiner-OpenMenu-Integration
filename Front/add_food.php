@@ -1,6 +1,5 @@
 <?php
-# Donghyo Min(0661969)
-
+# contact: gajok@cs.washington.edu
 # This allows signup.php to use functions in common.php.
 include("common.php");
 # call function top() for the header logo.

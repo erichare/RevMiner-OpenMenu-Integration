@@ -22,7 +22,6 @@ if (isset($_REQUEST["long"])) {
     $long = $long + 0;
 }
 
-
 ?>
 
 <div id="map" style="width: 70%; height: 400px; float:left; border: 1px solid black"></div>
@@ -33,20 +32,20 @@ if (isset($_REQUEST["long"])) {
 	map.setUIToDefault();	// default such as mouse control
 	
 	if (typeof(navigator.geolocation) != 'undefined') {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var wp = new Array(2);
-			var lat = position.coords.latitude;
-			var lng = position.coords.longitude;
-			wp[0] = new google.maps.LatLng(lat, lng);
-			wp[1] = new google.maps.LatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);
+		navigator.geolocation.getCurrentPosition(function(position) {	// get current position.
+			var wp = new Array(2);		
+			var lat = position.coords.latitude;													// for user's current location: latitude
+			var lng = position.coords.longitude;												// for user's current location: longitude	
+			wp[0] = new google.maps.LatLng(lat, lng);										// LatLng is a point in geographical coordinates, latitude and longitude.
+			wp[1] = new google.maps.LatLng(<?= $lat + 0 ?>, <?= $long + 0 ?>);	// for restaurant's latitude and longitude
 			
-			directionsPanel = document.getElementById("route");
-			directions = new GDirections(map, directionsPanel);
+			// to get discriptive direction and draw a route on a map.
+			directionsPanel = document.getElementById("route");					
+			directions = new GDirections(map, directionsPanel);					
 			directions.loadFromWaypoints(wp);
 		});
 	}
 </script>
-
 
 <?php
 # call this function for validator.

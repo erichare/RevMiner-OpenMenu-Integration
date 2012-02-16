@@ -97,7 +97,7 @@ function initialize_food(ajax){
 			ID++;
 			
 			var food_link = $(document.createElement("a"));
-			food_link.href="match.php?want=Food&menu_rest_name=" + food_list[i];
+			food_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Food&menu_rest_name=" + food_list[i];
 			food_link.innerHTML = food_list[i];
 			each_food.appendChild(food_link);
 			
@@ -126,7 +126,7 @@ function initialize_rest(ajax){
 			ID++;
 			
 			var rest_link = $(document.createElement("a"));
-			rest_link.href = "match.php?want=Restaurant&menu_rest_name=" + food_list[i];
+			rest_link.href = "http://www.project-fin.org/openmenu/Front/match.php?want=Restaurant&menu_rest_name=" + food_list[i];
 			rest_link.innerHTML = food_list[i];
 			each_food.appendChild(rest_link);
 			
@@ -179,7 +179,7 @@ function direct_add_food(event){
 		ID++;
 		
 		var food_link = $(document.createElement("a"));
-		food_link.href="match.php?want=Food&menu_rest_name=" + newItem;
+		food_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Food&menu_rest_name=" + newItem;
 		food_link.innerHTML = newItem;
 		newFood.appendChild(food_link);
 		
@@ -203,7 +203,7 @@ function direct_add_rest(event){
 		ID++;
 		
 		var rest_link = $(document.createElement("a"));
-		rest_link.href="match.php?want=Restaurant&menu_rest_name=" + newItem;
+		rest_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Restaurant&menu_rest_name=" + newItem;
 		rest_link.innerHTML = newItem;
 		newRest.appendChild(rest_link);
 		

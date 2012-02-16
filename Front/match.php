@@ -98,7 +98,12 @@ function menu_table($query_data, $food_name, $caption, $want){
 				?>
 					<div id="rest_info">
 						<p> address: <?= $row[2] ?> <?= $row[3] ?> <?= $row[4] ?> <?= $row[5] ?></p>
-						<p>
+						<p><!--
+							<button id="<?=$i?>" value="<?=($row[0])?>">See On A Map</button>
+							<script type="text/javascript">
+								var adding_map = document.getElementById("<?=$i?>");
+								adding_map.observe("click", get_lat_lon(<?= $row ?>));
+							</script> -->
 							<a href="map.php?lat=<?= $location["lat"] ?>&long=<?= $location["lon"] ?>" >
 								<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
 								See On a Map
