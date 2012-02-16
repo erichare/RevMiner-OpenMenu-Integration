@@ -89,7 +89,7 @@ function menu_table($query_data, $food_name, $caption, $want){
     if(!$row){
         ?>
         <p id="explain">
-            OOOOPS. <?= $food_name ?> isn't in the database.<br />
+            OOOOPS. <strong>"<?= $food_name ?>"</strong> isn't in the database.<br />
             Try another food/restaurant.
         </p>
         <?php
@@ -108,7 +108,7 @@ function menu_table($query_data, $food_name, $caption, $want){
 							<button id="fav_rest" value="<?=($row[1])?>">Add This Restaurant</button>
 							<script type="text/javascript">
 								var adding = document.getElementById("fav_rest");
-								adding.observe("click", add);
+								adding.observe("click", add_rest);
 							</script>
 						</p>
 					</div>
@@ -131,10 +131,10 @@ function menu_table($query_data, $food_name, $caption, $want){
 							<td> <?= htmlentities($row[6]) ?> </td>
 							<td> <?= htmlentities($row[7]) ?> </td>
 							<td>
-								<button id="<?=$i?>" value="<?=($row[0])?>">Add</button>
+								<button id="<?=$i?>" value="<?=($row[0])?> at <?=($row[1])?>">Add</button>
 								<script type="text/javascript">
 									var adding = document.getElementById("<?=$i?>");
-									adding.observe("click", add);
+									adding.observe("click", add_food);
 								</script>
 							</td>
 						</tr>
@@ -169,10 +169,10 @@ function menu_table($query_data, $food_name, $caption, $want){
 								</a>
 							</td>
 							<td>
-								<button id="<?=$i?>" value="<?=($row[0])?>">Add</button>
+								<button id="<?=$i?>" value="<?=($row[0])?> at <?=($row[1])?>">Add</button>
 								<script type="text/javascript">
 									var adding = document.getElementById("<?=$i?>");
-									adding.observe("click", add);
+									adding.observe("click", add_food);
 								</script>
 							</td>
 						</tr>

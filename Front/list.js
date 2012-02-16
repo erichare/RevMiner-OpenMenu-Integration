@@ -20,6 +20,7 @@ document.observe('dom:loaded', function () {
 //	loadingIMG();
 //	$("add").observe("click", add);
 	$("delete").observe("click", beforeDelete);	
+	$("deleteAll").observe("click", beforeDeleteAll);	
 	fetchNode();
 });
 
@@ -69,21 +70,22 @@ function callAjax(methodCall, afterFunc, param){
 
 // Communicate to server to get the saved list.
 function fetchNode(){
-	callAjax("get", initialize, {});
+	callAjax("get", initialize_food, {"action": "get_food"});
+	callAjax("get", initialize_rest, {"action": "get_rest"});
 }
 
-// Once getting the list, append it ot the "menu"
+// Once getting the list, append it ot the "foods"
 // Also, remove the dummy childe "hidden"
 // when all the items are appended, pulsate
-function initialize(ajax){
+function initialize_food(ajax){
 //	loadingDone();
-	$("foods").removeChild($("hidden"));
+	$("foods").removeChild($("hidden1"));
 	var food_list = ajax.responseText.split("\n");
 
 	for(var i = 0; i < food_list.length; i++){
 		if(food_list[i] != ""){	
 			var each_food = $(document.createElement("li"));
-			each_food.className = "busy";
+			each_food.className = "busy1";
 			each_food.id = "foods_" + ID;
 			ID++;
 			each_food.innerHTML = food_list[i];
@@ -96,7 +98,31 @@ function initialize(ajax){
 	});
 }
 
-// This is for adding a new menu.
+// Once getting the list, append it ot the "rests"
+// Also, remove the dummy childe "hidden"
+// when all the items are appended, pulsate
+function initialize_rest(ajax){
+//	loadingDone();
+	$("rests").removeChild($("hidden2"));
+	var food_list = ajax.responseText.split("\n");
+
+	for(var i = 0; i < food_list.length; i++){
+		if(food_list[i] != ""){	
+			var each_food = $(document.createElement("li"));
+			each_food.className = "busy2";
+			each_food.id = "rests_" + ID;
+			ID++;
+			each_food.innerHTML = food_list[i];
+			$("rests").appendChild(each_food);
+		}
+	}
+
+	Sortable.create("rests", {
+		onUpdate: listUpdate
+	});
+}
+
+// This is for adding a new menu/restaurant.
 // Assign id.
 // Append a new item to the end of the list. 
 // Then, using Ajax, save its change.
@@ -106,7 +132,7 @@ function add(event){
 	if(len > 0){
 		$("capture").removeChild(lastAdded[len - 1]);
 	}
-	var newItem = this.value; 
+	var newItem = event.value; 
 	
 	if(newItem != ""){		
 		var newfood = $(document.createElement("div"));
@@ -114,8 +140,26 @@ function add(event){
 		newfood.className = "added_food";
 		newfood.innerHTML = newItem + " has been added";
 		$("capture").appendChild(newfood);
-		
-		callAjax("post", effectAdd, {"action": "add", "item": newItem});
+	}
+
+	return newItem;
+}
+
+// add a new restaurant on the list
+function add_rest(event){
+	var newItem = add(this);
+	
+	if(newItem != ""){		
+		callAjax("post", effectAdd, {"action": "add_rest", "item": newItem});
+	}
+}
+
+// add a new food on the list
+function add_food(event){
+	var newItem = add(this);
+
+	if(newItem != ""){		
+		callAjax("post", effectAdd, {"action": "add_food", "item": newItem});
 	}
 }
 
@@ -129,11 +173,23 @@ function effectAdd(){
 // Before delete, set afterFinish effect.
 function beforeDelete(){
 	var last = $$("li.busy");
-	if(last.length != 0){ 
+	if(last.length != 0){
 		$(last[0]).fade({
 			afterFinish: deleteReally	
 		});
-	}	
+	}
+}
+
+// Before delete, set afterFinish effect.
+function beforeDeleteAll(){
+	var last = $$("li.busy");
+	var i = 0;
+	
+	for(i = 0; i < last.length; i++){
+		$(last[i]).fade({
+			afterFinish: deleteReally	
+		});
+	}
 }
 
 // Delete the first item of the list, and then ask server to delete.
@@ -152,7 +208,7 @@ function deleteReally(effect){
 // After done deleting, shaking it.
 function afterDelete(){
 //	loadingDone();
-	$("foods").shake();
+	$("foods").pulsate();
 }
 
 // This function for changing order.
@@ -160,18 +216,26 @@ function afterDelete(){
 // then, contact to server to reflect this change.
 function listUpdate(list) {
 //	list.shake();
-	var newSet = $$("li.busy");
-	var newString = "";
-	for(var i = 0; i < newSet.length; i++){
-		newString = newString + newSet[i].innerHTML + "\n";
+	var newSet1 = $$("li.busy1");
+	var newString1 = "";
+	for(var i = 0; i < newSet1.length; i++){
+		newString1 = newString1 + newSet1[i].innerHTML + "\n";
 	}
-	callAjax("post", afterUpdate, {"action": "set", "items": newString});
+	callAjax("post", afterUpdate, {"action": "set_food", "items": newString1});
+	
+	var newSet2 = $$("li.busy2");
+	var newString2 = "";
+	for(var i = 0; i < newSet2.length; i++){
+		newString2 = newString2 + newSet2[i].innerHTML + "\n";
+	}
+	callAjax("post", afterUpdate, {"action": "set_rest", "items": newString2});
 }
 
 // After done, pulsate the whole list.
 function afterUpdate(){
 //	loadingDone();
 	$("foods").pulsate();	
+	$("rests").pulsate();	
 }
 
 // This is for failure function.

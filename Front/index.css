@@ -60,9 +60,11 @@ fieldset strong{
 table{
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 10px;
     border-collapse: collapse;
     caption-side: top;
     width:80%;
+    float: left;
 }
 
 th {
@@ -102,6 +104,7 @@ ul {
 img {
 	vertical-align: middle;
 }
+
 .odd {
 	background-color: #FFE4C4;
 }
@@ -110,6 +113,21 @@ img {
 	background-color: #F0F8FF;
 }
 
+.user_item{
+	margin-left:2%;
+	width: 45%;
+	float: left;
+}
+
+.user {
+	margin-left: auto;
+	margin-right: auto;
+	width: 45%;
+}
+
+.button_set{
+	margin-bottom: 5px;
+}
 
 #menu_name {
 	width:90px;
@@ -134,8 +152,9 @@ img {
 	padding-top: 0;
 }
 
-#expalin {
+#explain {
 	color: #F0FFF0;
+	margin-top:120px;
 }
 
 #table_start{
@@ -187,21 +206,15 @@ img {
 	background-image: url("http://students.washington.edu/dongm/454/img/images.jpg");
 	width: 200px;
 	position: fixed;
-	top: 200px;
-	left:82%;
+	top: 55%;
+	right:4%;
 }
 
 #rest_info {
-	float: left;
-	width: 15%;
-	margin-left: 2%;
+	float: right;
+	width: 18%;
+	margin-right: 2%;
 	margin-top: 135px;
-}
-
-.user{
-	margin-left:2%;
-	width: 45%;
-	float: left;
 }
 
 #copyright > p{

@@ -15,11 +15,21 @@ function contents(){
 
 # If the request is get, simply output the to-do list's content.
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-	# process a GET request
-	if(file_exists("list.txt")){
-		contents();
+	# If there is an "action" value, then process it.
+	if (isset($_REQUEST["action"])) {
+		$behavior = $_REQUEST["action"];
+		if($behavior == "get_food"){
+			# process a GET request
+			if(file_exists("list_food.txt")){
+				contents();
+			}
+		} else if ($behavior == "get_rest"){
+			# process a GET request
+			if(file_exists("list_rest.txt")){
+				contents();
+			}
+		}
 	}
-
 # process a POST request  
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
@@ -28,20 +38,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		$behavior = $_REQUEST["action"];
 		
 		# For adding element. 
-		# Checking parameter "action"'s value is "add".
+		# Checking parameter "action"'s value is "add_food".
 		# Then, add the new "item" to the end of the file.
-		if($behavior == "add"){
+		if($behavior == "add_food"){
 			if (isset($_REQUEST["item"])) {
 				$newLine = $_REQUEST["item"]."\n";
-				file_put_contents("list.txt", $newLine, FILE_APPEND);
+				file_put_contents("list_food.txt", $newLine, FILE_APPEND);
 				contents();
 			}
 		
+		# For adding element. 
+		# Checking parameter "action"'s value is "add_rest".
+		# Then, add the new "item" to the end of the file.
+		} else if ($behavior == "add_rest"){
+			if (isset($_REQUEST["item"])) {
+				$newLine = $_REQUEST["item"]."\n";
+				file_put_contents("list_rest.txt", $newLine, FILE_APPEND);
+				contents();
+			}
+			
 		# for delete operation, 
 		# Delete the first line, and write the rest to the file.
 		# To do it, get the all the lines but the first line.
-		# Then, make a new string, and then write it on the file.
-		} else if ($behavior == "delete"){
+		# Then, make a new string, and then write it on the file.	
+		}	else if ($behavior == "delete"){
 			if(file_exists("list.txt")){
 				$updated = "";		
 				$lines = file_get_contents("list.txt"); 
@@ -57,10 +77,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		# When the list's order changed, this plays a role.
 		# This part is going to get the new string after switching,
 		# then write it on the file. 
-		} else if($behavior == "set"){
+		} else if($behavior == "set_food"){
 			if (isset($_REQUEST["items"])) {
 				$newSet = $_REQUEST["items"];
-				file_put_contents("list.txt", $newSet);
+				file_put_contents("list_food.txt", $newSet);
+				contents();
+			}
+		} else if($behavior == "set_rest"){
+			if (isset($_REQUEST["items"])) {
+				$newSet = $_REQUEST["items"];
+				file_put_contents("list_rest.txt", $newSet);
 				contents();
 			}
 		}

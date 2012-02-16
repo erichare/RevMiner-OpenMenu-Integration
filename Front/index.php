@@ -1,11 +1,11 @@
 <?php
-# Donghyo Min, Eric Hare
+# contact: gajok@cs.washington.edu
 # Front Page
 
 include("common.php");
 top();
 ?>
-		<div>
+		<div class="user">
 			<ul>				
 				<li>
 					<a href="type_menu.php">
@@ -22,7 +22,9 @@ top();
 				</li>
 			</ul>
 		</div>
-		
+
+<?php item_list(); ?>		
+
 		<div id="copyright">
 			<p>
 				Results and page (C) Copyright 2012 SFSP.
