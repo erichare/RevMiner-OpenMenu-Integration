@@ -18,7 +18,8 @@ var ID = 0;
 // After the page is done loading, call functions and handlers run.
 document.observe('dom:loaded', function () {
 //	loadingIMG();
-//	$("add").observe("click", add);
+	$("add_new_food").observe("click", direct_add_food);
+	$("add_new_rest").observe("click", direct_add_rest);
 	$("delete_food").observe("click", beforeDelete_food);	
 	$("deleteAll_food").observe("click", beforeDeleteAll_food);	
 	$("delete_rest").observe("click", beforeDelete_rest);	
@@ -94,7 +95,12 @@ function initialize_food(ajax){
 			each_food.className = "busy1";
 			each_food.id = "foods_" + ID;
 			ID++;
-			each_food.innerHTML = food_list[i];
+			
+			var food_link = $(document.createElement("a"));
+			food_link.href="match.php?want=Food&menu_rest_name=" + food_list[i];
+			food_link.innerHTML = food_list[i];
+			each_food.appendChild(food_link);
+			
 			$("foods").appendChild(each_food);
 		}
 	}
@@ -118,7 +124,12 @@ function initialize_rest(ajax){
 			each_food.className = "busy2";
 			each_food.id = "rests_" + ID;
 			ID++;
-			each_food.innerHTML = food_list[i];
+			
+			var rest_link = $(document.createElement("a"));
+			rest_link.href = "match.php?want=Restaurant&menu_rest_name=" + food_list[i];
+			rest_link.innerHTML = food_list[i];
+			each_food.appendChild(rest_link);
+			
 			$("rests").appendChild(each_food);
 		}
 	}
@@ -128,16 +139,20 @@ function initialize_rest(ajax){
 	});
 }
 
-// This is for adding a new menu/restaurant.
-// Assign id.
-// Append a new item to the end of the list. 
-// Then, using Ajax, save its change.
-function add(event){
+function add_helper(event){
 	var lastAdded = $$("div.added_food");
 	var len = lastAdded.length;
 	if(len > 0){
 		$("capture").removeChild(lastAdded[len - 1]);
 	}
+}
+
+// This is for adding a new menu/restaurant.
+// Assign id.
+// Append a new item to the end of the list. 
+// Then, using Ajax, save its change.
+function add(event){
+	add_helper(this);
 	var newItem = event.value; 
 	
 	if(newItem != ""){		
@@ -149,6 +164,55 @@ function add(event){
 	}
 
 	return newItem;
+}
+
+// When a user types a menu name and add it.
+function direct_add_food(event){
+	
+	add_helper(this);
+	
+	var newItem = $("new_food").value;
+	if(newItem != ""){		
+		var newFood = $(document.createElement("li"));
+		newFood.className = "busy1";
+		newFood.id = "direct_food_" + ID;
+		ID++;
+		
+		var food_link = $(document.createElement("a"));
+		food_link.href="match.php?want=Food&menu_rest_name=" + newItem;
+		food_link.innerHTML = newItem;
+		newFood.appendChild(food_link);
+		
+		$("foods").appendChild(newFood);
+		Sortable.create("foods", {
+			onUpdate: listUpdate
+		});
+		
+		callAjax("post", effectAdd, {"action": "add_food", "item": newItem});
+	}
+}
+
+// When a user types a restaurant name and add it
+function direct_add_rest(event){
+	add_helper(this);
+	var newItem = $("new_rest").value;
+	if(newItem != ""){		
+		var newRest = $(document.createElement("li"));
+		newRest.className = "busy2";
+		newRest.id = "direct_rest_" + ID;
+		ID++;
+		
+		var rest_link = $(document.createElement("a"));
+		rest_link.href="match.php?want=Restaurant&menu_rest_name=" + newItem;
+		rest_link.innerHTML = newItem;
+		newRest.appendChild(rest_link);
+		
+		$("rests").appendChild(newRest);
+		Sortable.create("rests", {
+			onUpdate: listUpdate
+		});
+		callAjax("post", effectAdd, {"action": "add_rest", "item": newItem});
+	}
 }
 
 // add a new restaurant on the list
@@ -251,7 +315,7 @@ function deleteReally_rest(effect){
 // After done deleting, shaking it.
 function afterDelete(){
 //	loadingDone();
-	$("foods").pulsate();
+//	$("foods").pulsate();
 }
 
 // This function for changing order.
