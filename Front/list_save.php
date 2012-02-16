@@ -8,8 +8,8 @@
 header("Content-type: text/plain");
 
 # As a web-service, this function is used to print the list's contents.
-function contents(){
-	$lines = file_get_contents("list.txt", FILE_IGNORE_NEW_LINES);
+function contents($file_name){
+	$lines = file_get_contents($file_name, FILE_IGNORE_NEW_LINES);
 	print($lines);
 }
 
@@ -21,12 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		if($behavior == "get_food"){
 			# process a GET request
 			if(file_exists("list_food.txt")){
-				contents();
+				contents("list_food.txt");
 			}
 		} else if ($behavior == "get_rest"){
 			# process a GET request
 			if(file_exists("list_rest.txt")){
-				contents();
+				contents("list_rest.txt");
 			}
 		}
 	}
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 			if (isset($_REQUEST["item"])) {
 				$newLine = $_REQUEST["item"]."\n";
 				file_put_contents("list_food.txt", $newLine, FILE_APPEND);
-				contents();
+			//	contents("list_food.txt");
 			}
 		
 		# For adding element. 
@@ -54,24 +54,38 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 			if (isset($_REQUEST["item"])) {
 				$newLine = $_REQUEST["item"]."\n";
 				file_put_contents("list_rest.txt", $newLine, FILE_APPEND);
-				contents();
+			//	contents("list_rest.txt");
 			}
 			
 		# for delete operation, 
 		# Delete the first line, and write the rest to the file.
 		# To do it, get the all the lines but the first line.
 		# Then, make a new string, and then write it on the file.	
-		}	else if ($behavior == "delete"){
-			if(file_exists("list.txt")){
+		}	else if ($behavior == "delete_food"){
+			if(file_exists("list_food.txt")){
 				$updated = "";		
-				$lines = file_get_contents("list.txt"); 
+				$lines = file_get_contents("list_food.txt"); 
 				$tokens = explode("\n", $lines);
 				$i = 0;
-				for($i = 1; $i < count($tokens); $i++){
+				for($i = 1; $i < count($tokens) - 1; $i++){
 					$updated = $updated.$tokens[$i]."\n";	
 				}
-				file_put_contents("list.txt", $updated);
-				contents();
+				$updated = $updated.$tokens[$i];
+				file_put_contents("list_food.txt", $updated);
+			//	contents("list_food.txt");
+			}
+		} else if ($behavior == "delete_rest"){
+			if(file_exists("list_rest.txt")){
+				$updated = "";		
+				$lines = file_get_contents("list_rest.txt"); 
+				$tokens = explode("\n", $lines);
+				$i = 0;
+				for($i = 1; $i < count($tokens) - 1; $i++){
+					$updated = $updated.$tokens[$i]."\n";	
+				}
+				$updated = $updated.$tokens[$i];
+				file_put_contents("list_rest.txt", $updated);
+			//	contents("list_rest.txt");
 			}
 			
 		# When the list's order changed, this plays a role.
@@ -81,13 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 			if (isset($_REQUEST["items"])) {
 				$newSet = $_REQUEST["items"];
 				file_put_contents("list_food.txt", $newSet);
-				contents();
+			//	contents("list_food.txt");
 			}
 		} else if($behavior == "set_rest"){
 			if (isset($_REQUEST["items"])) {
 				$newSet = $_REQUEST["items"];
 				file_put_contents("list_rest.txt", $newSet);
-				contents();
+			//	contents("list_rest.txt");
 			}
 		}
 	}	 	

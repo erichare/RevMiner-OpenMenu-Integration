@@ -14,10 +14,10 @@ function top(){
 		<meta name="description" content="Restaurant Searcher" />
 		<meta name="keywords" content="restaurant, menu, food, delicious, dinner, lunch" />
 
-		<!-- stop the web browser from ever caching this page or its images 
+		<!-- stop the web browser from ever caching this page or its images -->
 		<meta http-equiv="Cache-Control" content="no-cache" />
 		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />-->
+		<meta http-equiv="Expires" content="0" />
 
 		<link href="index.css" type="text/css" rel="stylesheet" />
 		<link href="http://students.washington.edu/dongm/454/img/fifteen.gif" type="image/gif" rel="shortcut icon" />
@@ -78,12 +78,12 @@ function item_list(){
 		<div class = "button_set">
 			<!--<input id="todo" type="text" /> 
 		 <button id="add">Add to Bottom</button> -->
-			<button id="delete">Delete Top Item</button>
-			<button id="deleteAll">Delete All Item</button>
+			<button id="delete_rest">Delete Top Item</button>
+			<button id="deleteAll_rest">Delete All Item</button>
 		</div>
 		
 		<fieldset id="output2">
-			<legend>Your Favoriate Foods</legend>
+			<legend>Your Favoriate Restaurants</legend>
 			<div id="list2">
 				<ol id="rests">
 					<li id="hidden2" class="busy2"></li>
@@ -96,12 +96,12 @@ function item_list(){
 		<div class = "button_set">
 			<!--<input id="todo" type="text" /> 
 		 <button id="add">Add to Bottom</button> -->
-			<button id="delete">Delete Top Item</button>
-			<button id="deleteAll">Delete All Item</button>
+			<button id="delete_food">Delete Top Item</button>
+			<button id="deleteAll_food">Delete All Item</button>
 		</div>
 		
 		<fieldset id="output1">
-			<legend>Your Favoriate Restaurants</legend>
+			<legend>Your Favoriate Foods</legend>
 			<div id="list1">
 				<ol id="foods">
 					<li id="hidden1" class="busy1"></li>

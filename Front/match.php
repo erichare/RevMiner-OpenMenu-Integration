@@ -131,7 +131,7 @@ function menu_table($query_data, $food_name, $caption, $want){
 							<td> <?= htmlentities($row[6]) ?> </td>
 							<td> <?= htmlentities($row[7]) ?> </td>
 							<td>
-								<button id="<?=$i?>" value="<?=($row[0])?> at <?=($row[1])?>">Add</button>
+								<button id="<?=$i?>" value="<?=($row[0])?>">Add</button>
 								<script type="text/javascript">
 									var adding = document.getElementById("<?=$i?>");
 									adding.observe("click", add_food);
@@ -169,7 +169,7 @@ function menu_table($query_data, $food_name, $caption, $want){
 								</a>
 							</td>
 							<td>
-								<button id="<?=$i?>" value="<?=($row[0])?> at <?=($row[1])?>">Add</button>
+								<button id="<?=$i?>" value="<?=($row[0])?>">Add</button>
 								<script type="text/javascript">
 									var adding = document.getElementById("<?=$i?>");
 									adding.observe("click", add_food);

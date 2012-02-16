@@ -19,9 +19,12 @@ var ID = 0;
 document.observe('dom:loaded', function () {
 //	loadingIMG();
 //	$("add").observe("click", add);
-	$("delete").observe("click", beforeDelete);	
-	$("deleteAll").observe("click", beforeDeleteAll);	
-	fetchNode();
+	$("delete_food").observe("click", beforeDelete_food);	
+	$("deleteAll_food").observe("click", beforeDeleteAll_food);	
+	$("delete_rest").observe("click", beforeDelete_rest);	
+	$("deleteAll_rest").observe("click", beforeDeleteAll_rest);	
+	fetchNode_food();
+	fetchNode_rest();
 });
 
 /*
@@ -69,8 +72,11 @@ function callAjax(methodCall, afterFunc, param){
 }
 
 // Communicate to server to get the saved list.
-function fetchNode(){
+function fetchNode_food(){
 	callAjax("get", initialize_food, {"action": "get_food"});
+}
+
+function fetchNode_rest(){
 	callAjax("get", initialize_rest, {"action": "get_rest"});
 }
 
@@ -171,37 +177,74 @@ function effectAdd(){
 }
 
 // Before delete, set afterFinish effect.
-function beforeDelete(){
-	var last = $$("li.busy");
+function beforeDelete_food(){
+	var last = $$("li.busy1");
+	
 	if(last.length != 0){
 		$(last[0]).fade({
-			afterFinish: deleteReally	
+			afterFinish: deleteReally_food	
 		});
 	}
 }
 
 // Before delete, set afterFinish effect.
-function beforeDeleteAll(){
-	var last = $$("li.busy");
+function beforeDelete_rest(){
+	var last = $$("li.busy2");
+	
+	if(last.length != 0){
+		$(last[0]).fade({
+			afterFinish: deleteReally_rest
+		});
+	}
+}
+
+// Before delete, set afterFinish effect.
+function beforeDeleteAll_food(){
+	var last = $$("li.busy1");
 	var i = 0;
 	
 	for(i = 0; i < last.length; i++){
 		$(last[i]).fade({
-			afterFinish: deleteReally	
+			afterFinish: deleteReally_food
+		});
+	}
+}
+
+// Before delete, set afterFinish effect.
+function beforeDeleteAll_rest(){
+	var last = $$("li.busy2");
+	var i = 0;
+	
+	for(i = 0; i < last.length; i++){
+		$(last[i]).fade({
+			afterFinish: deleteReally_rest
 		});
 	}
 }
 
 // Delete the first item of the list, and then ask server to delete.
-function deleteReally(effect){
-	var last = $$("li.busy");
+function deleteReally_food(effect){
+	var last = $$("li.busy1");
 	if(last.length != 0){ 
 		$("foods").removeChild(last[0]);
 		Sortable.create("foods", {
 			onUpdate: listUpdate
 		});
 		
-		callAjax("post", afterDelete, {"action": "delete"});
+		callAjax("post", afterDelete, {"action": "delete_food"});
+	}
+}
+
+// Delete the first item of the list, and then ask server to delete.
+function deleteReally_rest(effect){
+	var last = $$("li.busy2");
+	if(last.length != 0){ 
+		$("rests").removeChild(last[0]);
+		Sortable.create("rests", {
+			onUpdate: listUpdate
+		});
+		
+		callAjax("post", afterDelete, {"action": "delete_rest"});
 	}
 }
 
@@ -234,8 +277,8 @@ function listUpdate(list) {
 // After done, pulsate the whole list.
 function afterUpdate(){
 //	loadingDone();
-	$("foods").pulsate();	
-	$("rests").pulsate();	
+//	$("foods").pulsate();	
+//	$("rests").pulsate();	
 }
 
 // This is for failure function.
