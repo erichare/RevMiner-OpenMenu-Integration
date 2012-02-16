@@ -76,8 +76,8 @@ function item_list(){
 	?>
 	<div class="user_item">
 		<div class = "button_set">
-			<!--<input id="todo" type="text" /> 
-		 <button id="add">Add to Bottom</button> -->
+			<input id="new_rest" type="text" /> 
+			<button id="add_new_rest">Add to Bottom</button>
 			<button id="delete_rest">Delete Top Item</button>
 			<button id="deleteAll_rest">Delete All Item</button>
 		</div>
@@ -85,6 +85,7 @@ function item_list(){
 		<fieldset id="output2">
 			<legend>Your Favoriate Restaurants</legend>
 			<div id="list2">
+				<div class="reorder">You can drag and drop an item to reorder the list</div>
 				<ol id="rests">
 					<li id="hidden2" class="busy2"></li>
 				</ol>
@@ -94,8 +95,8 @@ function item_list(){
 	
 	<div class="user_item">
 		<div class = "button_set">
-			<!--<input id="todo" type="text" /> 
-		 <button id="add">Add to Bottom</button> -->
+			<input id="new_food" type="text" /> 
+			<button id="add_new_food">Add to Bottom</button>
 			<button id="delete_food">Delete Top Item</button>
 			<button id="deleteAll_food">Delete All Item</button>
 		</div>
@@ -103,6 +104,7 @@ function item_list(){
 		<fieldset id="output1">
 			<legend>Your Favoriate Foods</legend>
 			<div id="list1">
+				<div class="reorder">You can drag and drop an item to reorder the list</div>
 				<ol id="foods">
 					<li id="hidden1" class="busy1"></li>
 				</ol>

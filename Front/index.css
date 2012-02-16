@@ -105,12 +105,21 @@ img {
 	vertical-align: middle;
 }
 
+.busy1, .busy2{
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
 .odd {
 	background-color: #FFE4C4;
 }
 
 .even {
 	background-color: #F0F8FF;
+}
+
+.reorder{
+	border:0;
 }
 
 .user_item{
