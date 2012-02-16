@@ -46,7 +46,7 @@ function table_head_for_food($caption){
 
 	<div id="table_start">
 		<div id="capture">
-			<div class="cap"><?= $caption ?></div>
+			<?= $caption ?>
 		</div>
 		<table>
 				<tr>
@@ -105,7 +105,7 @@ function menu_table($query_data, $food_name, $caption, $want){
 							</a>					
 						</p>
 						<p>
-							<button id="fav_rest" value="<?=($row[1])?>">Add</button>
+							<button id="fav_rest" value="<?=($row[1])?>">Add This Restaurant</button>
 							<script type="text/javascript">
 								var adding = document.getElementById("fav_rest");
 								adding.observe("click", add);

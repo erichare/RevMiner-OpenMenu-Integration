@@ -62,7 +62,7 @@ table{
     margin-right: auto;
     border-collapse: collapse;
     caption-side: top;
-    width:800px;
+    width:80%;
 }
 
 th {
@@ -129,18 +129,23 @@ img {
 	margin-top:120px;
 }
 
+#route {
+	margin-top: 105px;
+	padding-top: 0;
+}
+
 #expalin {
 	color: #F0FFF0;
 }
 
 #table_start{
-	margin-top:120px;
+	margin-top:140px;
 }
 
 #turnin {
 	color: #E01B6A;
 	position: fixed;
-	top: 55px;
+	top: 0;
 	left:50%;
 	margin-left:-310px;
 }
@@ -151,11 +156,16 @@ img {
 
 #bannerarea {
 	font-weight: bold;
-	margin-top: 0px;
+	margin-top: 1px;
 	height: 22px; 
 	vertical-align: middle;
 	background-repeat: repeat-x;
 	background-image: url("http://students.washington.edu/dongm/454/img/bannerbg.png");
+}
+
+#bannerarea strong{
+	float: left;
+	margin-top:0;
 }
 
 #home strong{
@@ -182,18 +192,17 @@ img {
 }
 
 #rest_info {
-	position: fixed;
-	top: 250px;
-	left:82%;
+	float: left;
+	width: 15%;
+	margin-left: 2%;
+	margin-top: 135px;
 }
 
-.user, .cap{
+.user{
 	margin-left:2%;
 	width: 45%;
 	float: left;
 }
-
-
 
 #copyright > p{
 	position: fixed;

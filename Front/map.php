@@ -25,8 +25,8 @@ if (isset($_REQUEST["long"])) {
 
 ?>
 
-<div id="map" style="width: 800px; height: 400px; float:left; border: 1px solid black"></div>
-<div id="route" style="width: 25%; height:480px; float:right; border: 1px solid black"></div>
+<div id="map" style="width: 70%; height: 400px; float:left; border: 1px solid black"></div>
+<div id="route" style="width: 27%; height:400px; float:right"></div>
 
 <script type="text/javascript">
 	var map = new GMap2(document.getElementById("map"));

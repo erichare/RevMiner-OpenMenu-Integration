@@ -30,7 +30,7 @@ function top(){
 
 	<body>
 		<div id="bannerarea">
-			Sick Foods For Sick People
+			<strong>Sick Foods For Sick People</strong>
 		</div>
 <?php
 }
@@ -63,7 +63,7 @@ function type_menu(){
 				<label><input type="radio" name="want" value="Restaurant"/> Restaurant</label>
 			</div>
 			<div>
-				<strong>Food/Restaurant Name:</strong>
+				<strong>Food/Restaurant</strong>
 				<input type="text" name="menu_rest_name" size="25"/>
 				<input type="submit" value="Find Food!" />
 			</div>
