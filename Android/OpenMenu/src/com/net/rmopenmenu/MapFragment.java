@@ -94,7 +94,7 @@ public class MapFragment extends Fragment {
 		}
 		
 		mapOverlays.add(locOverlay);
-		mapController.setZoom(16);
+		mapController.setZoom(15);
 		
         return fragmentView;
 	}
