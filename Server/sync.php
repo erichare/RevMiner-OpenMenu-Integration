@@ -16,6 +16,8 @@
 /*****************/
 
 $modified = "";
+$timestamp = html_entity_decode($_REQUEST["timestamp"]);
+
 if (isset($_REQUEST["timestamp"])) {
 	$modified = "WHERE modified > FROM_UNIXTIME($timestamp)";
 }
