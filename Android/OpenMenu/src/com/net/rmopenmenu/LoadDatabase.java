@@ -1,6 +1,7 @@
 package com.net.rmopenmenu;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.apache.http.protocol.HTTP;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -132,85 +134,28 @@ public class LoadDatabase extends AsyncTask<String, Integer, String> {
 	}
 	
 	public String load(String url) {
-		// Initialize the array of name value pairs
-		List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
-		String result = Post(url, nameValuePairs);
-		//used for parsing the JSON object
-		JsonStreamParser parser = new JsonStreamParser(result);
-		
-		SQLiteDatabase db = new Database(context).getWritableDatabase();
-
-		if (!result.equals("null")) {
-			JsonArray arr = parser.next().getAsJsonArray();
-	
-			for (int i = 0; i < arr.size(); i++)
-			{
-				if (arr.get(i).isJsonObject())
-				{
-					//Since the JsonArray contains whole bunch json array, we can get each one out
-					JsonObject ob = arr.get(i).getAsJsonObject();
-	
-					// Grab the stuff
-					int rid = ob.get("rid").getAsInt();
-					String name = ob.get("name").getAsString();
-					String address = ob.get("address").getAsString();
-					String city = ob.get("city").getAsString();
-					String state = ob.get("state").getAsString();
-					String country = ob.get("country").getAsString();
-					
-					db.execSQL("INSERT OR REPLACE INTO restaurants (rid, name, address, city, state, country) VALUES (" + 
-													  rid + ", '" + name + "', '" + address + "', '" + city + "', '" + state + "', '" + country + "')");
-				}
-			}
-			
-			arr = parser.next().getAsJsonArray();
-			
-			for (int i = 0; i < arr.size(); i++)
-			{
-				if (arr.get(i).isJsonObject())
-				{
-					//Since the JsonArray contains whole bunch json array, we can get each one out
-					JsonObject ob = arr.get(i).getAsJsonObject();
-	
-					// Grab the stuff
-					int iid = ob.get("iid").getAsInt();
-					String name = ob.get("name").getAsString();
-					String description = ob.get("description").getAsString();
-					String price = ob.get("price").getAsString();
-					
-					db.execSQL("INSERT OR REPLACE INTO items (iid, name, description, price) VALUES (" + 
-													  iid + ", '" + name + "', '" + description + "', '" + price + "')");
-				}
-			}
-			
-			arr = parser.next().getAsJsonArray();
-			
-			for (int i = 0; i < arr.size(); i++)
-			{
-				if (arr.get(i).isJsonObject())
-				{
-					//Since the JsonArray contains whole bunch json array, we can get each one out
-					JsonObject ob = arr.get(i).getAsJsonObject();
-	
-					// Grab the stuff
-					int rid = ob.get("rid").getAsInt();
-					int iid = ob.get("iid").getAsInt();
-					
-					db.execSQL("INSERT OR REPLACE INTO restaurants_items (rid, iid) VALUES (" + 
-													  rid + ", " + iid + ")");
-				}
-			}
-		}
-		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor editor = prefs.edit();
-		
-		editor.putBoolean("databaseLoaded", true);		
-		editor.commit();
-				
-		db.close();
-		
-		return "";
+		Database myDbHelper = new Database(context);
+ 
+        try {
+ 
+        	myDbHelper.createDataBase();
+ 
+ 	} catch (IOException ioe) {
+ 
+ 		throw new Error("Unable to create database");
+ 
+ 	}
+ 
+ 	try {
+ 
+ 		myDbHelper.openDataBase();
+ 
+ 	}catch(SQLException sqle){
+ 
+ 		throw sqle;
+ 
+	}
+	return url;
 	}
 
 }
