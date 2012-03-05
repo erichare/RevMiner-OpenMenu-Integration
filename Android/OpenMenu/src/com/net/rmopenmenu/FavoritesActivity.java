@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +13,7 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +60,19 @@ public class FavoritesActivity extends ListActivity {
 		// Every item will launch the map
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				Intent myIntent = new Intent(getBaseContext(), SearchActivity.class);
+            	String selectedItem = ((TextView) v).getText().toString();
+
+				myIntent.putExtra("query", selectedItem.split("\n")[0].trim());
+				myIntent.putExtra("menu", menu);
+				
+				startActivity(myIntent);
+			}
+		});
+		
+		// Every item will launch the map
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 				final String selectedItem = ((TextView) v).getText().toString();
 
 				faves.remove(selectedItem);
@@ -75,6 +90,8 @@ public class FavoritesActivity extends ListActivity {
 				editor.commit();
 				
 				startActivity(getIntent()); finish();
+				
+				return true;
 			}
 		});
 	}

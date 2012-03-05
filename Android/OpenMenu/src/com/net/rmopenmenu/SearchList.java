@@ -11,6 +11,7 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,17 +32,32 @@ public class SearchList extends ListFragment {
 	}
 	
 	@Override
+	public void onActivityCreated(Bundle savedState) {
+	    super.onActivityCreated(savedState);
+	    
+	    getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
+            		
+            	String selectedItem = ((TextView) v).getText().toString();
+        		boolean menu = (selectedItem.endsWith("\n\n")? false : true);
+        		Toast.makeText(getActivity().getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
+        		
+        		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        		String favorites = prefs.getString((menu? "favoritemenus" : "favoriterests"), "");
+        		favorites += (",,, " + selectedItem.replace("\n\n", ""));
+        		SharedPreferences.Editor editor = prefs.edit();
+        		editor.putString((menu? "favoritemenus" : "favoriterests"), favorites);
+        		
+        		editor.commit();
+        		
+                return true;
+            }
+        });
+	}
+	
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		final String selectedItem = ((TextView) v).getText().toString();
-		boolean menu = (selectedItem.endsWith("\n\n")? false : true);
-		Toast.makeText(getActivity().getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
 		
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		String favorites = prefs.getString((menu? "favoritemenus" : "favoriterests"), "");
-		favorites += (",,, " + selectedItem.replace("\n\n", ""));
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putString((menu? "favoritemenus" : "favoriterests"), favorites);
-		
-		editor.commit();
 	}
 }
