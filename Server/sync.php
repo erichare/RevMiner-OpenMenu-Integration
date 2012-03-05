@@ -48,6 +48,8 @@ function get_restaurants($modified) {
 			'city' => (string)$row->city,
 			'state' => (string)$row->state,
 			'country' => (string)$row->country,
+			'lat' => (int)($row->lat * 1000000),
+			'lon' => (int)($row->lon * 1000000)
 		);
 
 		array_push($json_array, $row_array);    
@@ -73,6 +75,7 @@ function get_items($modified) {
 			'name'  => (string)$row->name,
 			'description' => (string)$row->description,
 			'price' => (string)$row->price,
+			'veg' => (int)$row->veg
 		);
 
 		array_push($json_array, $row_array);    
