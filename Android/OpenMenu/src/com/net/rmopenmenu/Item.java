@@ -3,17 +3,21 @@ package com.net.rmopenmenu;
 public class Item implements Comparable<Item> {
 	int item_id;
 	String restaurant_name;
-	String restaurant_address;
+	int restaurant_lat;
+	int restaurant_lon;
+	String restaurant_distance;
 	String item_name;
 	String item_price;
 	String item_description;
 	
 	private boolean sortPrice;
 	
-	public Item(int item_id, String restaurant_name, String restaurant_address, String item_name, String item_price, String item_description, boolean sortPrice) {
+	public Item(int item_id, String restaurant_name, int restaurant_lat, int restaurant_lon, String restaurant_distance, String item_name, String item_price, String item_description, boolean sortPrice) {
 		this.item_id = item_id;
 		this.restaurant_name = restaurant_name;
-		this.restaurant_address = restaurant_address;
+		this.restaurant_lat = restaurant_lat;
+		this.restaurant_lon = restaurant_lon;
+		this.restaurant_distance = restaurant_distance;
 		this.item_name = item_name;
 		this.item_price = item_price;
 		this.item_description = item_description;

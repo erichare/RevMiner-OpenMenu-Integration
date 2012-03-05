@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.TabHost;
 
 import com.google.android.maps.GeoPoint;
@@ -68,14 +69,15 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 		SQLiteDatabase db = new Database(context).getReadableDatabase();
 		ArrayList<Integer> item_ids = new ArrayList<Integer>();
 		ArrayList<String> restaurant_names = new ArrayList<String>();
-		ArrayList<String> restaurant_addresses = new ArrayList<String>();
+		ArrayList<Integer> restaurant_lats = new ArrayList<Integer>();
+		ArrayList<Integer> restaurant_lons = new ArrayList<Integer>();
 		ArrayList<String> restaurant_distances = new ArrayList<String>();
 		ArrayList<String> item_names = new ArrayList<String>();
 		ArrayList<String> item_prices = new ArrayList<String>();
 		ArrayList<String> item_descriptions = new ArrayList<String>();
 		
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	GeoPoint myLoc = new GeoPoint(prefs.getInt("lat", 47500000), prefs.getInt("lon", -123000000));
+    	GeoPoint myLoc = new GeoPoint(prefs.getInt("lat", 47662150), prefs.getInt("lon", -122313237));
 		if (menu) {
 			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
 			cursor.moveToFirst();
@@ -102,7 +104,11 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 				cursor.moveToFirst();
 				
 				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
+				restaurant_lats.add(cursor.getInt(cursor.getColumnIndex("lat")));
+				restaurant_lons.add(cursor.getInt(cursor.getColumnIndex("lon")));
+				
+				double distance = MapFragment.distanceBetween(myLoc, new GeoPoint(cursor.getInt(cursor.getColumnIndex("lat")), cursor.getInt(cursor.getColumnIndex("lon"))));
+				restaurant_distances.add(String.format("%.1f", distance) + " mi.");
 			}
 		} else {
 			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
@@ -110,7 +116,9 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 	        
 	        int rid = cursor.getInt(cursor.getColumnIndex("rid"));
 	        String restaurant_name = cursor.getString(cursor.getColumnIndex("name"));
-	        String restaurant_address = cursor.getString(cursor.getColumnIndex("address"));
+	        int restaurant_lat = cursor.getInt(cursor.getColumnIndex("lat"));
+	        int restaurant_lon = cursor.getInt(cursor.getColumnIndex("lon"));
+			double distance = MapFragment.distanceBetween(myLoc, new GeoPoint(restaurant_lat, restaurant_lon));
 
 	        cursor = db.query("restaurants_items", null, "rid = " + rid, null, null, null, null);
 			cursor.moveToFirst();
@@ -125,7 +133,9 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 				cursor.moveToFirst();
 				
 				restaurant_names.add(restaurant_name);
-				restaurant_addresses.add(restaurant_address);
+				restaurant_lats.add(restaurant_lat);
+				restaurant_lons.add(restaurant_lon);
+				restaurant_distances.add(String.format("%.1f", distance) + " mi.");
 				
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
 				String price = cursor.getString(cursor.getColumnIndex("price"));
@@ -144,7 +154,9 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
         b.putBoolean("menu", menu);
         b.putIntegerArrayList("item_ids", item_ids);
         b.putStringArrayList("restaurant_names", restaurant_names);
-        b.putStringArrayList("restaurant_addresses", restaurant_addresses);
+        b.putIntegerArrayList("restaurant_lats", restaurant_lats);
+        b.putIntegerArrayList("restaurant_lons", restaurant_lons);
+        b.putStringArrayList("restaurant_distances", restaurant_distances);
         b.putStringArrayList("item_names", item_names);
         b.putStringArrayList("item_prices", item_prices);
         b.putStringArrayList("item_descriptions", item_descriptions);
@@ -152,7 +164,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
     	ArrayList<Item> item_list = new ArrayList<Item>();
 
 		for (int i = 0; i < item_ids.size(); i++) {
-			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_addresses.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), true);
+			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), true);
 			item_list.add(item);
 		}
 		
@@ -161,7 +173,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 		ArrayList<String> combined = new ArrayList<String>();
 		for (Iterator<Item> i = item_list.iterator(); i.hasNext();) {
 			Item item = i.next();
-			combined.add(item.restaurant_name + "\n\n" + item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n" + item.item_price));;
+			combined.add(item.restaurant_name + "\n\n" + item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n" + item.item_price) + "\n\n" + item.restaurant_distance);;
 		}
 		
 		b.putStringArrayList("combined", combined);

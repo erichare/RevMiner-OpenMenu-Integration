@@ -59,11 +59,6 @@ public class SearchActivity extends ActionBarActivity {
         LoadList ll = new LoadList(getBaseContext(), menu, this);
 		ll.execute(query);
     }
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("tab", mTabHost.getCurrentTabTag());
-    }
 
     /**
      * This is a helper class that implements the management of tabs and all

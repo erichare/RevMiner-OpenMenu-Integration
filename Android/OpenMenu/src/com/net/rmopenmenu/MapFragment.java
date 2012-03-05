@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class MapFragment extends Fragment {
 		mapController = mapView.getController();
 						
 		mapController.setZoom(15);
+		mapController.setCenter(new GeoPoint(47662150, -122313237));
 		
 		Drawable drawable = getActivity().getApplicationContext().getResources().getDrawable(R.drawable.pin);
 		itemizedOverlay = new OMOverlay(drawable);
@@ -66,6 +68,9 @@ public class MapFragment extends Fragment {
 		// Define two location variables to process
 		Location loc1 = new Location("");
 		Location loc2 = new Location("");
+		
+		Log.v("Point 2 is", point1.getLongitudeE6() + "");
+		Log.v("Point 2 lat is", point1.getLatitudeE6() + "");
 
 		// This method is valid so long as the location is not the default and not null
 		if (point1 != null && point2 != null) {
@@ -78,6 +83,7 @@ public class MapFragment extends Fragment {
 			loc2.setLongitude((float)(point2.getLongitudeE6()*1E-6));
 
 			// Return this value in miles rounded
+			Log.v("Returning", loc1.distanceTo(loc2) * 0.000621371192 + "");
 			return(loc1.distanceTo(loc2) * 0.000621371192);
 		} else {
 

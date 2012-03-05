@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,6 +89,8 @@ public class MainActivity extends ActionBarActivity {
 								
 				editor.putInt("lat", (int)(location.getLatitude()*1000000));
 				editor.putInt("lon", (int)(location.getLongitude()*1000000));
+				
+				Log.v("Putting in lon", + (int)(location.getLongitude()*1000000) + "");
 				
 				editor.commit();
 			}
