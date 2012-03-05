@@ -23,7 +23,7 @@ if (file_exists('OpenMenu.xml')) {
 
 
 	foreach($xml->results->item as $item) {		 
-		$q = mysql_query("INSERT INTO restaurants (name, address, city, state, country) VALUES ('$item->restaurant_name', '$item->address_1', '$item->city_town', '$item->state_province', '$item->country')");
+		$q = mysql_query("INSERT INTO restaurants (name, address, city, state, country, lat, lon) VALUES ('$item->restaurant_name', '$item->address_1', '$item->city_town', '$item->state_province', '$item->country', 0, 0)");
 			
 		if (!$q) {
 			print("Error, could not query the db! " . mysql_error());
@@ -39,7 +39,7 @@ if (file_exists('OpenMenu.xml')) {
 						$price = 0.00;
 					}
 
-					$q = mysql_query("INSERT INTO items (name, description, price) VALUES ('$menu_item->menu_item_name', '$menu_item->menu_item_description', $price)");
+					$q = mysql_query("INSERT INTO items (name, description, price, veg) VALUES ('$menu_item->menu_item_name', '$menu_item->menu_item_description', $price, 0)");
 				
 					if (!$q) {
 						print("Error, could not query the db! " . mysql_error());
