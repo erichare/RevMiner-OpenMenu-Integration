@@ -36,13 +36,16 @@ public class FavoritesActivity extends ListActivity {
 			
 			editor.commit();
 		}
-		final Set<String> favorites = (menu? prefs.getStringSet("favoritemenus", null) : prefs.getStringSet("favoriterests", null));
+		final String favess = (menu? prefs.getString("favoritemenus", "") : prefs.getString("favoriterests", ""));
+		final String[] favorites = favess.split(",,,");
 
-		ArrayList<String> faves = new ArrayList<String>();
-		for (Iterator<String> i = favorites.iterator(); i.hasNext();) {
-			String str = i.next();
+		final ArrayList<String> faves = new ArrayList<String>();
+		for (int i = 0; i < favorites.length; i++) {
+			String str = favorites[i];
 			
-			faves.add(str);
+			if (!str.equals("") && !faves.contains(str)) {
+				faves.add(str);
+			}
 		}
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_item, faves);
@@ -57,8 +60,16 @@ public class FavoritesActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				final String selectedItem = ((TextView) v).getText().toString();
 
-				favorites.remove(selectedItem);
-				editor.putStringSet((menu? "favoritemenus" : "favoriterests"), favorites);
+				faves.remove(selectedItem);
+				
+				String newStr = "";
+				for (int i = 0; i < faves.size(); i++) {
+					newStr += faves.get(i);
+					if (i < faves.size() - 1) {
+						newStr += ",,, ";
+					}
+				}
+				editor.putString((menu? "favoritemenus" : "favoriterests"), newStr);
 				editor.putString("result", "Removed from Favorites");
 				
 				editor.commit();

@@ -37,17 +37,10 @@ public class SearchList extends ListFragment {
 		Toast.makeText(getActivity().getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
 		
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		Set<String> favorites = prefs.getStringSet((menu? "favoritemenus" : "favoriterests"), null);
-		favorites.add(selectedItem.replace("\n\n", ""));
+		String favorites = prefs.getString((menu? "favoritemenus" : "favoriterests"), "");
+		favorites += (",,, " + selectedItem.replace("\n\n", ""));
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putStringSet("favorites", favorites);
-		
-		ArrayList<String> faves = new ArrayList<String>();
-		for (Iterator<String> i = favorites.iterator(); i.hasNext();) {
-			String str = i.next();
-			
-			faves.add(str);
-		}
+		editor.putString((menu? "favoritemenus" : "favoriterests"), favorites);
 		
 		editor.commit();
 	}

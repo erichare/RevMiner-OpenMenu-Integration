@@ -45,13 +45,6 @@ public class MenuFragment extends Fragment {
 		if (!databaseLoaded && menu) {
 			tv.setText("Building initial database.  This may take up to 2 minutes.  Please wait...");
 			
-			final SharedPreferences.Editor editor = prefs.edit();
-			
-			editor.putStringSet("favoritemenus", new HashSet<String>());
-			editor.putStringSet("favoriterests", new HashSet<String>());
-			
-			editor.commit();
-			
 			((ActionBarActivity) getActivity()).getActionBarHelper().setRefreshActionItemState(true);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(true);
 			
@@ -61,13 +54,18 @@ public class MenuFragment extends Fragment {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
 		} else {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
-			tv2.setText("Your Favorite Menus");
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(false);
 			
 			if (menu) {
 				UpdateDatabase ud = new UpdateDatabase(getActivity().getApplicationContext());
 				ud.execute("http://www.project-fin.org/openmenu/sync.php");
 			}
+		}
+		
+		if (menu) {
+			tv2.setText("Your Favorite Menus");
+		} else {
+			tv2.setText("Your Favorite Restaurants");
 		}
 		
 		tv2.setOnClickListener(new OnClickListener(){
