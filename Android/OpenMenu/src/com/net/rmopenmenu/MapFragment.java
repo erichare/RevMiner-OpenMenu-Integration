@@ -68,9 +68,6 @@ public class MapFragment extends Fragment {
 		// Define two location variables to process
 		Location loc1 = new Location("");
 		Location loc2 = new Location("");
-		
-		Log.v("Point 2 is", point1.getLongitudeE6() + "");
-		Log.v("Point 2 lat is", point1.getLatitudeE6() + "");
 
 		// This method is valid so long as the location is not the default and not null
 		if (point1 != null && point2 != null) {
@@ -83,7 +80,6 @@ public class MapFragment extends Fragment {
 			loc2.setLongitude((float)(point2.getLongitudeE6()*1E-6));
 
 			// Return this value in miles rounded
-			Log.v("Returning", loc1.distanceTo(loc2) * 0.000621371192 + "");
 			return(loc1.distanceTo(loc2) * 0.000621371192);
 		} else {
 

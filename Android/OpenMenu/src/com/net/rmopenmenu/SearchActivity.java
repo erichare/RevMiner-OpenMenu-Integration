@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -170,6 +172,8 @@ public class SearchActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
+        
+		menu.findItem(R.id.menu_refresh).setVisible(false);
 
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
@@ -184,7 +188,7 @@ public class SearchActivity extends ActionBarActivity {
          startSearch(null, false, appData, false);
          return true;
      }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -207,8 +211,16 @@ public class SearchActivity extends ActionBarActivity {
                 onSearchRequested();
                 break;
 
-            case R.id.menu_share:
-                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+            case R.id.menu_sort:
+            	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            	boolean sortPrice = prefs.getBoolean("sortPrice", false);
+				SharedPreferences.Editor editor = prefs.edit();
+				
+				editor.putBoolean("sortPrice", !sortPrice);
+
+				editor.commit();
+				
+				startActivity(getIntent()); finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -41,7 +41,14 @@ public class Item implements Comparable<Item> {
 				}
 			}
 		} else {
-			return 0;
+			double val = (Double.valueOf(this.restaurant_distance) - Double.valueOf(other.restaurant_distance));
+			if (val < 0) {
+				return -1;
+			} else if (val > 0) {
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 	}
 }

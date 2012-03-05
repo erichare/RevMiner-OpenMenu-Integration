@@ -77,7 +77,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int mapview=0x7f07000d;
         public static final int menu_refresh=0x7f070004;
         public static final int menu_search=0x7f07000e;
-        public static final int menu_share=0x7f07000f;
+        public static final int menu_sort=0x7f07000f;
         public static final int myTextView=0x7f070009;
         public static final int myTextView2=0x7f07000b;
         public static final int pager=0x7f070005;

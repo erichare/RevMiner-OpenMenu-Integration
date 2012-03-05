@@ -16,6 +16,8 @@
 
 package com.net.rmopenmenu;
 
+import java.util.HashSet;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -111,6 +113,8 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
+        
+		menu.findItem(R.id.menu_sort).setVisible(false);
                 
         // Calling super after populating the menu is necessary here to ensure that the
         // action bar helpers have a chance to handle this event.
@@ -149,9 +153,6 @@ public class MainActivity extends ActionBarActivity {
             	onSearchRequested();
                 break;
 
-            case R.id.menu_share:
-                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

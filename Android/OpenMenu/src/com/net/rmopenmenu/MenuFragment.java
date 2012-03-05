@@ -1,5 +1,7 @@
 package com.net.rmopenmenu;
 
+import java.util.HashSet;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -41,6 +44,14 @@ public class MenuFragment extends Fragment {
 				
 		if (!databaseLoaded && menu) {
 			tv.setText("Building initial database.  This may take up to 2 minutes.  Please wait...");
+			
+			final SharedPreferences.Editor editor = prefs.edit();
+			
+			editor.putStringSet("favoritemenus", new HashSet<String>());
+			editor.putStringSet("favoriterests", new HashSet<String>());
+			
+			editor.commit();
+			
 			((ActionBarActivity) getActivity()).getActionBarHelper().setRefreshActionItemState(true);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(true);
 			
@@ -50,6 +61,7 @@ public class MenuFragment extends Fragment {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
 		} else {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
+			tv2.setText("Your Favorite Menus");
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(false);
 			
 			if (menu) {
@@ -57,6 +69,16 @@ public class MenuFragment extends Fragment {
 				ud.execute("http://www.project-fin.org/openmenu/sync.php");
 			}
 		}
+		
+		tv2.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(getActivity().getApplicationContext(), FavoritesActivity.class);
+				myIntent.putExtra("menu", menu);
+				startActivity(myIntent);
+			}
+		});
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter(menu));

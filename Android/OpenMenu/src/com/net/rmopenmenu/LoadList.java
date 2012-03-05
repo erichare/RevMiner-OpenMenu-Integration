@@ -108,7 +108,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 				restaurant_lons.add(cursor.getInt(cursor.getColumnIndex("lon")));
 				
 				double distance = MapFragment.distanceBetween(myLoc, new GeoPoint(cursor.getInt(cursor.getColumnIndex("lat")), cursor.getInt(cursor.getColumnIndex("lon"))));
-				restaurant_distances.add(String.format("%.1f", distance) + " mi.");
+				restaurant_distances.add(String.format("%.1f", distance));
 			}
 		} else {
 			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
@@ -135,7 +135,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 				restaurant_names.add(restaurant_name);
 				restaurant_lats.add(restaurant_lat);
 				restaurant_lons.add(restaurant_lon);
-				restaurant_distances.add(String.format("%.1f", distance) + " mi.");
+				restaurant_distances.add(String.format("%.1f", distance));
 				
 				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
 				String price = cursor.getString(cursor.getColumnIndex("price"));
@@ -164,16 +164,21 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
     	ArrayList<Item> item_list = new ArrayList<Item>();
 
 		for (int i = 0; i < item_ids.size(); i++) {
-			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), true);
+			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), prefs.getBoolean("sortPrice", false));
 			item_list.add(item);
 		}
 		
 		Collections.sort(item_list);
 			
 		ArrayList<String> combined = new ArrayList<String>();
+		String thisName = "";
 		for (Iterator<Item> i = item_list.iterator(); i.hasNext();) {
 			Item item = i.next();
-			combined.add(item.restaurant_name + "\n\n" + item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n" + item.item_price) + "\n\n" + item.restaurant_distance);;
+			if (!item.restaurant_name.equals(thisName)) {
+				combined.add((combined.size() == 0? "" : "\n\n") + item.restaurant_name + "\n" + item.restaurant_distance + " mi.\n\n");
+			}
+			combined.add(item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n$" + item.item_price));
+			thisName = item.restaurant_name;
 		}
 		
 		b.putStringArrayList("combined", combined);
