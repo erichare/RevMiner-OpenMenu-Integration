@@ -2,9 +2,11 @@ package com.net.rmopenmenu;
 
 import java.util.List;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ public class MapFragment extends Fragment {
 	private View fragmentView;
 	static OMOverlay itemizedOverlay;
 	static MapView mapView;
-	static MapController mapController;
+	MapController mapController;
 	static MyLocationOverlay locOverlay;
 	static List<Overlay> overlays;
 	
@@ -40,7 +42,9 @@ public class MapFragment extends Fragment {
 		mapController = mapView.getController();
 						
 		mapController.setZoom(15);
-		mapController.setCenter(new GeoPoint(47662150, -122313237));
+		
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		mapController.setCenter(new GeoPoint(prefs.getInt("lat", 47662150), prefs.getInt("lon", -122313237)));
 		
 		Drawable drawable = getActivity().getResources().getDrawable(R.drawable.pin);
 		itemizedOverlay = new OMOverlay(drawable, getActivity());
@@ -51,7 +55,9 @@ public class MapFragment extends Fragment {
 		
 		Runnable runnable = new Runnable() {
 			public void run() {
-				mapController.animateTo(locOverlay.getMyLocation());
+				if (locOverlay.getMyLocation() != null) {
+					mapController.animateTo(locOverlay.getMyLocation());
+				}
 			}
 		};
 		

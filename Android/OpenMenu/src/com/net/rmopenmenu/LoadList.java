@@ -164,7 +164,8 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
     	ArrayList<Item> item_list = new ArrayList<Item>();
 
 		for (int i = 0; i < item_ids.size(); i++) {
-			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), prefs.getBoolean("sortPrice", false));
+			boolean mSort = (menu? prefs.getBoolean("sortPrice", false) : true);
+			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), mSort);
 			item_list.add(item);
 		}
 		

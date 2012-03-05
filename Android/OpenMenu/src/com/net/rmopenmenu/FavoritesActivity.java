@@ -27,10 +27,9 @@ public class FavoritesActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		final SharedPreferences.Editor editor = prefs.edit();
-		
-		this.setTitle("OM Finder - Favorites");
-		
+				
 		final boolean menu = this.getIntent().getBooleanExtra("menu", true);
+		this.setTitle("OM Finder - Favorite " + (menu? "Menus" : "Restaurants"));
 
 		if (prefs.contains("result")) { 
 			Toast.makeText(getBaseContext(), "Removed from Favorites", Toast.LENGTH_SHORT).show();
