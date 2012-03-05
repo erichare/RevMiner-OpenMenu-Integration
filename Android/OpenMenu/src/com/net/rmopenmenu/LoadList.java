@@ -181,7 +181,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 			if (!item.restaurant_name.equals(thisName)) {
 				combined.add((combined.size() == 0? "" : "\n\n") + item.restaurant_name + "\n" + item.restaurant_distance + " mi.\n\n");
 			}
-			combined.add(item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n$" + item.item_price) + "\n\n" + (item.item_veg != 0? "We think this IS a vegetarian item" : "We think this is NOT a vegetarian item"));
+			combined.add(item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n$" + item.item_price) + "\n" + (item.item_veg == 1? "We think this IS a vegetarian item" : "We think this is NOT a vegetarian item"));
 			thisName = item.restaurant_name;
 		}
 		

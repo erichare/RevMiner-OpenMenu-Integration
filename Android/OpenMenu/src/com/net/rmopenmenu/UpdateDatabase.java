@@ -132,7 +132,7 @@ public class UpdateDatabase extends AsyncTask<String, Integer, String> {
 		
 		SQLiteDatabase db = new Database(context).getWritableDatabase();
 
-		if (!result.equals("null")) {
+		if (parser.hasNext()) {
 			JsonArray arr = parser.next().getAsJsonArray();
 	
 			for (int i = 0; i < arr.size(); i++)

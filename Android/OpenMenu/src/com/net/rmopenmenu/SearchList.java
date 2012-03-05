@@ -41,7 +41,7 @@ public class SearchList extends ListFragment {
         		
         		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         		String favorites = prefs.getString((menu? "favoritemenus" : "favoriterests"), "");
-        		favorites += (",,, " + selectedItem.replace("\n\n", ""));
+        		favorites += ((favorites.length() > 0 ? ",,," : "")  + selectedItem.replace("\n\n", ""));
         		SharedPreferences.Editor editor = prefs.edit();
         		editor.putString((menu? "favoritemenus" : "favoriterests"), favorites);
         		

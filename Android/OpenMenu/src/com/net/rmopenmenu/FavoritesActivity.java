@@ -75,7 +75,7 @@ public class FavoritesActivity extends ListActivity {
 				for (int i = 0; i < faves.size(); i++) {
 					newStr += faves.get(i);
 					if (i < faves.size() - 1) {
-						newStr += ",,, ";
+						newStr += ",,,";
 					}
 				}
 				editor.putString((menu? "favoritemenus" : "favoriterests"), newStr);
