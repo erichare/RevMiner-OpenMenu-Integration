@@ -21,7 +21,7 @@ public class MapFragment extends Fragment {
 	private View fragmentView;
 	static OMOverlay itemizedOverlay;
 	static MapView mapView;
-	MapController mapController;
+	static MapController mapController;
 	static MyLocationOverlay locOverlay;
 	static List<Overlay> overlays;
 	
@@ -42,14 +42,22 @@ public class MapFragment extends Fragment {
 		mapController.setZoom(15);
 		mapController.setCenter(new GeoPoint(47662150, -122313237));
 		
-		Drawable drawable = getActivity().getApplicationContext().getResources().getDrawable(R.drawable.pin);
-		itemizedOverlay = new OMOverlay(drawable);
+		Drawable drawable = getActivity().getResources().getDrawable(R.drawable.pin);
+		itemizedOverlay = new OMOverlay(drawable, getActivity());
 		overlays = mapView.getOverlays();
 		
-		locOverlay = new MyLocationOverlay(getActivity().getApplicationContext(), mapView);
+		locOverlay = new MyLocationOverlay(getActivity(), mapView);
 		locOverlay.enableMyLocation();
+		
+		Runnable runnable = new Runnable() {
+			public void run() {
+				mapController.animateTo(locOverlay.getMyLocation());
+			}
+		};
+		
+		locOverlay.runOnFirstFix(runnable);
 				
-		LoadMap lm = new LoadMap(getActivity().getApplicationContext(), b, getActivity());
+		LoadMap lm = new LoadMap(getActivity(), b, getActivity());
 		lm.execute("http://www.project-fin.org/openmenu/sync.php");
 		
         return fragmentView;

@@ -27,14 +27,17 @@
         android:stretchMode="columnWidth"
         android:gravity="center"/>
     
-    <TextView
+    <Button
         android:id="@+id/myTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
-        android:textStyle="italic"
-        android:paddingTop="8dp"
-        android:text="Add Favorite Menus: Coming Soon!"
+        android:textStyle="bold"
+        android:paddingTop="7dp"
+        android:text="Your Favorite Menus"
+        android:textSize="14.5sp"
+        android:background="#E0E0E0"
         android:gravity="center"
+        android:layout_gravity="center"
     />
         
 </LinearLayout>

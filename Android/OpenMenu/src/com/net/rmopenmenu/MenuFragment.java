@@ -27,7 +27,7 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.main, container, false);
     	
-    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		boolean databaseLoaded = prefs.getBoolean("databaseLoaded", false);
 		
 		TextView tv = (TextView)v.findViewById(R.id.myTextView);
@@ -48,7 +48,7 @@ public class MenuFragment extends Fragment {
 			((ActionBarActivity) getActivity()).getActionBarHelper().setRefreshActionItemState(true);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(true);
 			
-			LoadDatabase ld = new LoadDatabase(getActivity().getApplicationContext(), tv, menu, getActivity());
+			LoadDatabase ld = new LoadDatabase(getActivity(), tv, menu, getActivity());
 			ld.execute("http://www.project-fin.org/openmenu/sync.php");
 		} else if (!databaseLoaded && !menu) {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
@@ -57,7 +57,7 @@ public class MenuFragment extends Fragment {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(false);
 			
 			if (menu) {
-				UpdateDatabase ud = new UpdateDatabase(getActivity().getApplicationContext());
+				UpdateDatabase ud = new UpdateDatabase(getActivity());
 				ud.execute("http://www.project-fin.org/openmenu/sync.php");
 			}
 		}
@@ -72,12 +72,12 @@ public class MenuFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(getActivity().getApplicationContext(), FavoritesActivity.class);
+				Intent myIntent = new Intent(getActivity(), FavoritesActivity.class);
 				myIntent.putExtra("menu", menu);
 				startActivity(myIntent);
 			}
 		});
-    	
+		    	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter(menu));
 	    
@@ -136,7 +136,7 @@ public class MenuFragment extends Fragment {
 
 	        ib.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
-		        	Intent myIntent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+		        	Intent myIntent = new Intent(getActivity(), SearchActivity.class);
 
 					myIntent.putExtra("query", mThumbStrs[position]);
 					myIntent.putExtra("menu", menu);

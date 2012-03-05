@@ -36,6 +36,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class color {
         public static final int actionbar_title_color=0x7f050000;
+        public static final int light_blue=0x7f050001;
     }
     public static final class dimen {
         public static final int actionbar_compat_button_home_width=0x7f060002;

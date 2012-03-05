@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -41,9 +42,9 @@ public class SearchList extends ListFragment {
             		
             	String selectedItem = ((TextView) v).getText().toString();
         		boolean menu = (selectedItem.endsWith("\n\n")? false : true);
-        		Toast.makeText(getActivity().getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getActivity(), "Added to Favorites", Toast.LENGTH_SHORT).show();
         		
-        		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         		String favorites = prefs.getString((menu? "favoritemenus" : "favoriterests"), "");
         		favorites += (",,, " + selectedItem.replace("\n\n", ""));
         		SharedPreferences.Editor editor = prefs.edit();
@@ -58,6 +59,14 @@ public class SearchList extends ListFragment {
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		Intent myIntent = new Intent(getActivity(), SearchActivity.class);
+    	String selectedItem = ((TextView) v).getText().toString();
+    	
+		boolean menu = (selectedItem.endsWith("\n\n")? false : true);
+
+		myIntent.putExtra("query", selectedItem.replace("\n\n", "").split("\n")[0].trim());
+		myIntent.putExtra("menu", menu);
 		
+		startActivity(myIntent);
 	}
 }

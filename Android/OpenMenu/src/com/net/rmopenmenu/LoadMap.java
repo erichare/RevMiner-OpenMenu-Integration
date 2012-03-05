@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -65,7 +66,7 @@ public class LoadMap extends AsyncTask<String, Integer, Bundle> {
 		
 		for (int i = 0; i < restaurant_names.size(); i++) {				
 			GeoPoint point = new GeoPoint(restaurant_lats.get(i), restaurant_lons.get(i));
-			OverlayItem overlayitem = new OverlayItem(point, "", "");
+			OverlayItem overlayitem = new OverlayItem(point, restaurant_names.get(i), "");
 			
 			MapFragment.itemizedOverlay.addOverlay(overlayitem);
 		}
