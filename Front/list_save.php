@@ -103,6 +103,46 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 				file_put_contents("list_rest.txt", $newSet);
 			//	contents("list_rest.txt");
 			}
+		} else if($behavior == "delete_any_rest"){
+			if (isset($_REQUEST["name_to_del"])) {
+				$deleting = $_REQUEST["name_to_del"];
+				if(file_exists("list_rest.txt")){
+					$updated = "";		
+					$lines = file_get_contents("list_rest.txt"); 
+					$tokens = explode("\n", $lines);
+					$i = 0;
+					for($i = 0; $i < count($tokens) - 1; $i++){
+						if($tokens[$i] != $deleting){
+							$updated = $updated.$tokens[$i]."\n";	
+						}
+					}
+					if($tokens[$i] != $deleting){
+						$updated = $updated.$tokens[$i];
+					}
+					file_put_contents("list_rest.txt", $updated);
+				//	contents("list_rest.txt");
+				}
+			}
+		} else if($behavior == "delete_any_food"){
+			if (isset($_REQUEST["name_to_del"])) {
+				$deleting = $_REQUEST["name_to_del"];
+				if(file_exists("list_food.txt")){
+					$updated = "";		
+					$lines = file_get_contents("list_food.txt"); 
+					$tokens = explode("\n", $lines);
+					$i = 0;
+					for($i = 0; $i < count($tokens) - 1; $i++){
+						if($tokens[$i] != $deleting){
+							$updated = $updated.$tokens[$i]."\n";	
+						}
+					}
+					if($tokens[$i] != $deleting){
+						$updated = $updated.$tokens[$i];
+					}
+					file_put_contents("list_food.txt", $updated);
+				//	contents("list_rest.txt");
+				}
+			}
 		}
 	}	 	
 }

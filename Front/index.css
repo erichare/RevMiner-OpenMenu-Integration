@@ -134,6 +134,10 @@ img {
 	width: 45%;
 }
 
+.del_buts{
+	float: right;
+}
+
 .button_set{
 	margin-bottom: 5px;
 }
@@ -163,7 +167,7 @@ img {
 
 #explain {
 	color: #F0FFF0;
-	margin-top:120px;
+	margin-top:140px;
 }
 
 #table_start{
@@ -176,6 +180,14 @@ img {
 	top: 0;
 	left:50%;
 	margin-left:-310px;
+}
+
+#signup{
+	float: right;
+}
+
+#signup strong {
+	margin-left: 0;
 }
 
 #see_map{

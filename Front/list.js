@@ -1,6 +1,6 @@
 /*
 author: Donghyo Min
-
+contact: gajok@cs.washington.edu
 filename: list.js
 This file is for javascript for index.php
 */
@@ -94,13 +94,24 @@ function initialize_food(ajax){
 			var each_food = $(document.createElement("li"));
 			each_food.className = "busy1";
 			each_food.id = "foods_" + ID;
-			ID++;
+			
 			
 			var food_link = $(document.createElement("a"));
 			food_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Food&menu_rest_name=" + food_list[i];
 			food_link.innerHTML = food_list[i];
-			each_food.appendChild(food_link);
+			food_link.id = "food_link_" + ID;
+			food_link.className = "busy1_link";
 			
+			var del_but = $(document.createElement("button"));
+			del_but.innerHTML = "Delete";
+			del_but.id = "del_" + ID;
+			var id_del_but = "del_" + ID;
+			del_but.className = "del_buts";
+			del_but.observe("click", delete_food_but);
+			
+			ID++;
+			each_food.appendChild(food_link);
+			each_food.appendChild(del_but);
 			$("foods").appendChild(each_food);
 		}
 	}
@@ -108,6 +119,25 @@ function initialize_food(ajax){
 	Sortable.create("foods", {
 		onUpdate: listUpdate
 	});
+}
+
+
+function delete_food_but(event){
+	var id_for_food = this.id;
+	
+	var id_for_deleting = "foods_" + id_for_food.substring(4);
+	var fav_list_by_id = document.getElementById(id_for_deleting);
+	
+	var food_link_id = "food_link_" + id_for_food.substring(4);
+	var name_to_del = document.getElementById(food_link_id);
+	
+	$("foods").removeChild(fav_list_by_id);
+	
+	Sortable.create("foods", {
+		onUpdate: listUpdate
+	});
+	
+	callAjax("post", afterDelete, {"action": "delete_any_food", "name_to_del": name_to_del.innerHTML});
 }
 
 // Once getting the list, append it ot the "rests"
@@ -123,13 +153,22 @@ function initialize_rest(ajax){
 			var each_food = $(document.createElement("li"));
 			each_food.className = "busy2";
 			each_food.id = "rests_" + ID;
-			ID++;
 			
 			var rest_link = $(document.createElement("a"));
 			rest_link.href = "http://www.project-fin.org/openmenu/Front/match.php?want=Restaurant&menu_rest_name=" + food_list[i];
 			rest_link.innerHTML = food_list[i];
-			each_food.appendChild(rest_link);
+			rest_link.className = "busy2_link";
+			rest_link.id = "rest_link_" + ID;
 			
+			var del_but = $(document.createElement("button"));
+			del_but.innerHTML = "Delete";
+			del_but.id = "del_rest_" + ID;
+			del_but.className = "del_buts";
+			del_but.observe("click", delete_rest_but);
+			
+			ID++;
+			each_food.appendChild(rest_link);
+			each_food.appendChild(del_but);
 			$("rests").appendChild(each_food);
 		}
 	}
@@ -137,6 +176,25 @@ function initialize_rest(ajax){
 	Sortable.create("rests", {
 		onUpdate: listUpdate
 	});
+}
+
+function delete_rest_but(event){
+	var id_for_rest = this.id;
+
+	var id_for_deleting = "rests_" + id_for_rest.substring(9);
+
+	var fav_list_by_id = document.getElementById(id_for_deleting);
+	
+	var food_link_id = "rest_link_" + id_for_rest.substring(9);
+	var name_to_del = document.getElementById(food_link_id);
+	
+	$("rests").removeChild(fav_list_by_id);
+	
+	Sortable.create("rests", {
+		onUpdate: listUpdate
+	});
+	
+	callAjax("post", afterDelete, {"action": "delete_any_rest", "name_to_del": name_to_del.innerHTML});
 }
 
 function add_helper(event){
@@ -176,13 +234,23 @@ function direct_add_food(event){
 		var newFood = $(document.createElement("li"));
 		newFood.className = "busy1";
 		newFood.id = "direct_food_" + ID;
-		ID++;
+		
 		
 		var food_link = $(document.createElement("a"));
 		food_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Food&menu_rest_name=" + newItem;
 		food_link.innerHTML = newItem;
+		food_link.className = "busy1_link";
 		newFood.appendChild(food_link);
 		
+		var del_but = $(document.createElement("button"));
+		del_but.innerHTML = "Delete";
+		del_but.id = "del_rest_" + ID;
+		del_but.className = "del_buts";
+		del_but.observe("click", delete_rest_but);
+		
+		ID++;
+		newFood.appendChild(food_link);
+		newFood.appendChild(del_but);
 		$("foods").appendChild(newFood);
 		Sortable.create("foods", {
 			onUpdate: listUpdate
@@ -200,14 +268,24 @@ function direct_add_rest(event){
 		var newRest = $(document.createElement("li"));
 		newRest.className = "busy2";
 		newRest.id = "direct_rest_" + ID;
-		ID++;
 		
 		var rest_link = $(document.createElement("a"));
 		rest_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Restaurant&menu_rest_name=" + newItem;
 		rest_link.innerHTML = newItem;
+		rest_link.className = "busy2_link";
 		newRest.appendChild(rest_link);
 		
+		var del_but = $(document.createElement("button"));
+		del_but.innerHTML = "Delete";
+		del_but.id = "del_rest_" + ID;
+		del_but.className = "del_buts";
+		del_but.observe("click", delete_rest_but);
+		
+		ID++;
+		newRest.appendChild(rest_link);
+		newRest.appendChild(del_but);
 		$("rests").appendChild(newRest);
+		
 		Sortable.create("rests", {
 			onUpdate: listUpdate
 		});
@@ -323,14 +401,14 @@ function afterDelete(){
 // then, contact to server to reflect this change.
 function listUpdate(list) {
 //	list.shake();
-	var newSet1 = $$("li.busy1");
+	var newSet1 = $$("a.busy1_link");
 	var newString1 = "";
 	for(var i = 0; i < newSet1.length; i++){
 		newString1 = newString1 + newSet1[i].innerHTML + "\n";
 	}
 	callAjax("post", afterUpdate, {"action": "set_food", "items": newString1});
 	
-	var newSet2 = $$("li.busy2");
+	var newSet2 = $$("a.busy2_link");
 	var newString2 = "";
 	for(var i = 0; i < newSet2.length; i++){
 		newString2 = newString2 + newSet2[i].innerHTML + "\n";
