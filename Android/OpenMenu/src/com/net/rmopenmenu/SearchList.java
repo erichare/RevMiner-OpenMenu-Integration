@@ -1,7 +1,5 @@
 package com.net.rmopenmenu;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
