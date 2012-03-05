@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,7 @@ public class MapFragment extends Fragment {
 		
 		locOverlay.runOnFirstFix(runnable);
 				
-		LoadMap lm = new LoadMap(getActivity(), b, getActivity());
+		LoadMap lm = new LoadMap(b, getActivity());
 		lm.execute("http://www.project-fin.org/openmenu/sync.php");
 		
         return fragmentView;

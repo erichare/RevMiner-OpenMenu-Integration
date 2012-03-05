@@ -171,9 +171,10 @@ public class UpdateDatabase extends AsyncTask<String, Integer, String> {
 					String name = ob.get("name").getAsString();
 					String description = ob.get("description").getAsString();
 					String price = ob.get("price").getAsString();
+					int veg = ob.get("veg").getAsInt();
 					
-					db.execSQL("INSERT OR REPLACE INTO items (iid, name, description, price) VALUES (" + 
-													  iid + ", '" + name + "', '" + description + "', '" + price + "')");
+					db.execSQL("INSERT OR REPLACE INTO items (iid, name, description, price, veg) VALUES (" + 
+													  iid + ", '" + name + "', '" + description + "', '" + price + "', " + veg + ")");
 				}
 			}
 			

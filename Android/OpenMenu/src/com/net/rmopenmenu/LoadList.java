@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.TabHost;
 
 import com.google.android.maps.GeoPoint;
@@ -75,6 +74,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 		ArrayList<String> item_names = new ArrayList<String>();
 		ArrayList<String> item_prices = new ArrayList<String>();
 		ArrayList<String> item_descriptions = new ArrayList<String>();
+		ArrayList<Integer> item_vegs = new ArrayList<Integer>();
 		
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     	GeoPoint myLoc = new GeoPoint(prefs.getInt("lat", 47662150), prefs.getInt("lon", -122313237));
@@ -91,6 +91,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 					price = "Unknown Price";
 				}
 				item_prices.add(price);
+				item_vegs.add(cursor.getInt(cursor.getColumnIndex("veg")));
 				cursor.moveToNext();
 			}
 			
@@ -144,6 +145,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 				}
 				item_prices.add(price);
 				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
+				item_vegs.add(cursor.getInt(cursor.getColumnIndex("veg")));
 			}
 		}
 		
@@ -160,12 +162,13 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
         b.putStringArrayList("item_names", item_names);
         b.putStringArrayList("item_prices", item_prices);
         b.putStringArrayList("item_descriptions", item_descriptions);
+        b.putIntegerArrayList("item_vegs", item_vegs);
 		
     	ArrayList<Item> item_list = new ArrayList<Item>();
 
 		for (int i = 0; i < item_ids.size(); i++) {
 			boolean mSort = (menu? prefs.getBoolean("sortPrice", false) : true);
-			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), mSort);
+			Item item = new Item(item_ids.get(i), restaurant_names.get(i), restaurant_lats.get(i), restaurant_lons.get(i), restaurant_distances.get(i), item_names.get(i), item_prices.get(i), item_descriptions.get(i), item_vegs.get(i), mSort);
 			item_list.add(item);
 		}
 		
@@ -178,7 +181,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 			if (!item.restaurant_name.equals(thisName)) {
 				combined.add((combined.size() == 0? "" : "\n\n") + item.restaurant_name + "\n" + item.restaurant_distance + " mi.\n\n");
 			}
-			combined.add(item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n$" + item.item_price));
+			combined.add(item.item_name + (item.item_description.equals("") ? "" : "\n" + item.item_description) + (item.item_price.equals("Unknown Price")? "" : "\n$" + item.item_price) + "\n\n" + (item.item_veg != 0? "We think this IS a vegetarian item" : "We think this is NOT a vegetarian item"));
 			thisName = item.restaurant_name;
 		}
 		

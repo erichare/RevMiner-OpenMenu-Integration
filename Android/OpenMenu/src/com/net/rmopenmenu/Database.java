@@ -13,9 +13,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 
-public class Database extends SQLiteOpenHelper {
-	private static final int DATABASE_VERSION = 1;
-	
+public class Database extends SQLiteOpenHelper {	
 	//The Android's default system path of your application database.
     private static String DB_PATH = "/data/data/com.net.rmopenmenu/databases/";
  

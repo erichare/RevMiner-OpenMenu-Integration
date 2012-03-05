@@ -9,10 +9,11 @@ public class Item implements Comparable<Item> {
 	String item_name;
 	String item_price;
 	String item_description;
+	int item_veg;
 	
 	private boolean sortPrice;
 	
-	public Item(int item_id, String restaurant_name, int restaurant_lat, int restaurant_lon, String restaurant_distance, String item_name, String item_price, String item_description, boolean sortPrice) {
+	public Item(int item_id, String restaurant_name, int restaurant_lat, int restaurant_lon, String restaurant_distance, String item_name, String item_price, String item_description, int item_veg, boolean sortPrice) {
 		this.item_id = item_id;
 		this.restaurant_name = restaurant_name;
 		this.restaurant_lat = restaurant_lat;
@@ -21,6 +22,7 @@ public class Item implements Comparable<Item> {
 		this.item_name = item_name;
 		this.item_price = item_price;
 		this.item_description = item_description;
+		this.item_veg = item_veg;
 		
 		this.sortPrice = sortPrice;
 	}

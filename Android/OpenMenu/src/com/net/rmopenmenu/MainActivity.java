@@ -16,8 +16,6 @@
 
 package com.net.rmopenmenu;
 
-import java.util.HashSet;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -27,13 +25,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 import com.net.rmopenmenu.SearchActivity.TabsAdapter;
 
@@ -91,9 +87,7 @@ public class MainActivity extends ActionBarActivity {
 								
 				editor.putInt("lat", (int)(location.getLatitude()*1000000));
 				editor.putInt("lon", (int)(location.getLongitude()*1000000));
-				
-				Log.v("Putting in lon", + (int)(location.getLongitude()*1000000) + "");
-				
+								
 				editor.commit();
 			}
 		  };

@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-import android.widget.Toast;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI
@@ -81,12 +80,10 @@ public class SearchActivity extends ActionBarActivity {
         private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
         static final class TabInfo {
-            private final String tag;
             private final Class<?> clss;
             private final Bundle args;
 
-            TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
+            TabInfo(Class<?> _class, Bundle _args) {
                 clss = _class;
                 args = _args;
             }
@@ -120,9 +117,8 @@ public class SearchActivity extends ActionBarActivity {
 
         public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
             tabSpec.setContent(new DummyTabFactory(mContext));
-            String tag = tabSpec.getTag();
 
-            TabInfo info = new TabInfo(tag, clss, args);
+            TabInfo info = new TabInfo(clss, args);
             mTabs.add(info);
             mTabHost.addTab(tabSpec);
             notifyDataSetChanged();
