@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.Toast;
@@ -30,11 +32,16 @@ public class SearchActivity extends ActionBarActivity {
     TabHost mTabHost;
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
+    static Bundle savedInstanceState;
     boolean menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		this.getActionBarHelper().setRefreshActionItemState(true);
+
+        SearchActivity.savedInstanceState = savedInstanceState;
 
         setContentView(R.layout.fragment_tabs_pager);
         
@@ -50,101 +57,9 @@ public class SearchActivity extends ActionBarActivity {
 			query = intent.getStringExtra("query");
 			menu = intent.getBooleanExtra("menu", true);
 		}
-
-		SQLiteDatabase db = new Database(getBaseContext()).getReadableDatabase();
-		ArrayList<Integer> item_ids = new ArrayList<Integer>();
-		ArrayList<String> restaurant_names = new ArrayList<String>();
-		ArrayList<String> restaurant_addresses = new ArrayList<String>();
-		ArrayList<String> item_names = new ArrayList<String>();
-		ArrayList<String> item_prices = new ArrayList<String>();
-		ArrayList<String> item_descriptions = new ArrayList<String>();
-		if (menu) {
-			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
-			cursor.moveToFirst();
-				
-			while (!cursor.isAfterLast()) {
-				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
-				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
-				String price = cursor.getString(cursor.getColumnIndex("price"));
-				if (price.equals("0.00")) {
-					price = "Unknown Price";
-				}
-				item_prices.add(price);
-				cursor.moveToNext();
-			}
-			
-			for (int i = 0; i < item_ids.size(); i++) {
-				cursor = db.query("restaurants_items", null, "iid = " + item_ids.get(i), null, null, null, null);
-				cursor.moveToFirst();
-				
-				int rid = cursor.getInt(cursor.getColumnIndex("rid"));
-				
-				cursor = db.query("restaurants", null, "rid = " + rid, null, null, null, null);
-				cursor.moveToFirst();
-				
-				restaurant_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				restaurant_addresses.add(cursor.getString(cursor.getColumnIndex("address")));
-			}
-		} else {
-			Cursor cursor = db.query("restaurants", null, "name LIKE '%" + query + "%'", null, null, null, null);
-			cursor.moveToFirst();
-	        
-	        int rid = cursor.getInt(cursor.getColumnIndex("rid"));
-	        String restaurant_name = cursor.getString(cursor.getColumnIndex("name"));
-	        String restaurant_address = cursor.getString(cursor.getColumnIndex("address"));
-
-	        cursor = db.query("restaurants_items", null, "rid = " + rid, null, null, null, null);
-			cursor.moveToFirst();
-			
-			while (!cursor.isAfterLast()) {
-				item_ids.add(cursor.getInt(cursor.getColumnIndex("iid")));
-				cursor.moveToNext();
-			}
-
-			for (int i = 0; i < item_ids.size(); i++) {
-				cursor = db.query("items", null, "iid = " + item_ids.get(i), null, null, null, null);
-				cursor.moveToFirst();
-				
-				restaurant_names.add(restaurant_name);
-				restaurant_addresses.add(restaurant_address);
-				
-				item_names.add(cursor.getString(cursor.getColumnIndex("name")));
-				String price = cursor.getString(cursor.getColumnIndex("price"));
-				if (price.equals("0.00")) {
-					price = "Unknown Price";
-				}
-				item_prices.add(price);
-				item_descriptions.add(cursor.getString(cursor.getColumnIndex("description")));
-			}
-		}
 		
-		db.close();
-
-        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-
-        mViewPager = (ViewPager)findViewById(R.id.pager);
-
-        mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
-        Bundle b = new Bundle();
-        b.putString("query", query);
-        b.putBoolean("menu", menu);
-        b.putIntegerArrayList("item_ids", item_ids);
-        b.putStringArrayList("restaurant_names", restaurant_names);
-        b.putStringArrayList("restaurant_addresses", restaurant_addresses);
-        b.putStringArrayList("item_names", item_names);
-        b.putStringArrayList("item_prices", item_prices);
-        b.putStringArrayList("item_descriptions", item_descriptions);
-
-        mTabsAdapter.addTab(mTabHost.newTabSpec("list").setIndicator("List"),
-                SearchList.class, b);
-        mTabsAdapter.addTab(mTabHost.newTabSpec("map").setIndicator("Map"),
-                MapFragment.class, b);
-
-        if (savedInstanceState != null) {
-            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-        }
+        LoadList ll = new LoadList(getBaseContext(), menu, this);
+		ll.execute(query);
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
