@@ -52,16 +52,14 @@ public class MenuFragment extends Fragment {
 			tv.setText(menu? getActivity().getString(R.string.hello) : getActivity().getString(R.string.hello2));
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) getActivity().setProgressBarIndeterminateVisibility(false);
 			
-			//UpdateDatabase ud = new UpdateDatabase(getActivity().getApplicationContext());
-			//ud.execute("http://www.project-fin.org/openmenu/sync.php");
+			if (menu) {
+				UpdateDatabase ud = new UpdateDatabase(getActivity().getApplicationContext());
+				ud.execute("http://www.project-fin.org/openmenu/sync.php");
+			}
 		}
     	
     	GridView gridview = (GridView)v.findViewById(R.id.gridview);
 	    gridview.setAdapter(new ImageAdapter(menu));
-	    
-	    SharedPreferences.Editor editor = prefs.edit();
-		editor.putString("lastOpened", System.currentTimeMillis() / 1000 + "");
-		editor.commit();
 	    
 	    return v;
     }

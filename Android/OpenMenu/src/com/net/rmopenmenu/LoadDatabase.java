@@ -147,6 +147,7 @@ public class LoadDatabase extends AsyncTask<String, Integer, String> {
  		throw sqle;
  
 	}
+ 	myDbHelper.close();
 	return url;
 	}
 

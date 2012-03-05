@@ -3,12 +3,14 @@ package com.net.rmopenmenu;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -49,5 +51,38 @@ public class MapFragment extends Fragment {
 		lm.execute("http://www.project-fin.org/openmenu/sync.php");
 		
         return fragmentView;
+	}
+	
+	/**
+	 * This method returns the distance from the user's current location to a given point
+	 * It returns this in BigDecimal format for ease of processing
+	 * 
+	 * @param point A GeoPoint corresponding to the location under consideration
+	 * 
+	 * @return A BigDecimal representing the distance to this point in miles
+	 */
+	public static double distanceBetween(GeoPoint point1, GeoPoint point2) {
+
+		// Define two location variables to process
+		Location loc1 = new Location("");
+		Location loc2 = new Location("");
+
+		// This method is valid so long as the location is not the default and not null
+		if (point1 != null && point2 != null) {
+
+			// Compute the latitude and longitude of the two points
+			// Add these values to our location variable
+			loc1.setLatitude((float)(point1.getLatitudeE6()*1E-6));
+			loc1.setLongitude((float)(point1.getLongitudeE6()*1E-6));
+			loc2.setLatitude((float)(point2.getLatitudeE6()*1E-6));
+			loc2.setLongitude((float)(point2.getLongitudeE6()*1E-6));
+
+			// Return this value in miles rounded
+			return(loc1.distanceTo(loc2) * 0.000621371192);
+		} else {
+
+			// Return -1 if the location was not valid
+			return -1;
+		}
 	}
 }

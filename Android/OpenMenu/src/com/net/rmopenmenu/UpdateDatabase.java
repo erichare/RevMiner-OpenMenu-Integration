@@ -123,7 +123,7 @@ public class UpdateDatabase extends AsyncTask<String, Integer, String> {
 		// Initialize the array of name value pairs
 		List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
     	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String timestamp = prefs.getString("lastOpened", "0");
+		String timestamp = prefs.getString("lastOpened", "1330910642");
 
 		nameValuePairs.add(new BasicNameValuePair("timestamp", timestamp));
 		String result = Post(url, nameValuePairs);
@@ -149,9 +149,11 @@ public class UpdateDatabase extends AsyncTask<String, Integer, String> {
 					String city = ob.get("city").getAsString();
 					String state = ob.get("state").getAsString();
 					String country = ob.get("country").getAsString();
+					int lat = ob.get("lat").getAsInt();
+					int lon = ob.get("lon").getAsInt();
 					
-					db.execSQL("INSERT OR REPLACE INTO restaurants (rid, name, address, city, state, country) VALUES (" + 
-													  rid + ", '" + name + "', '" + address + "', '" + city + "', '" + state + "', '" + country + "')");
+					db.execSQL("INSERT OR REPLACE INTO restaurants (rid, name, address, city, state, country, lat, lon) VALUES (" + 
+													  rid + ", '" + name + "', '" + address + "', '" + city + "', '" + state + "', '" + country + "', " + lat + ", " + lon + ")");
 				}
 			}
 			
@@ -194,9 +196,8 @@ public class UpdateDatabase extends AsyncTask<String, Integer, String> {
 			}
 		}
 		
-		SharedPreferences.Editor editor = prefs.edit();
-		
-		editor.putBoolean("databaseLoaded", true);		
+	    SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("lastOpened", System.currentTimeMillis() / 1000 + "");
 		editor.commit();
 				
 		db.close();

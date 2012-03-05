@@ -6,14 +6,17 @@ import java.util.Iterator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.TabHost;
 
+import com.google.android.maps.GeoPoint;
 import com.net.rmopenmenu.SearchActivity.TabsAdapter;
 
 public class LoadList extends AsyncTask<String, Integer, Bundle> {
@@ -66,9 +69,13 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 		ArrayList<Integer> item_ids = new ArrayList<Integer>();
 		ArrayList<String> restaurant_names = new ArrayList<String>();
 		ArrayList<String> restaurant_addresses = new ArrayList<String>();
+		ArrayList<String> restaurant_distances = new ArrayList<String>();
 		ArrayList<String> item_names = new ArrayList<String>();
 		ArrayList<String> item_prices = new ArrayList<String>();
 		ArrayList<String> item_descriptions = new ArrayList<String>();
+		
+    	final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	GeoPoint myLoc = new GeoPoint(prefs.getInt("lat", 47500000), prefs.getInt("lon", -123000000));
 		if (menu) {
 			Cursor cursor = db.query("items", null, "name LIKE '%" + query + "%'", null, null, null, null);
 			cursor.moveToFirst();
