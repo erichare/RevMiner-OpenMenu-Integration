@@ -6,6 +6,9 @@
 
 # Define MIME
 header("Content-type: text/plain");
+session_start();
+$list_food = "f_".$_SESSION["valid_user"].".txt";
+$list_rest = "r_".$_SESSION["valid_user"].".txt";
 
 # As a web-service, this function is used to print the list's contents.
 function contents($file_name){
@@ -20,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		$behavior = $_REQUEST["action"];
 		if($behavior == "get_food"){
 			# process a GET request
-			if(file_exists("list_food.txt")){
-				contents("list_food.txt");
+			if(file_exists($list_food)){
+				contents($list_food);
 			}
 		} else if ($behavior == "get_rest"){
 			# process a GET request
-			if(file_exists("list_rest.txt")){
-				contents("list_rest.txt");
+			if(file_exists($list_rest)){
+				contents($list_rest);
 			}
 		}
 	}
@@ -43,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		if($behavior == "add_food"){
 			if (isset($_REQUEST["item"])) {
 				$newLine = $_REQUEST["item"]."\n";
-				file_put_contents("list_food.txt", $newLine, FILE_APPEND);
+				file_put_contents($list_food, $newLine, FILE_APPEND);
 			//	contents("list_food.txt");
 			}
 		
@@ -53,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		} else if ($behavior == "add_rest"){
 			if (isset($_REQUEST["item"])) {
 				$newLine = $_REQUEST["item"]."\n";
-				file_put_contents("list_rest.txt", $newLine, FILE_APPEND);
+				file_put_contents($list_rest, $newLine, FILE_APPEND);
 			//	contents("list_rest.txt");
 			}
 			
@@ -62,29 +65,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		# To do it, get the all the lines but the first line.
 		# Then, make a new string, and then write it on the file.	
 		}	else if ($behavior == "delete_food"){
-			if(file_exists("list_food.txt")){
+			if(file_exists($list_food)){
 				$updated = "";		
-				$lines = file_get_contents("list_food.txt"); 
+				$lines = file_get_contents($list_food); 
 				$tokens = explode("\n", $lines);
 				$i = 0;
 				for($i = 1; $i < count($tokens) - 1; $i++){
 					$updated = $updated.$tokens[$i]."\n";	
 				}
 				$updated = $updated.$tokens[$i];
-				file_put_contents("list_food.txt", $updated);
+				file_put_contents($list_food, $updated);
 			//	contents("list_food.txt");
 			}
 		} else if ($behavior == "delete_rest"){
-			if(file_exists("list_rest.txt")){
+			if(file_exists($list_rest)){
 				$updated = "";		
-				$lines = file_get_contents("list_rest.txt"); 
+				$lines = file_get_contents($list_rest); 
 				$tokens = explode("\n", $lines);
 				$i = 0;
 				for($i = 1; $i < count($tokens) - 1; $i++){
 					$updated = $updated.$tokens[$i]."\n";	
 				}
 				$updated = $updated.$tokens[$i];
-				file_put_contents("list_rest.txt", $updated);
+				file_put_contents($list_rest, $updated);
 			//	contents("list_rest.txt");
 			}
 			
@@ -94,21 +97,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 		} else if($behavior == "set_food"){
 			if (isset($_REQUEST["items"])) {
 				$newSet = $_REQUEST["items"];
-				file_put_contents("list_food.txt", $newSet);
+				file_put_contents($list_food, $newSet);
 			//	contents("list_food.txt");
 			}
 		} else if($behavior == "set_rest"){
 			if (isset($_REQUEST["items"])) {
 				$newSet = $_REQUEST["items"];
-				file_put_contents("list_rest.txt", $newSet);
+				file_put_contents($list_rest, $newSet);
 			//	contents("list_rest.txt");
 			}
 		} else if($behavior == "delete_any_rest"){
 			if (isset($_REQUEST["name_to_del"])) {
 				$deleting = $_REQUEST["name_to_del"];
-				if(file_exists("list_rest.txt")){
+				if(file_exists($list_rest)){
 					$updated = "";		
-					$lines = file_get_contents("list_rest.txt"); 
+					$lines = file_get_contents($list_rest); 
 					$tokens = explode("\n", $lines);
 					$i = 0;
 					for($i = 0; $i < count($tokens) - 1; $i++){
@@ -119,16 +122,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 					if($tokens[$i] != $deleting){
 						$updated = $updated.$tokens[$i];
 					}
-					file_put_contents("list_rest.txt", $updated);
+					file_put_contents($list_rest, $updated);
 				//	contents("list_rest.txt");
 				}
 			}
 		} else if($behavior == "delete_any_food"){
 			if (isset($_REQUEST["name_to_del"])) {
 				$deleting = $_REQUEST["name_to_del"];
-				if(file_exists("list_food.txt")){
+				if(file_exists($list_food)){
 					$updated = "";		
-					$lines = file_get_contents("list_food.txt"); 
+					$lines = file_get_contents($list_food); 
 					$tokens = explode("\n", $lines);
 					$i = 0;
 					for($i = 0; $i < count($tokens) - 1; $i++){
@@ -139,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 					if($tokens[$i] != $deleting){
 						$updated = $updated.$tokens[$i];
 					}
-					file_put_contents("list_food.txt", $updated);
+					file_put_contents($list_food, $updated);
 				//	contents("list_rest.txt");
 				}
 			}
