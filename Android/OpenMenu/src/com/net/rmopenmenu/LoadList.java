@@ -149,7 +149,7 @@ public class LoadList extends AsyncTask<String, Integer, Bundle> {
 			}
 		}
 		
-		db.close();
+		if (db != null) db.close();
 
         Bundle b = new Bundle();
         b.putString("query", query);
