@@ -3,8 +3,15 @@
 # Front Page
 
 include("common.php");
+
 top();
+
 ?>
+<!--		<div id="signup">
+			<a href="login.php"> login </a> <br />
+			New Here? <a href="register.php"> Sign Up </a>
+		</div>
+-->
 		<div class="user">
 			<ul>				
 				<li>

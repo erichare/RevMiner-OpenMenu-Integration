@@ -1,6 +1,8 @@
 <?php
 # contact: gajok@cs.washington.edu
 # filename: common.php
+session_start();
+
 function top(){
     ?>
 <!DOCTYPE html>
@@ -14,10 +16,10 @@ function top(){
 		<meta name="description" content="Restaurant Searcher" />
 		<meta name="keywords" content="restaurant, menu, food, delicious, dinner, lunch" />
 
-		<!-- stop the web browser from ever caching this page or its images -->
+		<!-- stop the web browser from ever caching this page or its images 
 		<meta http-equiv="Cache-Control" content="no-cache" />
 		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />
+		<meta http-equiv="Expires" content="0" />-->
 
 		<link href="index.css" type="text/css" rel="stylesheet" />
 		<link href="http://students.washington.edu/dongm/454/img/fifteen.gif" type="image/gif" rel="shortcut icon" />
@@ -32,7 +34,21 @@ function top(){
 		<div id="bannerarea">
 			<strong>Sick Foods For Sick People</strong>
 		</div>
-<?php
+		<?php
+		if ($_SESSION["valid_user"]) {
+		?>
+			<div id="signup">
+				<a href="logout.php"> logout!</a>
+			</div>
+		<?php			
+		} else {
+		?>	
+			<div id="signup">
+				<a href="login.php"> login </a> <br />
+				New Here? <a href="register.php"> Sign Up </a>
+			</div>
+		<?php	
+		}
 }
 
 # This function is for checking validation and copyright.
@@ -52,7 +68,7 @@ function type_menu(){
 		?>
 <div id="searchbox">
 	<div id="home_table">
-		<a id="home" href="index.php"> <strong> HOME </strong> </a>
+		<a id="home" href="personal.php"> <strong> HOME </strong> </a>
 	</div>
 	<form id="turnin" action="match.php" method="get" enctype="multipart/form-data">	
 		<fieldset>
