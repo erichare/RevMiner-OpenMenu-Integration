@@ -2,7 +2,10 @@
 # Donghyo Min
 # contact: gajok@cs.washington.edu
 # filename: login.php
+# log in page
+
 session_start();
+
 #include("userDbConfig.php");
 
 $db   = "dawgsfor_users";
@@ -38,6 +41,7 @@ if ($_GET["op"] == "login"){
   $r = mysql_query($q);
   
   if ( $obj = mysql_fetch_object($r) ){
+	#	echo "log in was successful";
 		# Login was successful. 
 		# create session variables
 		$_SESSION["valid_id"] = $obj->id;
@@ -45,18 +49,22 @@ if ($_GET["op"] == "login"){
 		$_SESSION["valid_time"] = time();
 
 		# Redirect to another page
-		Header("Location: personal.php");
+		header("Location: personal.php");
 	} else {
 		# Login was not successful
 		die("Sorry, could not log you in. Wrong login information.");
 	}
 } else {
+	include("common.php");
+	top();
 ?>
+	<h1> Please, log-in here </h1>
 	<form action="?op=login" method="POST">
 		Username: <input name="username" MAXLENGTH="16">
 		Password: <input type="password" name="password" MAXLENGTH="16">
 		<input type="submit" value="Login">
 	</form>
-<?php	
+	<?php	
+	bottom();
 } 
 ?>

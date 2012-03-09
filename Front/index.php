@@ -20,13 +20,6 @@ top();
 						Find Restaurants By Menues !!!
 					</a>
 				</li>
-				
-				<li>
-					<a href="add_food.php">
-						<img src="http://students.washington.edu/dongm/454/img/signup.gif" alt="icon" />
-						Add Good Menues You Know !!!
-					</a>
-				</li>
 			</ul>
 		</div>
 

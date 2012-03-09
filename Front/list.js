@@ -61,7 +61,7 @@ function loadingDone(){
 // param param: parameters if needed.
 function callAjax(methodCall, afterFunc, param){
 //	loadingStart();
-	new Ajax.Request("http://www.project-fin.org/openmenu/Front/list_save.php",
+	new Ajax.Request("list_save.php",
 		{
 			method: methodCall,
 			onSuccess: afterFunc,
@@ -74,11 +74,11 @@ function callAjax(methodCall, afterFunc, param){
 
 // Communicate to server to get the saved list.
 function fetchNode_food(){
-	callAjax("get", initialize_food, {"action": "get_food"});
+	callAjax("GET", initialize_food, {"action": "get_food"});
 }
 
 function fetchNode_rest(){
-	callAjax("get", initialize_rest, {"action": "get_rest"});
+	callAjax("GET", initialize_rest, {"action": "get_rest"});
 }
 
 // Once getting the list, append it ot the "foods"
@@ -94,7 +94,6 @@ function initialize_food(ajax){
 			var each_food = $(document.createElement("li"));
 			each_food.className = "busy1";
 			each_food.id = "foods_" + ID;
-			
 			
 			var food_link = $(document.createElement("a"));
 			food_link.href="http://www.project-fin.org/openmenu/Front/match.php?want=Food&menu_rest_name=" + food_list[i];
@@ -314,7 +313,7 @@ function add_food(event){
 // fade out a message of the new item.
 function effectAdd(){
 	$("added_menu").fade({ 
-		duration: 3.5
+		duration: 5.5
 	});
 }
 

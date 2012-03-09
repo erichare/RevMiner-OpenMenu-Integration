@@ -4,7 +4,7 @@
 
 #include common.php for using top() and bottom() function.
 include("common.php");
-session_start();
+
 # This function is for <head> part.
 top();
 
@@ -25,12 +25,6 @@ function do_query($query) {
    check($results, "mysql_query(\"$query\")");
    return $results;
 }
-
-function get_distance($lat, $lon){
-	
-	
-}
-
 
 # It gets Latitude and Longitude according to the address
 function get_lat_lon($row_sub) {
@@ -60,6 +54,7 @@ function table_head_for_food($caption){
 						<th id="menu_name">menu name</th>
 						<th>Add to My Menu</th>
 						<th>Map</th>
+						<th>vegetarian</th>
 						<th>Distance(mi)</th>
 				</tr>
 <?php 
@@ -78,6 +73,7 @@ function table_head_for_restaurant($caption){
 						<th>Discription</th>
 						<th>Price</th>
 						<th>Add to My Menu</th>
+						<th>vegetarian</th>
 				</tr>
 <?php
 }
@@ -139,6 +135,16 @@ function menu_table($query_data, $food_name, $caption, $want){
 									adding.observe("click", add_food);
 								</script>
 							</td>
+							<?php
+								$veg = "yes";
+								if($row[10] == 1){
+									$veg = "yes";
+								} else {
+									$veg = "no";
+								}
+							?>
+							
+							<td> <?= ($veg) ?> </td>
 						</tr>
 							
 						<?php
@@ -163,15 +169,27 @@ function menu_table($query_data, $food_name, $caption, $want){
 							<td> <?= htmlentities($row[0]) ?> </td>
 							<script type="text/javascript">
 								var add_but_sec = $(document.createElement("td"));
+								
 								var add_but = $(document.createElement("button"));
 								add_but.innerHTML = "Add";
-								add_but.value = "<?=($row[0])?>";
+							//	alert("<?=($row[0])?>");
+								add_but.value = "<?=htmlentities($row[0])?>";
 								
 								add_but.observe("click", add_food);
+								add_but_sec.innerHTML = "For later ";
 								add_but_sec.appendChild(add_but);
 								
 								$("<?= $i ?>").appendChild(add_but_sec);
-								
+							</script>	
+							
+							<td id="see_map"> 
+								<a href="map.php?lat=<?= $row[6] ?>&long=<?= $row[7] ?>" >
+									<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
+									See On a Map
+								</a>
+							</td>
+							
+							<script type="text/javascript">	
 								if (typeof(navigator.geolocation) != 'undefined') {
 									navigator.geolocation.getCurrentPosition(function(position) {	// get current position.
 										var wp = new Array(2);		
@@ -185,23 +203,28 @@ function menu_table($query_data, $food_name, $caption, $want){
 										dist = Math.round(dist*100)/100 
 										
 										var mile = $(document.createElement("td"));
-										mile.innerHTML = dist;
-									
-										$("<?= $i ?>").appendChild(mile);
+										mile.innerHTML = dist + "mi";
+										mile.id = "dist_" + <?= $i ?>;
 										$("<?= $i ?>").appendChild(mile);
 									});
 								}
 							</script>
-							<td id="see_map"> 
-								<a href="map.php?lat=<?= $row[6] ?>&long=<?= $row[7] ?>" >
-									<img src="http://www.project-fin.org/openmenu/Front/img/map_icon.jpg" alt="map_icon" />
-									See On a Map
-								</a>
-							</td>
+							
+							<?php
+								$veg = "yes";
+								if($row[8] == 1){
+									$veg = "yes";
+								} else {
+									$veg = "no";
+								}
+							?>
+							
+							<td> <?= ($veg) ?> </td>
 						</tr>
 							
 						<?php
 						$i++;
+						
 						$row = mysql_fetch_array($result);
 					}
 				}
@@ -237,18 +260,16 @@ if($want == "Restaurant"){
 
 if($want == "Restaurant"){
 	menu_table(
-#	sorting_by_dist(
-		"SELECT i.name, r.name, r.address, r.city, r.state, r.country, i.description, i.price, r.lat, r.lon " .
+		"SELECT i.name, r.name, r.address, r.city, r.state, r.country, i.description, i.price, r.lat, r.lon, i.veg " .
 		"From restaurants r " .
 		"JOIN restaurants_items ri on ri.rid = r.rid " .
 		"JOIN items i on i.iid = ri.iid " .
 		"WHERE r.name LIKE ". "'%" . $menu . "%'".
-		" ORDER BY i.name ASC;", $menu, $cap, $want
+		" ORDER BY i.price DESC;", $menu, $cap, $want
 	);
 } else if ($want == "Food"){
 	menu_table(
-#	sorting_by_dist(
-		"SELECT i.name, r.name, r.address, r.city, r.state, r.country, r.lat, r.lon " .
+		"SELECT i.name, r.name, r.address, r.city, r.state, r.country, r.lat, r.lon, i.veg " .
 		"From restaurants r " .
 		"JOIN restaurants_items ri on ri.rid = r.rid " .
 		"JOIN items i on i.iid = ri.iid " .
@@ -257,9 +278,7 @@ if($want == "Restaurant"){
 	);
 }
 
-# query. select menu name, restaurant name, restaurant's address, city, state, and country.
-
-# call this function for validator.
+# call this function for copyright
 bottom();
 ?>
 

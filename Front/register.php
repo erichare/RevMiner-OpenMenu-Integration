@@ -1,11 +1,14 @@
 <?php
 # author: Donghyo Min
+# file: register.php
+# sign up page
 
 $db   = "dawgsfor_users";
 $host = "localhost";
 $user = "dawgsfor_omuser";
 $pass = "454ftw";
 session_start();
+
 # check result is not false/null; 
 # else prints error
 function check($result, $message) {
@@ -47,17 +50,18 @@ if($_GET["op"] == "reg") {
 		Header("Location: register.php?op=thanks");
 	}
 } elseif($_GET["op"] == "thanks" ){
-	#echo "<h2>Thanks for registering!</h2>";
 	# Login was successful. 
-		# create session variables
-		$_SESSION["valid_id"] = $_POST["username"];
-		$_SESSION["valid_user"] = $_POST["username"];
-		$_SESSION["valid_time"] = time();
+	# create session variables
+	$_SESSION["valid_id"] = $_POST["username"];
+	$_SESSION["valid_user"] = $_POST["username"];
+	$_SESSION["valid_time"] = time();
 
-		# Redirect to another page
-		Header("Location: personal.php");
+	# Redirect to another page
+	Header("Location: login.php");
 } else {
-?>
+	include("common.php");
+	top();
+	?>
 	<p> Join Us, and Get Personalized Service </p>
 	<form action="?op=reg" method="POST">
 		Username: <input name="username" MAXLENGTH="16"> <br />
@@ -65,5 +69,7 @@ if($_GET["op"] == "reg") {
 		Email Address: <input name="email" MAXLENGTH="25">
 		<input type="submit" value="Join Us">
 	</form>
-<?php
-}?>
+	<?php
+	bottom();
+}
+?>
