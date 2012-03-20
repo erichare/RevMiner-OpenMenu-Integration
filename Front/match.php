@@ -244,10 +244,10 @@ if (isset($_REQUEST["want"])) {
 }
 
 # Check if the connection is made well; else, print error message.
-check(mysql_connect("localhost", "dawgsfor_omuser", "454ftw"), "mysql_connect");
+check(mysql_connect("localhost", "rafty_omuser", "Op3nM3nu!"), "mysql_connect");
 
 # Check if database choosing is made well; else, print error message.
-check(mysql_select_db("dawgsfor_openmenu"), "mysql_select_db");
+check(mysql_select_db("rafty_openmenu"), "mysql_select_db");
 
 # search box
 type_menu();

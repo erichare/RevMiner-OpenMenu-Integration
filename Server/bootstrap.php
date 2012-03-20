@@ -2,9 +2,9 @@
 
 /*******************/
 	$dbhost = 'localhost'; //The host server of the database
-	$dbname = 'dawgsfor_openmenu'; //The name of the database to access
-	$dbuser = 'dawgsfor_omuser'; //The user id for accessing the database
-	$dbpassword = '454ftw'; //the password for the user specified in dbuser
+	$dbname = 'rafty_openmenu'; //The name of the database to access
+	$dbuser = 'rafty_omuser'; //The user id for accessing the database
+	$dbpassword = 'Op3nM3nu!'; //the password for the user specified in dbuser
 	$db = mysql_connect($dbhost, $dbuser, $dbpassword);
 	if (!$db) {
 		die("Error, could not connect to server!" . mysql_error());
